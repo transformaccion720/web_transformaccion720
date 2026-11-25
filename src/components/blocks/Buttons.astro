@@ -1,0 +1,40 @@
+---
+interface Btn {
+  text: string;
+  href: string;
+}
+interface Props {
+  primary?: Btn;
+  secondary?: Btn;
+  path: string;
+  class?: string;
+}
+
+const { primary, secondary, path, class: cls = '' } = Astro.props;
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+---
+
+{(primary?.text || secondary?.text) && (
+  <div class:list={['flex flex-wrap gap-3', cls]}>
+    {primary?.text && (
+      <a
+        href={primary.href || '#'}
+        class="btn btn-primary"
+        data-cms={`${path}.primary.text`}
+        {...(isExternal(primary.href) && { target: '_blank', rel: 'noopener noreferrer' })}
+      >
+        {primary.text}
+      </a>
+    )}
+    {secondary?.text && (
+      <a
+        href={secondary.href || '#'}
+        class="btn btn-ghost"
+        data-cms={`${path}.secondary.text`}
+        {...(isExternal(secondary.href) && { target: '_blank', rel: 'noopener noreferrer' })}
+      >
+        {secondary.text}
+      </a>
+    )}
+  </div>
+)}

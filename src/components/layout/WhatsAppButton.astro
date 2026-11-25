@@ -1,0 +1,29 @@
+---
+import BrandIcon from '@/components/ui/BrandIcon.astro';
+import { getSite } from '@/lib/content';
+import { waLink } from '@/lib/format';
+
+// Botón flotante: aparece solo si en Configuración general hay un número de WhatsApp
+const site = await getSite();
+const href = waLink(site.whatsapp, site.whatsappMessage);
+---
+
+{site.whatsappFloat && href && (
+  <div class="group fixed right-5 bottom-5 z-40 sm:right-7 sm:bottom-7">
+    {site.whatsappTooltip && (
+      <span class="pointer-events-none absolute right-0 bottom-full mb-3 hidden translate-y-1 rounded-2xl border border-brand-100 bg-white px-3.5 py-2 text-xs font-semibold whitespace-nowrap text-brand-950 opacity-0 shadow-lg transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:block">
+        {site.whatsappTooltip}
+        <span class="absolute -bottom-1.5 right-5 size-3 rotate-45 border-r border-b border-brand-100 bg-white" aria-hidden="true"></span>
+      </span>
+    )}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={site.whatsappTooltip || 'Escríbenos por WhatsApp'}
+      class="flex size-14 items-center justify-center rounded-full bg-whatsapp-brand text-white shadow-2xl transition hover:scale-110 hover:bg-whatsapp"
+    >
+      <BrandIcon name="whatsapp" size={30} mono />
+    </a>
+  </div>
+)}

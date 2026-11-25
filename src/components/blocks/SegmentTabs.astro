@@ -1,0 +1,16 @@
+---
+/** Selector de sub-pestañas (ej: Soluciones Digitales → "Qué hacemos" / "Portafolio"), centrado y claro */
+import SegmentedTabs from '@/components/molecules/SegmentedTabs.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'segmentTabs'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+---
+
+<div id={data.anchor || undefined} class="flex justify-center bg-white px-4 pt-10 dark:bg-slate-950">
+  <SegmentedTabs tabs={data.tabs} variant="light" path={path} />
+</div>

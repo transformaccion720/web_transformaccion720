@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import Icon from '@/components/ui/Icon.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'cards'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+const cols = {
+  '2': 'md:grid-cols-2',
+  '3': 'md:grid-cols-2 lg:grid-cols-3',
+  '4': 'sm:grid-cols-2 lg:grid-cols-4',
+}[data.columns];
+---
+
+<Section anchor={data.anchor} background={data.background} first={first}>
+  <SectionHeading kicker={data.kicker} title={data.title} subtitle={data.subtitle} path={path} />
+  <ul class={`grid gap-6 ${cols}`}>
+    {data.items.map((item, i) => {
+      const Tag = item.href ? 'a' : 'div';
+      return (
+        <li>
+          <Tag
+            href={item.href || undefined}
+            class:list={[
+              'flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-line',
+              item.href && 'transition hover:-translate-y-1 hover:shadow-lg',
+            ]}
+          >
+            {item.image && (
+              <Image
+                src={item.image}
+                alt=""
+                widths={[400, 700]}
+                sizes="(min-width: 1024px) 33vw, 100vw"
+                class="aspect-[16/10] w-full object-cover"
+                data-cms={`${path}.items.${i}.image`}
+              />
+            )}
+            <div class="flex flex-1 flex-col p-6">
+              {item.icon !== 'none' && (
+                <span class="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Icon name={item.icon} size={26} strokeWidth={1.8} />
+                </span>
+              )}
+              <h3 class="text-lg font-semibold" data-cms={`${path}.items.${i}.title`}>
+                {item.title}
+              </h3>
+              {item.desc && (
+                <p class="mt-2 text-ink-soft" data-cms={`${path}.items.${i}.desc`}>
+                  {item.desc}
+                </p>
+              )}
+            </div>
+          </Tag>
+        </li>
+      );
+    })}
+  </ul>
+</Section>

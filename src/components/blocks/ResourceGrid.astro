@@ -1,0 +1,134 @@
+---
+/**
+ * Hub 4.1 Kits y plantillas descargables: filtros + tarjetas + ventana para dejar datos y descargar.
+ * Hoy: los datos llegan a TA720 por correo (/api/contact, tipo "descarga") y el archivo se descarga al
+ * momento. Fase final: captura de leads con almacén propio y enlace firmado (ver README).
+ */
+import { Image } from 'astro:assets';
+import { safeJson } from '@/lib/format';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'resourceGrid'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const uid = `dl-${Math.random().toString(36).slice(2, 7)}`;
+const m = data.modal;
+const field = 'w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-blue focus:outline-none';
+const config = { success: m.successToast };
+---
+
+<section id={data.anchor || undefined} class="bg-white py-14 dark:bg-slate-950" data-filter-scope data-resources={uid}>
+  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        {data.kicker && <span class="kicker" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+        <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+      </div>
+      {data.filters.length > 0 && (
+        <div class="apple-segment">
+          <button type="button" data-filter="todos" aria-pressed="true" class="apple-segment-btn active">{data.allLabel}</button>
+          {data.filters.map((f) => <button type="button" data-filter={f.key} aria-pressed="false" class="apple-segment-btn">{f.label}</button>)}
+        </div>
+      )}
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {data.items.map((r, i) => (
+        <article class="card-3d flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900" data-filter-item={r.category}>
+          {r.image && <Image src={r.image} alt={r.imageAlt || r.title} widths={[480, 700]} sizes="(min-width: 768px) 33vw, 100vw" class="h-40 w-full object-cover" />}
+          <div class="flex flex-1 flex-col p-6">
+            <span class:list={['text-[11px] font-extrabold uppercase', tone(r.tone).text]}>{r.format}</span>
+            <h3 class="mt-1 font-display text-lg font-bold text-brand-navy dark:text-white" data-cms={`${path}.items.${i}.title`}>{r.title}</h3>
+            <p class="mt-2 flex-1 text-xs text-slate-600 dark:text-slate-400" data-cms={`${path}.items.${i}.desc`}>{r.desc}</p>
+            <button
+              type="button"
+              data-download={r.title}
+              data-file={r.file ? (r.file.startsWith('/') ? r.file : `/recursos/${r.file}`) : ''}
+              class="mt-5 w-full rounded-xl bg-brand-navy py-2.5 text-xs font-bold text-white transition hover:bg-brand-blue dark:bg-brand-blue"
+            >
+              {r.buttonText}
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div id={uid} data-modal hidden role="dialog" aria-modal="true" aria-labelledby={`${uid}-title`} class="ta-modal fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-md">
+    <div class="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-apple-lg dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center justify-between bg-[#0B1F3A] px-6 py-4 text-white">
+        <div>
+          <span class="text-[10px] font-extrabold tracking-widest text-amber-300 uppercase">{m.kicker}</span>
+          <h3 id={`${uid}-title`} class="mt-0.5 font-display text-base font-bold" data-dl-title>Herramienta TA720</h3>
+        </div>
+        <button type="button" data-modal-close class="flex size-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20" aria-label="Cerrar">✕</button>
+      </div>
+      <form class="space-y-4 p-6" data-dl-form>
+        <input type="text" name="honeypot" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        {m.intro && <p class="text-xs text-slate-600 dark:text-slate-300">{m.intro}</p>}
+        <label class="sr-only" for={`${uid}-name`}>{m.nameLabel}</label>
+        <input id={`${uid}-name`} name="name" required maxlength="120" autocomplete="name" placeholder={m.nameLabel} class={field} />
+        <label class="sr-only" for={`${uid}-email`}>{m.emailLabel}</label>
+        <input id={`${uid}-email`} name="email" type="email" required maxlength="160" autocomplete="email" placeholder={m.emailLabel} class={field} />
+        <label class="sr-only" for={`${uid}-role`}>{m.roleLabel}</label>
+        <input id={`${uid}-role`} name="company" required maxlength="120" autocomplete="organization-title" placeholder={m.roleLabel} class={field} />
+        <button type="submit" class="w-full rounded-xl bg-brand-orange py-3 text-xs font-extrabold text-brand-deep transition hover:bg-amber-400 disabled:opacity-60">{m.submitText}</button>
+      </form>
+    </div>
+  </div>
+  <script type="application/json" data-dl-config set:html={safeJson(config)} />
+</section>
+
+<script>
+  import { openModal, closeModal } from '@/scripts/modal';
+  import { fill } from '@/lib/format';
+  import { showToast } from '@/lib/toast';
+  import { track } from '@/lib/track';
+
+  document.querySelectorAll<HTMLElement>('[data-resources]').forEach((root) => {
+    const modal = document.getElementById(root.dataset.resources!)!;
+    const form = modal.querySelector<HTMLFormElement>('[data-dl-form]')!;
+    const title = modal.querySelector<HTMLElement>('[data-dl-title]')!;
+    const cfg = JSON.parse(root.querySelector('[data-dl-config]')!.textContent || '{}') as { success: string };
+    let current = { name: '', file: '' };
+
+    root.querySelectorAll<HTMLElement>('[data-download]').forEach((b) =>
+      b.addEventListener('click', () => {
+        current = { name: b.dataset.download!, file: b.dataset.file || '' };
+        title.textContent = current.name;
+        openModal(modal);
+      })
+    );
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      btn.disabled = true;
+      // El aviso a TA720 no bloquea la descarga: si el correo falla, la persona igual recibe su recurso
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, kind: 'descarga', service: `Descarga: ${current.name}`, message: `Descargó el recurso "${current.name}".` }),
+      }).catch(() => null);
+      btn.disabled = false;
+      track('recurso_descargado', { recurso: current.name });
+      if (current.file) {
+        const a = document.createElement('a');
+        a.href = current.file;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+      closeModal(modal);
+      form.reset();
+      showToast(fill(cfg.success, { recurso: current.name }));
+    });
+  });
+</script>

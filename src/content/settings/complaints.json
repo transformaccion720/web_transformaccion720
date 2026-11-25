@@ -1,0 +1,24 @@
+{
+  "backText": "Volver al inicio",
+  "tabLabel": "Libro de Reclamaciones",
+  "footerKicker": "Virtual - Ley N° 29571 (Perú)",
+  "kicker": "Conforme al Código de Protección y Defensa del Consumidor - Ley N° 29571",
+  "title": "Libro de Reclamaciones Virtual",
+  "notice": "Conforme a lo establecido en el Código de Protección y Defensa del Consumidor (Ley N° 29571), TransformAcción720 cuenta con un Libro de Reclamaciones Virtual a tu disposición.",
+  "businessName": "TRANSFORMACCIÓN 720 S.A.C.",
+  "tradeName": "TransformAcción720",
+  "ruc": "20612345678",
+  "address": "Av. Rivera Navarrete 451, San Isidro, Lima - Perú",
+  "reclamoDefinition": "Disconformidad relacionada a los productos o servicios.",
+  "quejaDefinition": "Malestar o descontento respecto a la atención al público.",
+  "responseNote": "Plazo de atención (Ley N° 31435): daremos respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles improrrogables.",
+  "legalNotes": [
+    "La formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI.",
+    "El proveedor deberá dar respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles improrrogables.",
+    "Recibirás una copia de esta hoja en el correo electrónico que indiques."
+  ],
+  "privacyText": "Autorizo el tratamiento de mis datos personales para la atención de esta hoja de reclamación, conforme a la Política de Privacidad y la Ley N° 29733.",
+  "submitText": "REGISTRAR HOJA DE RECLAMACIÓN",
+  "successTitle": "Hoja de Reclamación Registrada",
+  "successText": "Se ha enviado una copia de la constancia {numero} a {correo}. Responderemos dentro del plazo legal de 15 días hábiles."
+}

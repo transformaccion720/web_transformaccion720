@@ -1,0 +1,168 @@
+{
+  "brandName": "TransformAcción720",
+  "tagline": "La transformación comienza aquí",
+  "logo": "@/assets/images/site/logo-light.png",
+  "siteTitle": "TransformAcción720 | Transformación Empresarial, Estrategia y Soluciones Digitales",
+  "siteDescription": "Laboratorio de Transformación Empresarial: alineamos datos, procesos, personas y tecnología con estrategia, soluciones digitales y formación de líderes en Perú y LATAM.",
+  "businessType": "ProfessionalService",
+  "city": "Lima",
+  "country": "PE",
+  "address": "San Isidro, Lima",
+  "location": "Lima, Perú",
+  "phone": "+51 963 477 301",
+  "whatsapp": "51963477301",
+  "whatsappDisplay": "+51 963 477 301",
+  "whatsappMessage": "Hola TransformAcción720, quisiera conversar sobre la transformación de mi empresa.",
+  "whatsappFloat": false,
+  "whatsappTooltip": "¿Conversamos por WhatsApp?",
+  "email": "contacto@transformaccion720.com",
+  "mail": {
+    "contactTo": "contacto@transformaccion720.com",
+    "complaintsTo": "contacto@transformaccion720.com",
+    "fromName": "TransformAcción720",
+    "fromEmail": "web@transformaccion720.com",
+    "autoReply": true,
+    "autoReplySubject": "Recibimos tu solicitud - TransformAcción720",
+    "autoReplyMessage": "Gracias por escribirnos. Un especialista de nuestro equipo revisará tu solicitud y te contactará en menos de 24 horas hábiles.\n\nSi es urgente, escríbenos por WhatsApp al +51 963 477 301."
+  },
+  "hours": "Lunes a Viernes: 9:00 am – 6:00 pm",
+  "analytics": {
+    "gaId": "",
+    "gaPropertyId": "",
+    "searchConsoleSite": "",
+    "cookieText": "Usamos cookies de analítica para entender qué contenido te resulta útil y mejorar la web. Solo se activan si las aceptas."
+  },
+  "nav": [
+    {
+      "label": "Inicio",
+      "href": "/",
+      "children": [],
+      "mobileHidden": false
+    },
+    {
+      "label": "Nosotros",
+      "href": "/nosotros",
+      "children": [],
+      "mobileHidden": false
+    },
+    {
+      "label": "Servicios",
+      "href": "/servicios",
+      "mobileHidden": true,
+      "children": [
+        {
+          "label": "Transformación (Consultoría)",
+          "desc": "Estrategia, procesos y excelencia",
+          "href": "/servicios#transformacion",
+          "icon": "trendingUp",
+          "tone": "orange",
+          "mobileLabel": "Servicios - Consultoría"
+        },
+        {
+          "label": "Soluciones Digitales",
+          "desc": "Webs, sistemas, BI e IA aplicada",
+          "href": "/servicios#soluciones-digitales",
+          "icon": "code",
+          "tone": "blue",
+          "mobileLabel": "Servicios - Soluciones Digitales"
+        },
+        {
+          "label": "Entrenamiento y Formación",
+          "desc": "Liderazgo, talleres y agilidad",
+          "href": "/servicios#formacion",
+          "icon": "users",
+          "tone": "teal",
+          "mobileLabel": "Servicios - Formación"
+        }
+      ]
+    },
+    {
+      "label": "Hub de Aprendizaje",
+      "href": "/hub",
+      "mobileHidden": false,
+      "children": [
+        {
+          "label": "Herramientas Prácticas",
+          "desc": "Plantillas y kits descargables",
+          "href": "/hub#herramientas",
+          "icon": "download",
+          "tone": "orange",
+          "mobileLabel": ""
+        },
+        {
+          "label": "Certificaciones & Programas",
+          "desc": "Formación ejecutiva avalada",
+          "href": "/hub#certificaciones",
+          "icon": "shieldCheck",
+          "tone": "blue",
+          "mobileLabel": ""
+        },
+        {
+          "label": "Campus LMS",
+          "desc": "Aula virtual para empresas",
+          "href": "/hub#campus",
+          "icon": "monitor",
+          "tone": "indigo",
+          "mobileLabel": ""
+        },
+        {
+          "label": "Ecosistema TA720",
+          "desc": "Comunidad de empresarios",
+          "href": "/hub#ecosistema",
+          "icon": "usersRound",
+          "tone": "emerald",
+          "mobileLabel": ""
+        }
+      ]
+    },
+    {
+      "label": "Novedades",
+      "href": "/blog",
+      "children": [],
+      "mobileHidden": false
+    },
+    {
+      "label": "Contacto",
+      "href": "/conversemos",
+      "children": [],
+      "mobileHidden": false
+    }
+  ],
+  "header": {
+    "diagnosticText": "DIAGNÓSTICO",
+    "whatsappText": "CONVERSEMOS"
+  },
+  "footerText": "Laboratorio de Transformación Empresarial. Acompañamos a dueños, líderes y equipos en Perú y Latinoamérica a conectar datos, procesos, personas y tecnología para crecer con propósito.",
+  "footerNavTitle": "Navegación",
+  "footerContactTitle": "Contacto",
+  "footerBookText": "Virtual - Ley N° 29571 (Perú)",
+  "social": [
+    {
+      "network": "linkedin",
+      "url": "https://linkedin.com"
+    },
+    {
+      "network": "instagram",
+      "url": "https://instagram.com"
+    },
+    {
+      "network": "facebook",
+      "url": "https://facebook.com"
+    },
+    {
+      "network": "youtube",
+      "url": "https://youtube.com"
+    },
+    {
+      "network": "tiktok",
+      "url": "https://tiktok.com"
+    }
+  ],
+  "copyrightText": "Todos los derechos reservados.",
+  "logoLight": "@/assets/images/site/logo-dark.png",
+  "credit": {
+    "text": "Diseñado por",
+    "linkText": "TransformAcción720",
+    "url": "https://www.transformaccion720.com"
+  }
+}

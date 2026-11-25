@@ -1,0 +1,23 @@
+---
+import KeystaticStudio from '@/components/admin/KeystaticStudio';
+import '@/styles/global.css';
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>CMS • Live Studio</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body class="m-0 h-full overflow-hidden bg-slate-950 font-sans antialiased">
+    <KeystaticStudio client:only="react" />
+  </body>
+</html>

@@ -1,0 +1,424 @@
+{
+  "title": "Nosotros",
+  "seoTitle": "Nosotros: Propósito, Método y Resultados • TransformAcción720",
+  "seoDescription": "Conoce al equipo de TransformAcción720, nuestra metodología propietaria (Ikigai, Pilares TA720 y Método CORE) y los casos de éxito por industria.",
+  "sections": [
+    {
+      "discriminant": "pageHero",
+      "value": {
+        "kicker": "Sobre TransformAcción720",
+        "title": "Propósito, Método y Resultados",
+        "text": "Un Laboratorio de Transformación Empresarial con una mirada 360° interna y 360° externa: conoce a quienes lo lideran, nuestra metodología y los casos que la respaldan.",
+        "tabs": [
+          {
+            "label": "Quiénes Somos",
+            "key": "quienes-somos"
+          },
+          {
+            "label": "Metodología & Pilares",
+            "key": "metodologia"
+          },
+          {
+            "label": "Casos de Éxito",
+            "key": "casos"
+          }
+        ],
+        "anchor": ""
+      }
+    },
+    {
+      "discriminant": "founders",
+      "value": {
+        "kicker": "Quiénes Somos",
+        "title": "Un laboratorio de transformación construido desde la práctica real de negocio.",
+        "body": "En **TransformAcción720** aplicamos un modelo y método innovador que conecta y alinea **datos, procesos, personas y tecnología**.\n\nPorque para escalar, estos elementos deben estar conectados: sin personas, la tecnología es solo un gasto; sin procesos, la estrategia es una alucinación; sin datos, la decisión es pura suerte.",
+        "stats": [
+          {
+            "value": "+12",
+            "label": "Años de trayectoria",
+            "tone": "orange"
+          },
+          {
+            "value": "+45",
+            "label": "Empresas acompañadas",
+            "tone": "navy"
+          },
+          {
+            "value": "+4,000",
+            "label": "Líderes formados",
+            "tone": "teal"
+          }
+        ],
+        "founders": [
+          {
+            "photo": "@/assets/images/pages/nosotros/sections/1/value/founders/0/photo.png",
+            "role": "CEO - Founder720",
+            "tone": "orange",
+            "name": "Gabino Tocto",
+            "linkedin": "https://www.linkedin.com",
+            "bio": "Ing. de Sistemas especializado en Transformación Empresarial, Business Agility, Innovación, Liderazgo y Dirección. Máster en Innovación & Sostenibilidad (EADA España) y MBA en Gestión Estratégica de Negocios (PUCP). Más de 12 años orquestando ecosistemas empresariales en banca, retail, agro, salud y consultoría.",
+            "quote": "Ordenar el negocio es el primer paso para escalar sin perder rentabilidad ni propósito.",
+            "chips": [
+              "Estrategia & OKRs",
+              "Lean & Agilidad",
+              "Excelencia Operacional"
+            ]
+          },
+          {
+            "photo": "@/assets/images/pages/nosotros/sections/1/value/founders/1/photo.webp",
+            "role": "COO - CoFounder720",
+            "tone": "blue",
+            "name": "Kiara Zavala",
+            "linkedin": "https://www.linkedin.com",
+            "bio": "Lic. en Comunicación con especialización en Liderazgo, Endomarketing, Comunicación Organizacional y Cultura. Maestría en Desarrollo Organizacional y Dirección de Personas (Universidad del Pacífico). Más de 11 años alineando líderes y movilizando equipos en los sectores educativo, financiero, consumo masivo y minero.",
+            "quote": "Ninguna estrategia se sostiene en el tiempo si las personas no la hacen suya.",
+            "chips": [
+              "Gestión del Cambio",
+              "Cultura & Talento",
+              "Comunicación Organizacional"
+            ]
+          }
+        ],
+        "anchor": "",
+        "panel": "quienes-somos"
+      }
+    },
+    {
+      "discriminant": "teamGrid",
+      "value": {
+        "kicker": "Equipo Especialista",
+        "title": "Consultores y especialistas que se suman a cada proyecto",
+        "members": [
+          {
+            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/0/photo.jpg",
+            "name": "Diego Ríos",
+            "role": "Lead Soluciones Digitales & IA",
+            "tone": "blue",
+            "bio": "Arquitectura web, automatización de flujos y analítica avanzada con Power BI."
+          },
+          {
+            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/1/photo.jpg",
+            "name": "Valeria Salazar",
+            "role": "Consultora Senior de Procesos",
+            "tone": "orange",
+            "bio": "Rediseño operacional, BPMN, Lean Six Sigma y eficiencia de costos."
+          },
+          {
+            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/2/photo.jpg",
+            "name": "Andrés Mendoza",
+            "role": "Agile Coach & OKRs",
+            "tone": "teal",
+            "bio": "Implementación de células ágiles, marcos Scrum/Kanban y gobierno trimestral."
+          },
+          {
+            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/3/photo.jpg",
+            "name": "Lucía Paredes",
+            "role": "Directora de Formación & LMS",
+            "tone": "emerald",
+            "bio": "Diseño instruccional, academias corporativas y facilitación de talleres ejecutivos."
+          }
+        ],
+        "anchor": "",
+        "panel": "quienes-somos",
+        "enabled": false
+      }
+    },
+    {
+      "discriminant": "ctaBand",
+      "value": {
+        "style": "navy",
+        "kicker": "Talento especialista",
+        "icon": "users",
+        "title": "¿Buscas talento que impulse la transformación de tu empresa?",
+        "text": "Sumamos a cada proyecto consultores, arquitectos de soluciones y facilitadores independientes con experiencia real en Perú y LATAM.",
+        "buttons": [
+          {
+            "text": "CONVERSEMOS",
+            "action": "contact",
+            "value": "Talento / Equipo especialista"
+          },
+          {
+            "text": "VER SERVICIOS",
+            "action": "link",
+            "value": "/servicios"
+          }
+        ],
+        "anchor": "",
+        "panel": "quienes-somos"
+      }
+    },
+    {
+      "discriminant": "methodology",
+      "value": {
+        "kicker": "Nuestra filosofía",
+        "title": "Toda transformación necesita una razón de ser. Nosotros encontramos su Ikigai.",
+        "text": "Alrededor del 70% de las transformaciones empresariales fracasan porque las áreas funcionan de manera aislada, olvidando que las empresas son organismos vivos. Activamos el Ikigai de tu negocio y lo ejecutamos con CORE720, bajo nuestra filosofía F1: precisión y ejecución de alto rendimiento.",
+        "highlights": [
+          {
+            "symbol": "⊞",
+            "title": "Más orden",
+            "desc": "Estructura clara para que todo funcione mejor.",
+            "tone": "cyan"
+          },
+          {
+            "symbol": "◎",
+            "title": "Mejor gestión",
+            "desc": "Decisiones basadas en datos y foco real.",
+            "tone": "orange"
+          },
+          {
+            "symbol": "⇄",
+            "title": "Equipos alineados",
+            "desc": "Personas motivadas que multiplican resultados.",
+            "tone": "blue"
+          },
+          {
+            "symbol": "↗",
+            "title": "Crecimiento sano",
+            "desc": "Un negocio sólido hoy y preparado para escalar.",
+            "tone": "emerald"
+          }
+        ],
+        "panelKicker": "Nuestra Metodología",
+        "panelTitle": "Tres marcos que trabajan en sinergia",
+        "tabIkigai": "Filosofía Ikigai TA720",
+        "tabPillars": "Pilares TA720",
+        "tabCore": "Método CORE720",
+        "ikigai": {
+          "top": "CLIENTE",
+          "left": "PERSONAS",
+          "right": "TECNOLOGÍA",
+          "right2": "",
+          "bottom": "FINANZAS",
+          "center": "IKIGAI",
+          "center2": "TA720",
+          "items": [
+            {
+              "title": "↑ Cliente",
+              "desc": "La estrategia de cliente, centrada en la necesidad real.",
+              "tone": "cyan"
+            },
+            {
+              "title": "← Personas",
+              "desc": "El corazón de la empresa: talento, liderazgo y cultura.",
+              "tone": "emerald"
+            },
+            {
+              "title": "→ Tecnología",
+              "desc": "La potencia digital puesta al servicio de la estrategia.",
+              "tone": "orange"
+            },
+            {
+              "title": "↓ Finanzas",
+              "desc": "La salud financiera: rentabilidad, eficiencia y escalabilidad.",
+              "tone": "indigo"
+            }
+          ]
+        },
+        "pillars": [
+          {
+            "icon": "datos",
+            "title": "Datos",
+            "tag": "Decidir con evidencia",
+            "desc": "Decisiones basadas en indicadores confiables, tableros ejecutivos y visibilidad en tiempo real.",
+            "tone": "cyan"
+          },
+          {
+            "icon": "workflow",
+            "title": "Procesos",
+            "tag": "Fluir sin reprocesos",
+            "desc": "Flujos simples, trazables y libres de reprocesos que aceleran el tiempo de entrega al cliente.",
+            "tone": "orange"
+          },
+          {
+            "icon": "personas",
+            "title": "Personas",
+            "tag": "Movilizar al equipo",
+            "desc": "Equipos empoderados, líderes formados y rituales de gestión que hacen sostenible la transformación.",
+            "tone": "emerald"
+          },
+          {
+            "icon": "cpu",
+            "title": "Tecnología",
+            "tag": "Escalar con inteligencia",
+            "desc": "Sistemas, plataformas web e Inteligencia Artificial aplicada al servicio de la estrategia del negocio.",
+            "tone": "blue"
+          }
+        ],
+        "phases": [
+          {
+            "letter": "C",
+            "title": "Calibra",
+            "desc": "Entendemos y alineamos la transformación.",
+            "foot": "Fase 01",
+            "tone": "blue"
+          },
+          {
+            "letter": "O",
+            "title": "Opera",
+            "desc": "Convertimos la estrategia en acciones de impacto ágil.",
+            "foot": "Fase 02",
+            "tone": "cyan"
+          },
+          {
+            "letter": "R",
+            "title": "Revisa",
+            "desc": "Activamos mecanismos de retroalimentación, medición y simulación.",
+            "foot": "Fase 03",
+            "tone": "orange"
+          },
+          {
+            "letter": "E",
+            "title": "Escala",
+            "desc": "Nos aseguramos de que la implementación genere resultados tangibles.",
+            "foot": "Fase 04",
+            "tone": "emerald"
+          }
+        ],
+        "anchor": "",
+        "panel": "metodologia"
+      }
+    },
+    {
+      "discriminant": "ctaBand",
+      "value": {
+        "style": "impact",
+        "title": "¿Quieres implementar un método innovador en tu empresa?",
+        "text": "Llevamos Ikigai, los Pilares TA720 y CORE720 a tu realidad. Agenda una cita y probemos el motor de tu organización hoy mismo.",
+        "buttons": [
+          {
+            "text": "AGENDAR CITA",
+            "action": "contact",
+            "value": "Implementar Método TA720"
+          },
+          {
+            "text": "CONVERSEMOS",
+            "action": "link",
+            "value": "https://wa.me/51963477301?text=Hola%20TransformAcci%C3%B3n720%2C%20quiero%20implementar%20su%20m%C3%A9todo%20en%20mi%20empresa."
+          }
+        ],
+        "anchor": "",
+        "panel": "metodologia",
+        "kicker": "Método propio TA720",
+        "icon": "lightbulb"
+      }
+    },
+    {
+      "discriminant": "caseStudies",
+      "value": {
+        "kicker": "Impacto Auditado",
+        "title": "Casos de Éxito por Industria",
+        "allLabel": "Todos",
+        "filters": [
+          {
+            "key": "banca",
+            "label": "Banca & Finanzas"
+          },
+          {
+            "key": "salud",
+            "label": "Salud & Retail"
+          },
+          {
+            "key": "industria",
+            "label": "Industria & Servicios"
+          }
+        ],
+        "videoText": "▶ Ver Video",
+        "cases": [
+          {
+            "category": "banca",
+            "categoryLabel": "Banca & Finanzas",
+            "tone": "navy",
+            "image": "@/assets/images/pages/nosotros/sections/6/value/cases/0/image.jpg",
+            "imageAlt": "Caso Banca",
+            "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+            "title": "Rediseño de Créditos & Gobierno OKR",
+            "desc": "Alineación de 14 áreas comerciales y riesgos con tableros automatizados y células ágiles.",
+            "metrics": [
+              {
+                "value": "-38%",
+                "label": "Tiempo de aprobación",
+                "tone": "orange"
+              },
+              {
+                "value": "+27%",
+                "label": "Colocaciones Q3",
+                "tone": "teal"
+              }
+            ]
+          },
+          {
+            "category": "salud",
+            "categoryLabel": "Salud & Retail",
+            "tone": "teal",
+            "image": "@/assets/images/pages/nosotros/sections/6/value/cases/1/image.jpg",
+            "imageAlt": "Caso Salud",
+            "videoUrl": "",
+            "title": "Experiencia del Paciente & Eficiencia",
+            "desc": "Digitalización de agendamiento, reducción de tiempos de espera y escuela de mandos medios.",
+            "metrics": [
+              {
+                "value": "+32 pts",
+                "label": "Incremento NPS",
+                "tone": "orange"
+              },
+              {
+                "value": "420 h/mes",
+                "label": "Ahorro operativo",
+                "tone": "teal"
+              }
+            ]
+          },
+          {
+            "category": "industria",
+            "categoryLabel": "Industria & Servicios",
+            "tone": "blue",
+            "image": "@/assets/images/pages/nosotros/sections/6/value/cases/2/image.jpg",
+            "imageAlt": "Caso Industria",
+            "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+            "title": "Control de Costos & ERP Ligero",
+            "desc": "Implementación de plataforma web de control de obra y capacitación a 120 supervisores.",
+            "metrics": [
+              {
+                "value": "18%",
+                "label": "Ahorro en sobrecostos",
+                "tone": "orange"
+              },
+              {
+                "value": "100%",
+                "label": "Trazabilidad diaria",
+                "tone": "teal"
+              }
+            ]
+          }
+        ],
+        "anchor": "",
+        "panel": "casos"
+      }
+    },
+    {
+      "discriminant": "ctaBand",
+      "value": {
+        "style": "navy",
+        "title": "¿Quieres ser nuestro próximo caso de éxito?",
+        "text": "Conversemos sobre los cuellos de botella actuales de tu operación.",
+        "buttons": [
+          {
+            "text": "CALCULAR AHORRO",
+            "action": "diagnosticCosts",
+            "value": ""
+          },
+          {
+            "text": "AGENDAR REUNIÓN",
+            "action": "contact",
+            "value": "Caso de Éxito / Consultoría"
+          }
+        ],
+        "anchor": "",
+        "panel": "casos",
+        "kicker": "Resultados medibles",
+        "icon": "chart"
+      }
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+---
+/**
+ * Detalle de un servicio (Servicios): portada con checks + video, tarjetas "¿En qué consiste?" /
+ * "¿Qué incluye?" y bloque opcional de experiencias con métricas. Un bloque por servicio.
+ */
+import { Image } from 'astro:assets';
+import ActionButton from '@/components/ui/ActionButton.astro';
+import Rich from '@/components/ui/Rich.astro';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'serviceDetail'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const t = tone(data.tone);
+const PRIMARY = {
+  navy: 'bg-brand-navy dark:bg-brand-blue text-white',
+  blue: 'bg-brand-blue text-white',
+  teal: 'bg-brand-teal text-white',
+};
+const PLAY = { orange: 'bg-brand-orange text-brand-deep', blue: 'bg-brand-blue text-white', teal: 'bg-brand-teal text-white' };
+const play = PLAY[data.tone as keyof typeof PLAY] ?? t.solid;
+const ex = data.experience;
+const photos = [{ image: ex.image, alt: ex.imageAlt }, ...(ex.slides ?? [])].filter((p) => p.image);
+const mediaTitle = data.videoTitle || data.title;
+const metricColor = (tn: string) => (tn === 'navy' ? 'text-brand-navy dark:text-white' : tone(tn).text);
+const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
+---
+
+<section id={data.anchor || undefined} class="bg-white dark:bg-slate-950">
+  <div class="mx-auto max-w-7xl space-y-14 px-4 py-14 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+      <div class="space-y-5 lg:col-span-6">
+        {data.badge && <span class:list={['rounded-full px-3 py-1 text-xs font-extrabold uppercase', t.chip]} data-cms={`${path}.badge`}>{data.badge}</span>}
+        <h2 class="font-display text-3xl font-black text-brand-navy sm:text-4xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+        {data.text && <p class="text-sm leading-relaxed text-slate-600 sm:text-base dark:text-slate-300" data-cms={`${path}.text`}>{data.text}</p>}
+        {data.checks.length > 0 && (
+          <ul class="space-y-2.5 text-sm text-slate-700 dark:text-slate-200">
+            {data.checks.map((c, i) => (
+              <li class="flex items-center gap-2.5">
+                <span class:list={['flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-bold', t.check]} aria-hidden="true">✓</span>
+                <span data-cms={`${path}.checks.${i}`}>{c}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div class="flex flex-wrap gap-3 pt-2">
+          <ActionButton
+            btn={data.primary}
+            cms={`${path}.primary.text`}
+            videoTitle={mediaTitle}
+            class:list={['rounded-xl px-6 py-3 text-sm font-bold transition hover:opacity-95', PRIMARY[data.primaryStyle]]}
+          />
+          <ActionButton
+            btn={data.secondary}
+            cms={`${path}.secondary.text`}
+            videoTitle={mediaTitle}
+            class="rounded-xl border border-slate-300 px-6 py-3 text-sm font-bold transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+          />
+        </div>
+      </div>
+      <div class="lg:col-span-6">
+        {data.image && (
+          data.videoUrl ? (
+            <button type="button" data-video={data.videoUrl} data-video-title={mediaTitle} aria-label={`Ver video: ${data.title}`} class="group relative block aspect-video w-full cursor-pointer overflow-hidden rounded-3xl shadow-apple-lg">
+              <Image src={data.image} alt={data.imageAlt} widths={[640, 960, 1200]} sizes="(min-width: 1024px) 600px, 100vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+              <span class="absolute inset-0 flex items-center justify-center bg-brand-navy/45">
+                <span class:list={['flex size-16 items-center justify-center rounded-full shadow-xl transition group-hover:scale-110', play]}>
+                  <svg class="ml-1 size-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+                </span>
+              </span>
+            </button>
+          ) : (
+            <div class="relative aspect-video overflow-hidden rounded-3xl shadow-apple-lg">
+              <Image src={data.image} alt={data.imageAlt} widths={[640, 960, 1200]} sizes="(min-width: 1024px) 600px, 100vw" class="h-full w-full object-cover" />
+            </div>
+          )
+        )}
+      </div>
+    </div>
+
+    {(data.about.text || data.includes.items.length > 0) && (
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div class="rounded-3xl border border-slate-200/80 bg-brand-cream p-8 dark:border-slate-800 dark:bg-slate-900">
+          {data.about.kicker && <span class:list={[cardKicker, tone(data.about.tone).text]} data-cms={`${path}.about.kicker`}>{data.about.kicker}</span>}
+          <h3 class:list={['font-display text-xl font-extrabold text-brand-navy dark:text-white', data.about.kicker && 'mt-1']} data-cms={`${path}.about.title`}>{data.about.title}</h3>
+          <div class="mt-3 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <Rich text={data.about.text} paragraphs />
+          </div>
+          {data.about.facts.length > 0 && (
+            <div class="mt-5 grid grid-cols-2 gap-3 text-xs">
+              {data.about.facts.map((f) => <div class="rounded-xl bg-white p-3 font-semibold dark:bg-slate-800">{f}</div>)}
+            </div>
+          )}
+        </div>
+        <div class="rounded-3xl border border-slate-200/80 bg-brand-cream p-8 dark:border-slate-800 dark:bg-slate-900">
+          {data.includes.kicker && <span class:list={[cardKicker, tone(data.includes.tone).text]} data-cms={`${path}.includes.kicker`}>{data.includes.kicker}</span>}
+          <h3 class:list={['font-display text-xl font-extrabold text-brand-navy dark:text-white', data.includes.kicker && 'mt-1']} data-cms={`${path}.includes.title`}>{data.includes.title}</h3>
+          <ul class="mt-3 space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+            {data.includes.items.map((it, i) => <li data-cms={`${path}.includes.items.${i}`}>• {it}</li>)}
+          </ul>
+        </div>
+      </div>
+    )}
+
+    {ex.image && (
+      <div class="rounded-3xl border border-slate-200/80 bg-slate-50 p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900/60">
+        <div class="grid grid-cols-1 items-center gap-7 lg:grid-cols-12">
+          <div class="lg:col-span-5">
+            <div class="relative h-56 overflow-hidden rounded-2xl shadow-apple lg:h-64" data-exp-carousel>
+              {photos.map((ph, k) => (
+                <Image
+                  src={ph.image!}
+                  alt={ph.alt}
+                  widths={[480, 800]}
+                  sizes="(min-width: 1024px) 420px, 100vw"
+                  class:list={['fade-slide absolute inset-0 h-full w-full object-cover', k === 0 ? 'scale-105 opacity-100' : 'scale-100 opacity-0']}
+                  data-exp-slide
+                />
+              ))}
+              <div class="absolute inset-0 flex items-end bg-gradient-to-t from-brand-navy/85 via-brand-navy/20 to-transparent p-5">
+                <div>
+                  {ex.badge && <span class:list={['rounded-full px-2.5 py-1 text-[10px] font-black uppercase', tone(ex.badgeTone).solid]}>{ex.badge}</span>}
+                  {ex.caption && <p class="mt-1.5 font-display text-sm font-bold text-white" data-cms={`${path}.experience.caption`}>{ex.caption}</p>}
+                </div>
+              </div>
+              {photos.length > 1 && (
+                <div class="absolute top-4 right-4 flex gap-1.5">
+                  {photos.map((_, k) => (
+                    <button type="button" data-exp-dot={k} aria-label={`Ver foto ${k + 1}`} class:list={['h-1.5 rounded-full bg-white transition-all duration-500', k === 0 ? 'w-6 opacity-100' : 'w-1.5 opacity-60']}></button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div class="lg:col-span-7">
+            {ex.kicker && <span class="kicker" data-cms={`${path}.experience.kicker`}>{ex.kicker}</span>}
+            <h3 class="mt-1 mb-5 font-display text-xl font-extrabold text-brand-navy sm:text-2xl dark:text-white" data-cms={`${path}.experience.title`}>{ex.title}</h3>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {ex.metrics.map((m, i) => (
+                <div class="rounded-2xl border border-slate-200/70 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+                  <div class:list={['font-display text-2xl font-black whitespace-nowrap xl:text-[1.65rem]', metricColor(m.tone)]} data-cms={`${path}.experience.metrics.${i}.value`}>{m.value}</div>
+                  <div class="mt-1 text-xs font-bold text-brand-navy dark:text-white" data-cms={`${path}.experience.metrics.${i}.label`}>{m.label}</div>
+                  {m.note && <p class="mt-1 text-[11px] text-slate-500" data-cms={`${path}.experience.metrics.${i}.note`}>{m.note}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  // Carrusel elegante de fotos: fundido cruzado + zoom lento (Ken Burns), cada 4,5 s; los puntos permiten elegir
+  document.querySelectorAll<HTMLElement>('[data-exp-carousel]').forEach((box) => {
+    const slides = [...box.querySelectorAll<HTMLElement>('[data-exp-slide]')];
+    const dots = [...box.querySelectorAll<HTMLElement>('[data-exp-dot]')];
+    if (slides.length < 2) return;
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        s.classList.toggle('opacity-100', k === i);
+        s.classList.toggle('opacity-0', k !== i);
+        s.classList.toggle('scale-105', k === i);
+        s.classList.toggle('scale-100', k !== i);
+      });
+      dots.forEach((d, k) => {
+        d.classList.toggle('w-6', k === i);
+        d.classList.toggle('w-1.5', k !== i);
+        d.classList.toggle('opacity-100', k === i);
+        d.classList.toggle('opacity-60', k !== i);
+      });
+    };
+    let timer = setInterval(() => show(i + 1), 4500);
+    dots.forEach((d, k) =>
+      d.addEventListener('click', () => {
+        clearInterval(timer);
+        show(k);
+        timer = setInterval(() => show(i + 1), 4500);
+      })
+    );
+  });
+</script>

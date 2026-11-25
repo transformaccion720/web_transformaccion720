@@ -1,0 +1,16 @@
+---
+import PageView from '@/components/blocks/PageView.astro';
+import { getPages, HOME_SLUG, type Page } from '@/lib/content';
+
+// Cada página del CMS (menos la portada) vive en /<slug>
+export async function getStaticPaths() {
+  const pages = await getPages();
+  return pages
+    .filter((p) => p.id !== HOME_SLUG)
+    .map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: Page };
+---
+
+<PageView page={page} />

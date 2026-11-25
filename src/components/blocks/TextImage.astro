@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'textImage'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+const paragraphs = data.body.split(/\n\s*\n/).filter((p) => p.trim());
+---
+
+<Section anchor={data.anchor} background={data.background} first={first}>
+  <div class:list={['grid items-center gap-10', data.image && 'lg:grid-cols-2 lg:gap-16']}>
+    <div
+      class:list={[
+        data.image && data.imageSide === 'left' && 'lg:order-2',
+        !data.image && 'mx-auto max-w-3xl',
+      ]}
+    >
+      {data.kicker && (
+        <p class="kicker" data-cms={`${path}.kicker`}>
+          {data.kicker}
+        </p>
+      )}
+      {data.title && (
+        <h2
+          class="mt-3 font-display text-3xl font-bold tracking-tight text-balance lg:text-4xl"
+          data-cms={`${path}.title`}
+        >
+          {data.title}
+        </h2>
+      )}
+      {data.subtitle && (
+        <p class="mt-4 text-lg font-medium" data-cms={`${path}.subtitle`}>
+          {data.subtitle}
+        </p>
+      )}
+      <div class="mt-5 space-y-4 text-ink-soft">
+        {paragraphs.map((p) => (
+          <p class="leading-relaxed">{p}</p>
+        ))}
+      </div>
+      {data.bullets.length > 0 && (
+        <ul class="mt-6 space-y-3">
+          {data.bullets.map((b) => (
+            <li class="flex gap-3">
+              <span class="mt-2 size-2 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+              <span data-cms={`${path}.bullets.*`}>{b}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {data.button.text && (
+        <a href={data.button.href || '#'} class="btn btn-primary mt-8" data-cms={`${path}.button.text`}>
+          {data.button.text}
+        </a>
+      )}
+    </div>
+    {data.image && (
+      <Image
+        src={data.image}
+        alt={data.imageAlt}
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        class:list={[
+          'aspect-[4/3] w-full rounded-[var(--radius-card)] object-cover',
+          data.imageSide === 'left' && 'lg:order-1',
+        ]}
+        data-cms={`${path}.image`}
+      />
+    )}
+  </div>
+</Section>

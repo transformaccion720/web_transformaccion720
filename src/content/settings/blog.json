@@ -1,0 +1,83 @@
+{
+  "badge": "Novedades - Blog TA720",
+  "title": "Ideas para dirigir con claridad.",
+  "subtitle": "Artículos prácticos, eventos y experiencias reales sobre estrategia, procesos, tecnología y liderazgo para dueños y directores que quieren crecer con orden.",
+  "seoDescription": "Artículos de TransformAcción720 sobre estrategia, procesos, liderazgo, IA aplicada y eventos para dueños y directores de empresas en Perú y LATAM.",
+  "searchPlaceholder": "Buscar artículos...",
+  "allLabel": "Todas",
+  "featuredLabel": "★ Destacado",
+  "recentTitle": "Publicaciones recientes",
+  "countOne": "artículo",
+  "countMany": "artículos",
+  "emptyText": "No hay artículos con esos criterios todavía.",
+  "readMore": "Leer ➡️",
+  "byText": "Por",
+  "copyText": "Copiar enlace",
+  "copiedToast": "Enlace del artículo copiado al portapapeles.",
+  "ctaText": "Conversemos sobre este tema ➡️",
+  "ctaService": "Consulta desde Novedades",
+  "openFullText": "Ver artículo completo",
+  "backToList": "Volver a Novedades",
+  "takeawaysTitle": "Lo que aprenderás en esta nota",
+  "topicsLabel": "Temas:",
+  "promoKicker": "Centro de Diagnóstico",
+  "promoTitle": "¿Cuántas horas pierde tu empresa?",
+  "promoText": "Calcula en 2 minutos tus horas perdidas y el ahorro potencial de ordenar tus procesos.",
+  "promoButton": {
+    "text": "HACER DIAGNÓSTICO GRATUITO",
+    "action": "diagnosticHours",
+    "value": ""
+  },
+  "relatedTitle": "Sigue leyendo",
+  "authorRole": "Consultor en transformación empresarial",
+  "tocTitle": "En este artículo",
+  "shareTitle": "Compartir",
+  "articleCtaTitle": "¿Quieres aplicarlo en tu negocio?",
+  "articleCtaText": "Conversemos 30 minutos sobre tu caso, sin compromiso.",
+  "articleCtaButton": "Agenda una llamada ➡️",
+  "archiveTitle": "Todas las publicaciones",
+  "perPage": 6,
+  "prevText": "⬅️ Anterior",
+  "nextText": "Siguiente ➡️",
+  "filtersTitle": "Categorías",
+  "adsEnabled": true,
+  "adsLabel": "Espacio destacado",
+  "ads": [
+    {
+      "image": null,
+      "imageAlt": "",
+      "kicker": "Centro de Diagnóstico",
+      "title": "¿Cuántas horas pierde tu empresa?",
+      "text": "Calcula en 2 minutos tus horas perdidas y el ahorro potencial de ordenar tus procesos.",
+      "button": {
+        "text": "Hacer diagnóstico ➡️",
+        "action": "diagnosticHours",
+        "value": ""
+      }
+    },
+    {
+      "image": null,
+      "imageAlt": "",
+      "kicker": "Hub de Aprendizaje",
+      "title": "Plantillas y kits descargables",
+      "text": "Matrices, playbooks y guías listas para usar en tu empresa.",
+      "button": {
+        "text": "Ver recursos ➡️",
+        "action": "link",
+        "value": "/hub#herramientas"
+      }
+    },
+    {
+      "image": null,
+      "imageAlt": "",
+      "kicker": "Conversemos",
+      "title": "Probemos el motor de tu organización",
+      "text": "Agenda una sesión exploratoria sin compromiso.",
+      "button": {
+        "text": "Agendar cita ➡️",
+        "action": "contact",
+        "value": "Sesión Exploratoria"
+      }
+    }
+  ]
+}

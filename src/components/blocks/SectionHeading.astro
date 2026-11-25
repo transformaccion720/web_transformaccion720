@@ -1,0 +1,36 @@
+---
+/** Antetítulo + título + subtítulo. `path` es la ruta del bloque en el CMS (para la vista previa en vivo). */
+interface Props {
+  kicker?: string;
+  title?: string;
+  subtitle?: string;
+  path: string;
+  align?: 'center' | 'left';
+  as?: 'h1' | 'h2';
+}
+
+const { kicker, title, subtitle, path, align = 'center', as: Tag = 'h2' } = Astro.props;
+---
+
+{(kicker || title || subtitle) && (
+  <div class:list={['mb-10 max-w-2xl', align === 'center' && 'mx-auto text-center']}>
+    {kicker && (
+      <p class="kicker" data-cms={`${path}.kicker`}>
+        {kicker}
+      </p>
+    )}
+    {title && (
+      <Tag
+        class="mt-3 font-display text-3xl font-bold tracking-tight text-balance lg:text-4xl"
+        data-cms={`${path}.title`}
+      >
+        {title}
+      </Tag>
+    )}
+    {subtitle && (
+      <p class="mt-4 text-lg text-ink-soft" data-cms={`${path}.subtitle`}>
+        {subtitle}
+      </p>
+    )}
+  </div>
+)}

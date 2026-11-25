@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+.DS_Store
+*.log
+
+design/recursos-originales/
+!.env.example
+.vercel/
+
+# Material de referencia local (diseño base, brochures, fotos de trabajo): no se publica
+mockup/

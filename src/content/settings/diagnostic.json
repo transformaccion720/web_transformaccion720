@@ -1,0 +1,41 @@
+{
+  "kicker": "Centro de Diagnóstico TA720",
+  "title": "Mide el impacto de transformar hoy",
+  "tabHours": "1. Horas Perdidas en Procesos",
+  "tabCosts": "2. Eficiencia y Ahorro en Costos",
+  "currency": "$",
+  "hours": {
+    "teamLabel": "Colaboradores en áreas clave",
+    "teamDefault": 15,
+    "hoursLabel": "Horas/semana en tareas manuales (por persona)",
+    "hoursDefault": 6,
+    "rateLabel": "Costo promedio por hora (USD)",
+    "rateDefault": 18,
+    "weeks": 48,
+    "resultHours": "Horas perdidas al año",
+    "resultCost": "Impacto financiero estimado"
+  },
+  "costs": {
+    "revenueLabel": "Facturación anual aprox. (USD)",
+    "revenueOptions": [
+      { "label": "$150K – $350K", "value": 250000, "selected": false },
+      { "label": "$350K – $1M", "value": 750000, "selected": true },
+      { "label": "$1M – $5M", "value": 2500000, "selected": false },
+      { "label": "Más de $5M", "value": 8000000, "selected": false }
+    ],
+    "frictionLabel": "Nivel de reprocesos / demoras",
+    "frictionOptions": [
+      { "label": "Moderado (procesos parcialmente ordenados)", "value": 0.06, "selected": false },
+      { "label": "Alto (dependencia de Excel y seguimiento manual)", "value": 0.11, "selected": true },
+      { "label": "Crítico (cuellos de botella frecuentes)", "value": 0.16, "selected": false }
+    ],
+    "hourCost": 24,
+    "resultSavings": "Ahorro potencial anual",
+    "resultHours": "Horas recuperables / mes"
+  },
+  "emailIntro": "Recibe el informe detallado con recomendaciones por área y hoja de ruta en tu correo:",
+  "emailPlaceholder": "tu.correo@empresa.com",
+  "submitText": "ENVIAR RESULTADOS ➡️",
+  "successToast": "¡Listo! Enviamos tu diagnóstico completo a {correo}.",
+  "errorText": "No pudimos enviar tu diagnóstico en este momento. Inténtalo de nuevo o escríbenos por WhatsApp."
+}

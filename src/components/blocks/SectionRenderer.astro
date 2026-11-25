@@ -1,0 +1,116 @@
+---
+/**
+ * Dibuja las secciones de una página en el orden del CMS.
+ * Bloque nuevo: importarlo y sumarlo a BLOCKS (la clave = nombre del bloque en keystatic.config.ts).
+ *
+ * Pestañas: si un bloque tiene "Pestaña donde aparece" (panel), se envuelve en [data-panel]. Al cargar
+ * solo se ven los paneles de la primera pestaña de cada selector; scripts/tabs.ts cambia según el #hash.
+ */
+import HeroVideo from './HeroVideo.astro';
+import ValueJourney from './ValueJourney.astro';
+import ServiceCards from './ServiceCards.astro';
+import CtaBand from './CtaBand.astro';
+import TrustLogos from './TrustLogos.astro';
+import TestimonialsCarousel from './TestimonialsCarousel.astro';
+import ScrollDock from './ScrollDock.astro';
+import CostStrip from './CostStrip.astro';
+import PageHero from './PageHero.astro';
+import Founders from './Founders.astro';
+import TeamGrid from './TeamGrid.astro';
+import Methodology from './Methodology.astro';
+import CaseStudies from './CaseStudies.astro';
+import ServiceDetail from './ServiceDetail.astro';
+import SegmentTabs from './SegmentTabs.astro';
+import WebPackages from './WebPackages.astro';
+import PortfolioGrid from './PortfolioGrid.astro';
+import ResourceGrid from './ResourceGrid.astro';
+import Programs from './Programs.astro';
+import LmsCampus from './LmsCampus.astro';
+import Ecosystem from './Ecosystem.astro';
+import ContactPanel from './ContactPanel.astro';
+import FaqGrid from './FaqGrid.astro';
+import Logos from './Logos.astro';
+import Hero from './Hero.astro';
+import TextImage from './TextImage.astro';
+import Cards from './Cards.astro';
+import Gallery from './Gallery.astro';
+import Stats from './Stats.astro';
+import Testimonials from './Testimonials.astro';
+import Team from './Team.astro';
+import Faq from './Faq.astro';
+import Video from './Video.astro';
+import Cta from './Cta.astro';
+import type { Section } from '@/lib/content';
+
+interface Props {
+  sections: Section[];
+}
+
+const BLOCKS = {
+  heroVideo: HeroVideo,
+  valueJourney: ValueJourney,
+  serviceCards: ServiceCards,
+  ctaBand: CtaBand,
+  trustLogos: TrustLogos,
+  testimonialsCarousel: TestimonialsCarousel,
+  scrollDock: ScrollDock,
+  costStrip: CostStrip,
+  pageHero: PageHero,
+  founders: Founders,
+  teamGrid: TeamGrid,
+  methodology: Methodology,
+  caseStudies: CaseStudies,
+  serviceDetail: ServiceDetail,
+  segmentTabs: SegmentTabs,
+  webPackages: WebPackages,
+  portfolioGrid: PortfolioGrid,
+  resourceGrid: ResourceGrid,
+  programs: Programs,
+  lmsCampus: LmsCampus,
+  ecosystem: Ecosystem,
+  contactPanel: ContactPanel,
+  faqGrid: FaqGrid,
+  logos: Logos,
+  hero: Hero,
+  textImage: TextImage,
+  cards: Cards,
+  gallery: Gallery,
+  stats: Stats,
+  testimonials: Testimonials,
+  team: Team,
+  faq: Faq,
+  video: Video,
+  cta: Cta,
+} satisfies Record<Section['discriminant'], unknown>;
+
+const { sections } = Astro.props;
+
+// Claves de pestañas de la página y la primera de cada selector (la que se ve al cargar)
+const known = new Set<string>();
+const defaults = new Set<string>();
+for (const s of sections) {
+  if (s.discriminant !== 'pageHero' && s.discriminant !== 'segmentTabs') continue;
+  const keys = s.value.tabs.map((t) => t.key).filter(Boolean);
+  keys.forEach((k) => known.add(k));
+  if (keys[0]) defaults.add(keys[0]);
+}
+const panelOf = (s: Section) => ('panel' in s.value ? (s.value.panel as string) : '').trim();
+const visibleAtStart = (panel: string) =>
+  panel
+    .split(/\s+/)
+    .filter((k) => known.has(k))
+    .every((k) => defaults.has(k));
+---
+
+{sections.map((s, i) => {
+  const Block = BLOCKS[s.discriminant] as (props: { data: unknown; path: string; first: boolean }) => unknown;
+  const panel = panelOf(s);
+  const node = <Block data={s.value} path={`pages.sections.${i}.value`} first={i === 0} />;
+  return panel ? (
+    <div data-panel={panel} hidden={!visibleAtStart(panel)} role="tabpanel">
+      {node}
+    </div>
+  ) : (
+    node
+  );
+})}

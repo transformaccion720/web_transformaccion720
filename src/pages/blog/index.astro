@@ -1,0 +1,328 @@
+---
+/**
+ * Novedades (mockup "Blog TA720"): buscador + filtros por categoría + artículo destacado + grilla.
+ * Cada tarjeta abre el artículo completo en su propia página /blog/<slug>.
+ */
+import { Image } from 'astro:assets';
+import { Search } from 'lucide-react';
+import ActionButton from '@/components/ui/ActionButton.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { categoryName, getBlogCategories, getBlogSettings, getPosts, getSite, newsDate, readLabel } from '@/lib/content';
+import { safeJson } from '@/lib/format';
+
+const [site, texts, all, categories] = await Promise.all([getSite(), getBlogSettings(), getPosts(), getBlogCategories()]);
+// El destacado va primero (si no hay, el más reciente)
+const featuredIdx = Math.max(0, all.findIndex((p) => p.data.featured));
+const posts = all.length ? [all[featuredIdx]!, ...all.filter((_, i) => i !== featuredIdx)] : [];
+// Debajo del destacado se mantienen las 3 publicaciones más recientes; el resto va paginado
+const recent = posts.slice(1, 4);
+const usedCats = Object.entries(categories).filter(([id]) => posts.some((p) => p.data.category === id));
+const config = {
+  one: texts.countOne,
+  many: texts.countMany,
+  copied: texts.copiedToast,
+  by: texts.byText,
+  perPage: texts.perPage,
+  prev: texts.prevText,
+  next: texts.nextText,
+};
+const countOf = (id: string) => posts.filter((p) => p.data.category === id).length;
+const ads = texts.adsEnabled ? texts.ads : [];
+---
+
+<BaseLayout title={`${texts.title} • ${site.brandName}`} description={texts.seoDescription || `Novedades de ${site.brandName}.`}>
+  <link slot="head" rel="alternate" type="application/rss+xml" title={texts.title} href="/blog/rss.xml" />
+
+  <section class="hero-aurora text-white">
+    <div class="tech-grid-overlay pointer-events-none absolute inset-0"></div>
+    <div class="relative z-10 mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      {texts.badge && <span class="text-xs font-extrabold tracking-[0.22em] text-amber-300 uppercase" data-cms="blogSettings.badge">{texts.badge}</span>}
+      <h1 class="mt-2 font-display text-3xl font-black tracking-tight sm:text-5xl" data-cms="blogSettings.title">{texts.title}</h1>
+      {texts.subtitle && <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base" data-cms="blogSettings.subtitle">{texts.subtitle}</p>}
+    </div>
+  </section>
+
+  <section class="bg-white py-12 dark:bg-slate-950">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
+      <aside class="space-y-5 lg:col-span-3">
+        <div class="space-y-5 lg:sticky lg:top-24">
+          <div class="relative">
+            <Search size={16} className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+            <label for="news-search" class="sr-only">{texts.searchPlaceholder}</label>
+            <input
+              id="news-search"
+              type="search"
+              placeholder={texts.searchPlaceholder}
+              class="w-full rounded-2xl border border-slate-200 bg-white py-3 pr-4 pl-11 text-sm shadow-sm transition focus:border-brand-teal focus:ring-4 focus:ring-brand-teal/10 focus:outline-none dark:border-slate-700 dark:bg-slate-900"
+            />
+          </div>
+
+          <div class="rounded-3xl border border-slate-200/80 bg-brand-cream/70 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+            <p class="mb-3 px-2 text-[10px] font-extrabold tracking-[0.2em] text-slate-400 uppercase" data-cms="blogSettings.filtersTitle">{texts.filtersTitle}</p>
+            <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" role="group" aria-label={texts.filtersTitle}>
+              <button type="button" data-news-filter="todos" aria-pressed="true" class="news-filter is-active">
+                <span>{texts.allLabel}</span><span class="news-filter-count">{posts.length}</span>
+              </button>
+              {usedCats.map(([id, name]) => (
+                <button type="button" data-news-filter={id} aria-pressed="false" class="news-filter">
+                  <span>{name}</span><span class="news-filter-count">{countOf(id)}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {ads.length > 0 && (
+            <div class="relative overflow-hidden rounded-3xl bg-[#0B1F3A] text-white shadow-apple-lg" data-ads>
+              {texts.adsLabel && <span class="absolute top-3 left-4 z-20 text-[9px] font-extrabold tracking-[0.2em] text-white/60 uppercase">{texts.adsLabel}</span>}
+              <div class="relative min-h-64">
+                {ads.map((ad, i) => (
+                  <div class:list={['ad-slide absolute inset-0 flex flex-col justify-end p-5 pt-9 transition-opacity duration-700', i === 0 ? 'opacity-100' : 'pointer-events-none opacity-0']} data-ad={i}>
+                    {ad.image ? (
+                      <Image src={ad.image} alt={ad.imageAlt} widths={[400, 700]} sizes="320px" class="absolute inset-0 h-full w-full object-cover" />
+                    ) : (
+                      <span class="absolute inset-0 bg-gradient-to-br from-[#143f73] via-[#0f4c5c] to-[#0B1F3A]" aria-hidden="true"></span>
+                    )}
+                    <span class="absolute inset-0 bg-gradient-to-t from-[#071528]/90 via-[#071528]/40 to-transparent" aria-hidden="true"></span>
+                    <div class="relative">
+                      {ad.kicker && <span class="text-[10px] font-extrabold tracking-widest text-amber-300 uppercase">{ad.kicker}</span>}
+                      <p class="mt-1 font-display text-lg leading-snug font-extrabold">{ad.title}</p>
+                      {ad.text && <p class="mt-1.5 text-xs text-slate-200">{ad.text}</p>}
+                      <ActionButton btn={ad.button} class="mt-3 inline-block rounded-full bg-brand-orange px-4 py-2 text-xs font-extrabold text-brand-deep transition hover:bg-amber-400" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {ads.length > 1 && (
+                <div class="absolute top-3 right-4 z-20 flex gap-1.5">
+                  {ads.map((_, i) => <button type="button" data-ad-dot={i} aria-label={`Ver anuncio ${i + 1}`} class:list={['h-1.5 rounded-full bg-white transition-all duration-500', i === 0 ? 'w-5' : 'w-1.5 opacity-60']}></button>)}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </aside>
+
+      <div class="min-w-0 space-y-10 lg:col-span-9">
+      {posts[0] && (() => {
+        const p = posts[0];
+        return (
+          <article data-news-item data-featured data-cat={p.data.category} data-search={`${p.data.title} ${p.data.excerpt} ${categoryName(categories, p.data.category)}`.toLowerCase()}>
+            <a href={`/blog/${p.id}`} class="group grid grid-cols-1 overflow-hidden rounded-3xl border border-slate-200 bg-brand-cream shadow-sm transition hover:shadow-apple lg:grid-cols-12 dark:border-slate-800 dark:bg-slate-900">
+              <div class="aspect-video overflow-hidden lg:col-span-7 lg:aspect-auto">
+                {p.data.cover && <Image src={p.data.cover} alt={p.data.coverAlt || p.data.title} widths={[640, 960]} sizes="(min-width: 1024px) 560px, 100vw" loading="eager" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
+              </div>
+              <div class="flex flex-col justify-between p-7 lg:col-span-5 lg:p-8">
+                <div>
+                  <div class="flex flex-wrap items-center gap-2.5 text-xs">
+                    {texts.featuredLabel && <span class="rounded-full bg-brand-orange/20 px-2.5 py-1 font-extrabold text-brand-amber">{texts.featuredLabel}</span>}
+                    <span class="font-bold text-brand-teal dark:text-cyan-400">{categoryName(categories, p.data.category)}</span>
+                    <span class="text-slate-400">- {readLabel(p)}</span>
+                  </div>
+                  <h2 class="mt-3 font-display text-2xl leading-snug font-extrabold text-brand-navy transition group-hover:text-brand-teal sm:text-3xl dark:text-white">{p.data.title}</h2>
+                  <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{p.data.excerpt}</p>
+                </div>
+                <div class="mt-6 flex items-center justify-between border-t border-slate-200/70 pt-4 text-xs dark:border-slate-800">
+                  <span class="font-medium text-slate-500">{p.data.author} - {newsDate(p.data.publishedAt)}</span>
+                  <span class="font-extrabold text-brand-teal transition-transform group-hover:translate-x-1 dark:text-cyan-400">{texts.readMore}</span>
+                </div>
+              </div>
+            </a>
+          </article>
+        );
+      })()}
+
+      {recent.length > 0 && (
+        <div data-recent>
+          <div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
+            <h2 class="font-display text-lg font-extrabold text-brand-navy dark:text-white" data-cms="blogSettings.recentTitle">{texts.recentTitle}</h2>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {recent.map((p) => (
+              <article>
+              <a href={`/blog/${p.id}`} class="card-3d group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="h-44 overflow-hidden">
+                  {p.data.cover && <Image src={p.data.cover} alt={p.data.coverAlt || p.data.title} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
+                </div>
+                <div class="flex flex-1 flex-col p-6">
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="font-extrabold text-brand-teal dark:text-cyan-400">{categoryName(categories, p.data.category)}</span>
+                    <span class="text-right text-slate-400">{newsDate(p.data.publishedAt)} - {readLabel(p)}</span>
+                  </div>
+                  <h3 class="mt-2.5 font-display text-base leading-snug font-bold text-brand-navy transition group-hover:text-brand-blue dark:text-white">{p.data.title}</h3>
+                  <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{p.data.excerpt}</p>
+                  <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
+                    <span class="text-slate-400">{p.data.author}</span>
+                    <span class="font-bold text-brand-teal dark:text-cyan-400">{texts.readMore}</span>
+                  </div>
+                </div>
+              </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div id="todas">
+        <div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
+          <h2 class="font-display text-lg font-extrabold text-brand-navy dark:text-white" data-cms="blogSettings.archiveTitle">{texts.archiveTitle}</h2>
+          <span class="text-xs font-semibold text-slate-500" data-news-count></span>
+        </div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" data-news-grid>
+          {posts.map((p, i) => (
+            <article
+              data-news-item
+              data-cat={p.data.category}
+              data-search={`${p.data.title} ${p.data.excerpt} ${categoryName(categories, p.data.category)}`.toLowerCase()}
+              data-rank={i}
+              hidden
+            >
+              <a href={`/blog/${p.id}`} class="card-3d group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="h-44 overflow-hidden">
+                  {p.data.cover && <Image src={p.data.cover} alt={p.data.coverAlt || p.data.title} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
+                </div>
+                <div class="flex flex-1 flex-col p-6">
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="font-extrabold text-brand-teal dark:text-cyan-400">{categoryName(categories, p.data.category)}</span>
+                    <span class="text-right text-slate-400">{newsDate(p.data.publishedAt)} - {readLabel(p)}</span>
+                  </div>
+                  <h3 class="mt-2.5 font-display text-base leading-snug font-bold text-brand-navy transition group-hover:text-brand-blue dark:text-white">{p.data.title}</h3>
+                  <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{p.data.excerpt}</p>
+                  <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
+                    <span class="text-slate-400">{p.data.author}</span>
+                    <span class="font-bold text-brand-teal dark:text-cyan-400">{texts.readMore}</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+        <p class="hidden py-14 text-center text-sm text-slate-500" data-news-empty>{texts.emptyText}</p>
+        <nav class="mt-10 flex flex-wrap items-center justify-center gap-2" aria-label="Paginación de publicaciones" data-news-pager></nav>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/json" data-news-config set:html={safeJson(config)} />
+</BaseLayout>
+
+<script>
+
+  const cfg = JSON.parse(document.querySelector('[data-news-config]')!.textContent || '{}') as {
+    one: string;
+    many: string;
+    perPage: number;
+    prev: string;
+    next: string;
+  };
+  const search = document.getElementById('news-search') as HTMLInputElement;
+  const featured = document.querySelector<HTMLElement>('[data-featured]');
+  const recentBox = document.querySelector<HTMLElement>('[data-recent]');
+  const archive = document.getElementById('todas')!;
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-news-grid] [data-news-item]')];
+  const count = document.querySelector<HTMLElement>('[data-news-count]')!;
+  const empty = document.querySelector<HTMLElement>('[data-news-empty]')!;
+  const pager = document.querySelector<HTMLElement>('[data-news-pager]')!;
+  const pills = [...document.querySelectorAll<HTMLButtonElement>('[data-news-filter]')];
+  const per = Math.max(1, Number(cfg.perPage) || 6);
+  const shownOnTop = recentBox ? 4 : 1; // destacado + 3 recientes
+  let cat = 'todos';
+  let page = 1;
+
+  const pageBtn = (label: string, target: number, opts: { active?: boolean; disabled?: boolean } = {}) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = label;
+    b.disabled = !!opts.disabled;
+    b.className = `min-w-10 rounded-full px-4 py-2 text-xs font-bold transition disabled:opacity-30 ${
+      opts.active
+        ? 'bg-brand-navy text-white dark:bg-brand-blue'
+        : 'border border-slate-200 bg-white text-slate-600 hover:border-brand-navy dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300'
+    }`;
+    if (opts.active) b.setAttribute('aria-current', 'page');
+    b.addEventListener('click', () => {
+      page = target;
+      render();
+      archive.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    return b;
+  };
+
+  // Sin filtro ni búsqueda: arriba destacado + 3 recientes y abajo el resto, paginado.
+  // Con filtro o búsqueda: se ocultan esos bloques y se pagina todo lo que coincide.
+  function render() {
+    const q = search.value.trim().toLowerCase();
+    const browsing = cat === 'todos' && !q;
+    const list = cards.filter(
+      (c) =>
+        (!browsing || Number(c.dataset.rank) >= shownOnTop) &&
+        (cat === 'todos' || c.dataset.cat === cat) &&
+        (!q || c.dataset.search!.includes(q))
+    );
+    const pages = Math.max(1, Math.ceil(list.length / per));
+    page = Math.min(Math.max(1, page), pages);
+    cards.forEach((c) => (c.hidden = true));
+    list.slice((page - 1) * per, page * per).forEach((c) => (c.hidden = false));
+    if (featured) featured.hidden = !browsing;
+    if (recentBox) recentBox.hidden = !browsing;
+    const total = browsing ? cards.length : list.length;
+    count.textContent = `${total} ${total === 1 ? cfg.one : cfg.many}`;
+    empty.classList.toggle('hidden', list.length > 0 || browsing);
+    archive.hidden = browsing && list.length === 0;
+    pager.replaceChildren();
+    if (pages > 1) {
+      pager.append(pageBtn(cfg.prev, page - 1, { disabled: page === 1 }));
+      for (let n = 1; n <= pages; n++) pager.append(pageBtn(String(n), n, { active: n === page }));
+      pager.append(pageBtn(cfg.next, page + 1, { disabled: page === pages }));
+    }
+  }
+
+  pills.forEach((b) =>
+    b.addEventListener('click', () => {
+      cat = b.dataset.newsFilter!;
+      page = 1;
+      pills.forEach((p) => {
+        const on = p === b;
+        p.classList.toggle('is-active', on);
+        p.setAttribute('aria-pressed', String(on));
+      });
+      render();
+    })
+  );
+  search.addEventListener('input', () => {
+    page = 1;
+    render();
+  });
+  render();
+
+  // Carrusel del espacio publicitario
+  const ads = document.querySelector<HTMLElement>('[data-ads]');
+  if (ads) {
+    const slides = [...ads.querySelectorAll<HTMLElement>('[data-ad]')];
+    const dots = [...ads.querySelectorAll<HTMLElement>('[data-ad-dot]')];
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        s.classList.toggle('opacity-100', k === i);
+        s.classList.toggle('opacity-0', k !== i);
+        s.classList.toggle('pointer-events-none', k !== i);
+      });
+      dots.forEach((d, k) => {
+        d.classList.toggle('w-5', k === i);
+        d.classList.toggle('w-1.5', k !== i);
+        d.classList.toggle('opacity-60', k !== i);
+      });
+    };
+    if (slides.length > 1) {
+      let timer = setInterval(() => show(i + 1), 6000);
+      dots.forEach((d, k) =>
+        d.addEventListener('click', () => {
+          clearInterval(timer);
+          show(k);
+          timer = setInterval(() => show(i + 1), 6000);
+        })
+      );
+    }
+  }
+</script>

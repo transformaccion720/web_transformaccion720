@@ -1,0 +1,36 @@
+---
+/** Hub 4.2 Programas y certificaciones ejecutivas */
+import { Image } from 'astro:assets';
+import ActionButton from '@/components/ui/ActionButton.astro';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'programs'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+---
+
+<section id={data.anchor || undefined} class="bg-white py-14 dark:bg-slate-950">
+  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
+    <div>
+      {data.kicker && <span class:list={['text-xs font-extrabold tracking-[0.2em] uppercase', tone(data.kickerTone).text]} data-cms={`${path}.kicker`}>{data.kicker}</span>}
+      <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {data.items.map((p, i) => (
+        <article class="card-3d flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-brand-cream dark:border-slate-800 dark:bg-slate-900">
+          {p.image && <Image src={p.image} alt={p.imageAlt || p.title} widths={[480, 700]} sizes="(min-width: 768px) 33vw, 100vw" class="h-40 w-full object-cover" />}
+          <div class="flex flex-1 flex-col p-6">
+            <span class:list={['text-[11px] font-extrabold uppercase', tone(p.tone).text]}>{p.meta}</span>
+            <h3 class="mt-1 font-display text-lg font-bold text-brand-navy dark:text-white" data-cms={`${path}.items.${i}.title`}>{p.title}</h3>
+            <p class="mt-2 flex-1 text-xs text-slate-600 dark:text-slate-400" data-cms={`${path}.items.${i}.desc`}>{p.desc}</p>
+            <ActionButton btn={p.button} class="mt-5 block w-full rounded-xl bg-brand-orange py-2.5 text-center text-xs font-extrabold text-brand-deep transition hover:bg-amber-400" />
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

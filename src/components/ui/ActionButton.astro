@@ -1,0 +1,25 @@
+---
+/**
+ * Botón con acción del CMS (enlace, Conversemos con servicio, diagnóstico o video). Ver src/lib/actions.ts.
+ * El estilo lo pone quien lo usa (class). Sin texto no se dibuja nada.
+ */
+import { actionAttrs, type ActionButton } from '@/lib/actions';
+
+interface Props {
+  btn: ActionButton;
+  class?: string;
+  videoTitle?: string;
+  cms?: string;
+}
+
+const { btn, class: className = '', videoTitle = '', cms } = Astro.props;
+const { tag: Tag, attrs } = actionAttrs(btn, videoTitle || btn.text);
+---
+
+{btn.text && (
+  <Tag {...attrs} class={className}>
+    <slot name="before" />
+    <span data-cms={cms}>{btn.text}</span>
+    <slot />
+  </Tag>
+)}

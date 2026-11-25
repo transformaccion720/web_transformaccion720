@@ -1,0 +1,19 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import Buttons from './Buttons.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'cta'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+---
+
+<Section anchor={data.anchor} background={data.background} first={first}>
+  <SectionHeading kicker={data.kicker} title={data.title} subtitle={data.subtitle} path={path} />
+  <Buttons primary={data.primary} secondary={data.secondary} path={path} class="-mt-2 justify-center" />
+</Section>

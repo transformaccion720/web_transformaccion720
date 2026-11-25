@@ -1,0 +1,77 @@
+---
+import { getImage } from 'astro:assets';
+import { getSite } from '@/lib/content';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  type?: string;
+  noindex?: boolean;
+  /** Schema.org extra de la página (FAQPage, BlogPosting…) */
+  schema?: Record<string, unknown>[];
+}
+
+const site = await getSite();
+const siteUrl = Astro.site!.toString();
+
+const {
+  title = site.siteTitle,
+  description = site.siteDescription,
+  canonicalUrl = Astro.url.href,
+  type = 'website',
+  noindex = false,
+  schema = [],
+} = Astro.props;
+
+// Imagen para redes: la de la página, si no /images/og-default.jpg (si existe) o el logo
+const logoUrl = site.logo ? (await getImage({ src: site.logo, width: 512 })).src : '/logo.svg';
+const image = Astro.props.image ?? logoUrl;
+const fullImageUrl = new URL(image, siteUrl).toString();
+
+const sameAs = site.social.map((s) => s.url).filter((u) => /^https?:\/\//.test(u));
+
+const business = {
+  '@type': site.businessType,
+  '@id': `${siteUrl}#organization`,
+  name: site.brandName,
+  url: siteUrl,
+  logo: new URL(logoUrl, siteUrl).toString(),
+  image: fullImageUrl,
+  description: site.siteDescription,
+  ...(site.phone && { telephone: site.phone }),
+  ...(site.email && { email: site.email }),
+  ...(sameAs.length && { sameAs }),
+  ...((site.city || site.address) && {
+    address: {
+      '@type': 'PostalAddress',
+      ...(site.address && { streetAddress: site.address }),
+      ...(site.city && { addressLocality: site.city }),
+      addressCountry: site.country,
+    },
+  }),
+};
+
+const jsonLd = { '@context': 'https://schema.org', '@graph': [business, ...schema] };
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+
+<meta property="og:locale" content="es_PE" />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content={site.brandName} />
+<meta property="og:image" content={fullImageUrl} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullImageUrl} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

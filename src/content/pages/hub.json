@@ -1,0 +1,205 @@
+{
+  "title": "Hub de Aprendizaje",
+  "seoTitle": "Hub de Aprendizaje: Kits, Certificaciones y Comunidad • TransformAcción720",
+  "seoDescription": "Plantillas y kits descargables, programas y certificaciones ejecutivas, Campus LMS y el Ecosistema TA720 para empresarios que quieren ordenar y escalar su negocio.",
+  "sections": [
+    {
+      "discriminant": "pageHero",
+      "value": {
+        "kicker": "Conocimiento Aplicado",
+        "title": "Hub de Aprendizaje TA720",
+        "text": "Recursos descargables, programas con certificación internacional (Partner Oficial de Certiprof), aula virtual corporativa y nuestra comunidad de empresarios en transformación.",
+        "tabs": [
+          {
+            "label": "Herramientas Prácticas",
+            "key": "herramientas"
+          },
+          {
+            "label": "Certificaciones",
+            "key": "certificaciones"
+          },
+          {
+            "label": "Campus LMS",
+            "key": "campus"
+          },
+          {
+            "label": "Ecosistema TA720",
+            "key": "ecosistema"
+          }
+        ],
+        "anchor": ""
+      }
+    },
+    {
+      "discriminant": "resourceGrid",
+      "value": {
+        "kicker": "Laboratorio Digital",
+        "title": "Kits y Plantillas Descargables",
+        "allLabel": "Todos",
+        "filters": [
+          {
+            "key": "procesos",
+            "label": "Procesos"
+          },
+          {
+            "key": "agilidad",
+            "label": "Agilidad & OKRs"
+          },
+          {
+            "key": "ia",
+            "label": "IA Aplicada"
+          }
+        ],
+        "items": [
+          {
+            "category": "procesos",
+            "image": "@/assets/images/pages/hub/sections/1/value/items/0/image.jpg",
+            "imageAlt": "Matriz Procesos",
+            "format": "Excel / PDF - Procesos",
+            "tone": "orange",
+            "title": "Matriz de Fugas de Tiempo Operativo",
+            "desc": "Identifica tareas manuales repetitivas y prioriza qué automatizar primero.",
+            "buttonText": "Descargar Gratis ↓",
+            "file": null
+          },
+          {
+            "category": "agilidad",
+            "image": "@/assets/images/pages/hub/sections/1/value/items/1/image.jpg",
+            "imageAlt": "Playbook OKRs",
+            "format": "Notion / Excel - Agilidad",
+            "tone": "teal",
+            "title": "Playbook Trimestral de OKRs TA720",
+            "desc": "Estructura lista para alinear metas gerenciales y seguimiento semanal.",
+            "buttonText": "Descargar Gratis ↓",
+            "file": null
+          },
+          {
+            "category": "ia",
+            "image": "@/assets/images/pages/hub/sections/1/value/items/2/image.jpg",
+            "imageAlt": "Guía IA",
+            "format": "PDF - IA Aplicada",
+            "tone": "blue",
+            "title": "50 Prompts Ejecutivos para Directores",
+            "desc": "Casos listos para análisis comercial, actas directivas y mejora de procesos.",
+            "buttonText": "Descargar Gratis ↓",
+            "file": null
+          }
+        ],
+        "modal": {
+          "kicker": "Descarga Gratuita",
+          "intro": "Completa tus datos para habilitar la descarga inmediata y enviarte una copia a tu correo.",
+          "nameLabel": "Nombre completo *",
+          "emailLabel": "Correo electrónico *",
+          "roleLabel": "Rol / Cargo en tu empresa *",
+          "submitText": "DESCARGAR AHORA ↓",
+          "successToast": "Descarga habilitada: \"{recurso}\"."
+        },
+        "anchor": "",
+        "panel": "herramientas"
+      }
+    },
+    {
+      "discriminant": "programs",
+      "value": {
+        "kicker": "Formación Avalada",
+        "kickerTone": "blue",
+        "title": "Programas y Certificaciones Ejecutivas",
+        "items": [
+          {
+            "image": "@/assets/images/pages/hub/sections/2/value/items/0/image.jpg",
+            "imageAlt": "Certificación Líder Transformador",
+            "meta": "6 Semanas - En Vivo",
+            "tone": "orange",
+            "title": "Certificación en Transformación y Método CORE",
+            "desc": "Domina el diagnóstico, rediseño de procesos y gobierno por indicadores.",
+            "button": {
+              "text": "Solicitar Brochures",
+              "action": "contact",
+              "value": "Certificación Método CORE"
+            }
+          },
+          {
+            "image": "@/assets/images/pages/hub/sections/2/value/items/1/image.jpg",
+            "imageAlt": "Certificación IA",
+            "meta": "4 Semanas - Práctico",
+            "tone": "blue",
+            "title": "IA y Automatización para Negocios",
+            "desc": "Implementa asistentes y flujos sin código que ahorran horas semanales.",
+            "button": {
+              "text": "Solicitar Brochures",
+              "action": "contact",
+              "value": "Programa IA para Negocios"
+            }
+          },
+          {
+            "image": "@/assets/images/pages/hub/sections/2/value/items/2/image.jpg",
+            "imageAlt": "Liderazgo Ágil",
+            "meta": "5 Semanas - Híbrido",
+            "tone": "teal",
+            "title": "Liderazgo Ágil y Gestión del Cambio",
+            "desc": "Herramientas prácticas para movilizar equipos y sostener nuevos hábitos.",
+            "button": {
+              "text": "Solicitar Brochures",
+              "action": "contact",
+              "value": "Certificación Liderazgo Ágil"
+            }
+          }
+        ],
+        "anchor": "",
+        "panel": "certificaciones"
+      }
+    },
+    {
+      "discriminant": "lmsCampus",
+      "value": {
+        "badge": "Campus Virtual TA720",
+        "title": "Aula Virtual para Empresas y Alumnos",
+        "text": "Accede a grabaciones HD, evaluaciones de avance, certificados descargables y rutas de aprendizaje personalizadas para tu organización.",
+        "buttonText": "INGRESAR AL CAMPUS ➡️",
+        "buttonHref": "",
+        "notice": "Acceso LMS habilitado para alumnos y clientes corporativos activos.",
+        "image": "@/assets/images/pages/hub/sections/3/value/image.jpg",
+        "imageAlt": "Campus LMS",
+        "anchor": "",
+        "panel": "campus"
+      }
+    },
+    {
+      "discriminant": "ecosystem",
+      "value": {
+        "image": "@/assets/images/pages/hub/sections/4/value/image.jpg",
+        "imageAlt": "Comunidad Ecosistema TA720",
+        "badge": "Comunidad Privada",
+        "title": "Ecosistema TA720 para Empresarios",
+        "text": "Un espacio diseñado para micro, pequeños y medianos empresarios que quieren ordenar su negocio, compartir retos reales, acceder a sesiones semanales en vivo y aplicar plantillas probadas.",
+        "features": [
+          "Sesiones semanales de Q&A con consultores",
+          "Biblioteca completa de herramientas y guías",
+          "Networking calificado con dueños de negocio",
+          "Retos mensuales de orden y rentabilidad"
+        ],
+        "cardLogo": "720",
+        "cardTitle": "Ecosistema TA720",
+        "cardSubtitle": "Comunidad de Empresarios",
+        "stats": [
+          {
+            "value": "420+",
+            "label": "Miembros"
+          },
+          {
+            "value": "18",
+            "label": "Cursos"
+          },
+          {
+            "value": "En vivo",
+            "label": "Semanal"
+          }
+        ],
+        "buttonText": "UNIRME AL ECOSISTEMA ➡️",
+        "buttonHref": "https://www.skool.com",
+        "anchor": "",
+        "panel": "ecosistema"
+      }
+    }
+  ]
+}

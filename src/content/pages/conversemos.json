@@ -1,0 +1,118 @@
+{
+  "title": "Conversemos",
+  "seoTitle": "Conversemos sobre tu empresa • TransformAcción720",
+  "seoDescription": "Cuéntanos tu desafío y coordinemos una sesión exploratoria sin compromiso en menos de 24 horas. WhatsApp, correo y sede en San Isidro, Lima.",
+  "sections": [
+    {
+      "discriminant": "pageHero",
+      "value": {
+        "kicker": "Contacto Directo",
+        "title": "Conversemos sobre tu empresa",
+        "text": "Probemos el motor de tu organización hoy mismo: cuéntanos tu desafío y coordinemos una sesión exploratoria sin compromiso en menos de 24 horas.",
+        "tabs": [],
+        "anchor": ""
+      }
+    },
+    {
+      "discriminant": "contactPanel",
+      "value": {
+        "title": "Canales Ejecutivos",
+        "whatsappLabel": "WhatsApp Directo",
+        "emailLabel": "Correo Corporativo",
+        "addressLabel": "Sede Principal",
+        "address": "San Isidro, Lima - Perú (Atención LATAM)",
+        "note": "Confidencialidad garantizada bajo acuerdo NDA.",
+        "nameLabel": "Nombre completo *",
+        "namePlaceholder": "Ej. Carlos Mendoza",
+        "companyLabel": "Empresa / Cargo *",
+        "companyPlaceholder": "Ej. Gerente General - Grupo X",
+        "emailFieldLabel": "Correo electrónico *",
+        "emailPlaceholder": "carlos@empresa.com",
+        "phoneLabel": "Teléfono / WhatsApp *",
+        "phonePlaceholder": "+51 999 000 000",
+        "serviceLabel": "Servicio de interés",
+        "services": [
+          {
+            "value": "Sesión Exploratoria",
+            "label": "Sesión Exploratoria de Transformación"
+          },
+          {
+            "value": "Transformación (Consultoría)",
+            "label": "Transformación (Consultoría & Procesos)"
+          },
+          {
+            "value": "Soluciones Digitales",
+            "label": "Soluciones Digitales (Webs, Sistemas, BI, IA)"
+          },
+          {
+            "value": "Entrenamiento y Formación",
+            "label": "Entrenamiento y Formación Empresarial"
+          },
+          {
+            "value": "Diagnóstico Corporativo",
+            "label": "Diagnóstico Corporativo Personalizado"
+          }
+        ],
+        "messageLabel": "Cuéntanos tu desafío *",
+        "messagePlaceholder": "¿Qué proceso, resultado o meta deseas transformar en los próximos 90 días?",
+        "prefill": "Hola equipo de TransformAcción720, me gustaría conversar sobre: {servicio}.",
+        "submitText": "ENVIAR SOLICITUD ➡️",
+        "sendingText": "ENVIANDO…",
+        "successToast": "¡Solicitud recibida! Un especialista te contactará en menos de 24 horas.",
+        "errorText": "No pudimos enviar tu solicitud en este momento. Inténtalo de nuevo o escríbenos por WhatsApp.",
+        "anchor": "",
+        "panel": ""
+      }
+    },
+    {
+      "discriminant": "faqGrid",
+      "value": {
+        "kicker": "Preguntas Frecuentes",
+        "title": "6 dudas clave antes de transformar tu negocio",
+        "items": [
+          {
+            "tag": "TIEMPO",
+            "question": "¿En cuánto tiempo se ven resultados?",
+            "answer": "Desde las primeras 4 semanas entregamos victorias rápidas en orden operativo y ahorro de horas, con impacto sostenido en 90 días."
+          },
+          {
+            "tag": "TAMAÑO",
+            "question": "¿Trabajan con pymes y corporaciones?",
+            "answer": "Sí. Adaptamos el alcance y la inversión tanto para empresas en crecimiento (15-80 personas) como para grupos corporativos."
+          },
+          {
+            "tag": "RESISTENCIA",
+            "question": "¿Qué pasa si mi equipo se resiste al cambio?",
+            "answer": "Integramos gestión del cambio desde el día 1: involucramos a los líderes clave para que adopten las mejoras como propias."
+          },
+          {
+            "tag": "TECNOLOGÍA",
+            "question": "¿Debo comprar software costoso?",
+            "answer": "No. Primero optimizamos procesos y aprovechamos tus herramientas actuales; solo desarrollamos o integramos lo que genera ROI real."
+          },
+          {
+            "tag": "MODALIDAD",
+            "question": "¿Cómo es el acompañamiento?",
+            "answer": "Ofrecemos modalidad presencial en Lima e híbrida/remota para provincias y todo LATAM con sesiones semanales de avance."
+          },
+          {
+            "tag": "PRIMER PASO",
+            "question": "¿Cómo iniciamos el diagnóstico?",
+            "answer": "Usa nuestras calculadoras gratuitas en la web o agenda una llamada exploratoria de 30 minutos para definir una ruta clara."
+          }
+        ],
+        "anchor": "preguntas",
+        "panel": "",
+        "hint": "Toca cada parada del recorrido para descubrir la respuesta",
+        "progressText": "{leidas} de {total} dudas resueltas",
+        "doneTitle": "¡Recorrido completado! 🎉",
+        "doneText": "Ya conoces lo esencial para transformar tu negocio. El siguiente paso: conversemos sobre tu empresa.",
+        "doneButton": {
+          "text": "AGENDAR SESIÓN EXPLORATORIA ➡️",
+          "action": "contact",
+          "value": "Sesión Exploratoria"
+        }
+      }
+    }
+  ]
+}

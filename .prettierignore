@@ -1,0 +1,10 @@
+dist
+.astro
+node_modules
+package-lock.json
+src/content
+design
+.vercel
+
+# Mockup original del cliente (referencia, no se formatea)
+Mockup/

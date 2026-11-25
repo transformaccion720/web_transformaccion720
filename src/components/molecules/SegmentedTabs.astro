@@ -1,0 +1,35 @@
+---
+/**
+ * Control segmentado estilo Apple. Cada botón es un enlace #clave: funciona como pestaña (scripts/tabs.ts)
+ * y deja el enlace compartible (/nosotros#metodologia). `active` = clave elegida al cargar.
+ */
+interface Props {
+  tabs: { label: string; key: string }[];
+  variant?: 'dark' | 'light';
+  path?: string;
+  class?: string;
+  full?: boolean;
+}
+
+const { tabs, variant = 'light', path, class: className = '', full = false } = Astro.props;
+const items = tabs.filter((t) => t.key && t.label);
+const group = variant === 'dark' ? 'apple-segment-dark' : 'apple-segment';
+const btn = variant === 'dark' ? 'apple-segment-dark-btn' : 'apple-segment-btn';
+---
+
+{items.length > 0 && (
+  <div class:list={[group, full && 'w-full justify-between', className]} role="tablist" data-tab-group>
+    {items.map((t, i) => (
+      <a
+        href={`#${t.key}`}
+        role="tab"
+        data-tab={t.key}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        class:list={[btn, i === 0 && 'active', full && 'flex-1 text-center']}
+        data-cms={path ? `${path}.tabs.${i}.label` : undefined}
+      >
+        {t.label}
+      </a>
+    ))}
+  </div>
+)}

@@ -1,0 +1,95 @@
+---
+/** 1.5 Experiencias corporativas (cinta de logos en movimiento) + Partners estratégicos */
+import { Image } from 'astro:assets';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'trustLogos'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+// La cinta se duplica para que el bucle no tenga corte
+const loop = [...data.logos, ...data.logos];
+const main = data.partners.filter((p) => p.type === 'partner');
+const allies = data.partners.filter((p) => p.type === 'ally');
+---
+
+<section id={data.anchor || undefined} class="bg-white py-14 dark:bg-slate-950">
+  <div class="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
+    {data.logos.length > 0 && (
+      <div>
+        <div class="mb-6 text-center">
+          {data.kicker && <span class="text-xs font-extrabold tracking-[0.2em] text-slate-400 uppercase" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+          {data.title && (
+            <h3 class="mt-1 font-display text-lg font-extrabold text-brand-navy sm:text-xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h3>
+          )}
+        </div>
+        <div class="marquee-mask relative overflow-hidden py-3">
+          <div class="marquee-track flex items-center gap-6">
+            {loop.map((l, i) =>
+              l.logo ? (
+                <div class="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl border border-slate-200/80 bg-white px-5 py-3 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-apple dark:border-white/10" title={l.name}>
+                  <Image
+                    src={l.logo}
+                    alt={i < data.logos.length ? l.name : ''}
+                    height={112}
+                    class="max-h-12 w-auto max-w-full object-contain"
+                    aria-hidden={i >= data.logos.length ? 'true' : undefined}
+                  />
+                </div>
+              ) : (
+                <span class="font-display text-xl font-black tracking-tight whitespace-nowrap text-slate-400 dark:text-slate-500" aria-hidden={i >= data.logos.length ? 'true' : undefined}>
+                  {l.name}
+                </span>
+              )
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+
+    {(data.partnersTitle || data.partners.length > 0) && (
+      <div class="border-t border-slate-100 pt-8 dark:border-slate-800/80">
+        <div class="grid grid-cols-1 items-center gap-7 rounded-[2rem] border border-slate-200/80 bg-brand-cream/80 p-6 sm:p-8 lg:grid-cols-12 lg:gap-8 dark:border-slate-800 dark:bg-slate-900">
+          <div class="text-center lg:col-span-3 lg:text-left">
+            {data.partnersKicker && (
+              <span class="text-[11px] font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400" data-cms={`${path}.partnersKicker`}>{data.partnersKicker}</span>
+            )}
+            <h3 class="mt-1 font-display text-xl leading-snug font-extrabold text-brand-navy dark:text-white" data-cms={`${path}.partnersTitle`}>{data.partnersTitle}</h3>
+            {data.partnersText && <p class="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400" data-cms={`${path}.partnersText`}>{data.partnersText}</p>}
+          </div>
+
+          {main.length > 0 && (
+            <div class="flex flex-col items-center gap-2 lg:col-span-2">
+              <span class="partner-tag">{data.partnerLabel}</span>
+              {main.map((p) => (
+                <div class="partner-main group relative flex h-32 w-full max-w-[11rem] items-center justify-center rounded-2xl bg-white p-3 shadow-apple ring-1 ring-amber-300/60 dark:bg-white" title={p.name}>
+                  {p.logo && <Image src={p.logo} alt={p.name} height={240} class="max-h-full w-auto object-contain transition duration-500 group-hover:scale-105" />}
+                </div>
+              ))}
+              {main[0]?.note && <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">{main[0].note}</span>}
+            </div>
+          )}
+
+          {allies.length > 0 && (
+            <div class:list={['lg:border-l lg:border-slate-200 lg:pl-8 dark:lg:border-white/10', main.length > 0 ? 'lg:col-span-7' : 'lg:col-span-9']}>
+              <span class="mb-3 block text-center text-[10px] font-extrabold tracking-[0.2em] text-slate-400 uppercase lg:text-left">{data.alliesLabel}</span>
+              <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                {allies.map((p) => (
+                  <div class="group flex h-20 items-center justify-center rounded-xl border border-slate-200/80 bg-white p-2.5 transition duration-300 hover:-translate-y-0.5 hover:shadow-apple dark:border-white/10" title={p.name}>
+                    {p.logo ? (
+                      <Image src={p.logo} alt={p.name} height={160} class="max-h-full w-auto rounded-md object-contain grayscale-[35%] transition duration-300 group-hover:grayscale-0" />
+                    ) : (
+                      <span class="text-center text-xs font-bold text-brand-navy">{p.name}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</section>

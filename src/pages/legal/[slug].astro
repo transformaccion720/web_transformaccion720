@@ -1,0 +1,32 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LegalShell from '@/components/legal/LegalShell.astro';
+import { formatDate, getLegalPages, getSite } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const pages = await getLegalPages();
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: Awaited<ReturnType<typeof getLegalPages>>[number] };
+const site = await getSite();
+const { Content } = await render(page);
+const d = page.data;
+---
+
+<BaseLayout title={`${d.title} • ${site.brandName}`} description={d.description}>
+  <LegalShell current={page.id} kicker={d.kicker} title={d.heading || d.title} subtitle={`Última actualización: ${formatDate(d.updatedAt)}`} cmsPrefix="legal">
+    <div class="prose-body legal-body text-sm sm:text-base">
+      <Content />
+    </div>
+  </LegalShell>
+</BaseLayout>
+
+<style>
+  .legal-body > :global(p:first-child) {
+    font-size: inherit;
+    font-weight: 400;
+    color: inherit;
+  }
+</style>

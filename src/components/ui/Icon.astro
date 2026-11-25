@@ -1,0 +1,23 @@
+---
+/**
+ * Ícono elegido en el CMS (ver src/lib/block-icons.ts). 'none' no dibuja nada.
+ * Los que tienen `ta` usan el set propio TA720 (SVG con volumen y acento naranja); el resto, Lucide.
+ */
+import { ICONS, type IconName } from '@/lib/block-icons';
+import { renderTaIcon } from '@/lib/ta720-icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+}
+
+const { name, size = 16, class: className = '', strokeWidth = 2 } = Astro.props;
+const entry = name !== 'none' ? (ICONS[name] as { icon: typeof import('lucide-react').Star; ta?: string } | undefined) : undefined;
+const Lucide = entry && !entry.ta ? entry.icon : null;
+const svg = entry?.ta ? renderTaIcon(entry.ta, size) : '';
+---
+
+{svg && <span class:list={['inline-flex shrink-0 leading-none', className]} set:html={svg} />}
+{Lucide && <Lucide size={size} strokeWidth={strokeWidth} className={className} aria-hidden="true" />}

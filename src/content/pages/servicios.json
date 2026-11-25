@@ -1,0 +1,627 @@
+{
+  "title": "Servicios",
+  "seoTitle": "Servicios: Consultoría, Soluciones Digitales y Formación • TransformAcción720",
+  "seoDescription": "Transformación organizacional y procesos, soluciones digitales e IA aplicada (webs, sistemas, BI) y entrenamiento de líderes y equipos en Perú y LATAM.",
+  "sections": [
+    {
+      "discriminant": "pageHero",
+      "value": {
+        "kicker": "Portafolio de Servicios",
+        "title": "Soluciones integrales para escalar",
+        "text": "Elige la línea de intervención que tu organización necesita hoy.",
+        "tabs": [
+          {
+            "label": "1. Transformación",
+            "key": "transformacion"
+          },
+          {
+            "label": "2. Soluciones Digitales",
+            "key": "soluciones-digitales"
+          },
+          {
+            "label": "3. Entrenamiento y Formación",
+            "key": "formacion"
+          }
+        ],
+        "anchor": ""
+      }
+    },
+    {
+      "discriminant": "serviceDetail",
+      "value": {
+        "badge": "Estrategia & Roadmaps",
+        "tone": "orange",
+        "title": "Estrategia & Roadmaps de Transformación",
+        "text": "Co-diseñamos el futuro de tu organización alineando datos, procesos, personas y tecnología. Estructuramos la estrategia desde el diagnóstico hasta la ejecución para asegurar un retorno de inversión real y sostenible.",
+        "checks": [
+          "Diagnóstico de madurez operativa y digital",
+          "Diseño de hojas de ruta de transformación",
+          "Rediseño de procesos y eficiencia operacional",
+          "Estrategia de gestión del cambio y evolución cultural"
+        ],
+        "primary": {
+          "text": "Solicitar Propuesta",
+          "action": "contact",
+          "value": "Transformación (Consultoría)"
+        },
+        "primaryStyle": "navy",
+        "secondary": {
+          "text": "▶ Ver Video Introductorio",
+          "action": "video",
+          "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
+        },
+        "image": "@/assets/images/pages/servicios/sections/1/value/media/image.jpg",
+        "imageAlt": "Consultoría",
+        "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+        "videoTitle": "Servicio: Transformación y Consultoría",
+        "about": {
+          "kicker": "Alcance Ejecutivo",
+          "tone": "orange",
+          "title": "¿En qué consiste?",
+          "text": "Aplicamos **CORE720** (Calibrar, Operar, Revisar y Escalar) junto a tus líderes: diagnosticamos el estado actual, priorizamos iniciativas de alto retorno y acompañamos la implementación directamente en la operación, con medición E2E de tus procesos e indicadores clave.",
+          "facts": [
+            "Duración: 8 a 16 semanas",
+            "Modalidad: Híbrida / Presencial"
+          ]
+        },
+        "includes": {
+          "kicker": "Entregables Clave",
+          "tone": "teal",
+          "title": "¿Qué incluye?",
+          "items": [
+            "Diagnóstico de madurez operativa y digital.",
+            "Hoja de ruta de transformación priorizada por retorno.",
+            "Procesos rediseñados (As-Is / To-Be) y matriz de fugas de tiempo.",
+            "Plan de gestión del cambio y evolución cultural.",
+            "Quick wins que autofinancian tu transformación desde el primer mes."
+          ]
+        },
+        "experience": {
+          "image": "@/assets/images/pages/servicios/sections/1/value/experience/image.jpg",
+          "imageAlt": "Experiencia en Consultoría",
+          "badge": "Impacto Comprobado",
+          "badgeTone": "orange",
+          "caption": "Sesiones directivas de rediseño operativo y OKRs en Perú y LATAM",
+          "kicker": "Resultados esperados",
+          "title": "Lo que se logra con CORE720",
+          "metrics": [
+            {
+              "value": "20% a 40%",
+              "label": "Incremento de la productividad operativa",
+              "note": "Maximizando el ROI del negocio",
+              "tone": "orange"
+            },
+            {
+              "value": "10% a 20%",
+              "label": "Reducción de costos de operación",
+              "note": "Eliminación estratégica de fricciones y desperdicios",
+              "tone": "teal"
+            },
+            {
+              "value": "+15 pts",
+              "label": "Satisfacción del cliente corporativo (NPS/CSAT)",
+              "note": "Mediante servicios ágiles y escalables",
+              "tone": "blue"
+            }
+          ],
+          "slides": [
+            {
+              "image": "@/assets/images/pages/servicios/sections/1/value/experience/slides/0/image.jpg",
+              "alt": "Sesión directiva de estrategia"
+            },
+            {
+              "image": "@/assets/images/pages/servicios/sections/1/value/experience/slides/1/image.jpg",
+              "alt": "Equipo trabajando en rediseño de procesos"
+            }
+          ]
+        },
+        "anchor": "",
+        "panel": "transformacion"
+      }
+    },
+    {
+      "discriminant": "ctaBand",
+      "value": {
+        "style": "navy",
+        "title": "¿Listo para ordenar y escalar tu operación?",
+        "text": "Probemos el motor de tu organización: agenda una sesión exploratoria de 30 minutos y define tus 3 palancas de mayor retorno.",
+        "buttons": [
+          {
+            "text": "AGENDAR CONSULTORÍA",
+            "action": "contact",
+            "value": "Transformación (Consultoría)"
+          },
+          {
+            "text": "ESCRÍBENOS POR WHATSAPP",
+            "action": "link",
+            "value": "https://wa.me/51963477301"
+          }
+        ],
+        "anchor": "",
+        "panel": "transformacion",
+        "kicker": "Consultoría ejecutiva",
+        "icon": "trendingUp"
+      }
+    },
+    {
+      "discriminant": "segmentTabs",
+      "value": {
+        "tabs": [
+          {
+            "label": "1. Qué Hacemos & Alcance",
+            "key": "alcance"
+          },
+          {
+            "label": "2. Webs, Sistemas & Portafolio",
+            "key": "portafolio"
+          }
+        ],
+        "anchor": "",
+        "panel": "soluciones-digitales"
+      }
+    },
+    {
+      "discriminant": "serviceDetail",
+      "value": {
+        "badge": "Tecnología & Automatización",
+        "tone": "blue",
+        "title": "Soluciones Digitales e IA Aplicada",
+        "text": "Construimos las soluciones que tu empresa necesita para escalar. Optimizamos tu operación mediante la automatización de procesos y convertimos tus datos en ventajas competitivas para la toma de decisiones.",
+        "checks": [
+          "Gestión de datos y tableros de control (BI & Analytics)",
+          "Automatización de procesos (RPA & Low-Code)",
+          "Desarrollo de soluciones digitales (Web / SaaS)"
+        ],
+        "primary": {
+          "text": "Ver Portafolio & Planes Web ➡️",
+          "action": "link",
+          "value": "#portafolio"
+        },
+        "primaryStyle": "blue",
+        "secondary": {
+          "text": "▶ Ver Video",
+          "action": "video",
+          "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
+        },
+        "image": "@/assets/images/pages/servicios/sections/4/value/media/image.jpg",
+        "imageAlt": "Soluciones Digitales",
+        "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+        "videoTitle": "Servicio: Soluciones Digitales",
+        "about": {
+          "kicker": "Enfoque de Ingeniería",
+          "tone": "blue",
+          "title": "¿En qué consiste?",
+          "text": "Unimos diseño UX/UI con ingeniería ágil para entregar productos digitales rápidos, seguros y escalables, siempre al servicio de tu estrategia: que impacten en tus ventas y en el ahorro operativo.",
+          "facts": []
+        },
+        "includes": {
+          "kicker": "Entregables",
+          "tone": "teal",
+          "title": "¿Qué incluye?",
+          "items": [
+            "Arquitectura UX/UI responsive orientada a conversión.",
+            "Integraciones con WhatsApp, CRM, pasarelas y APIs.",
+            "Capacitación de administración y soporte post-lanzamiento."
+          ]
+        },
+        "experience": {
+          "image": null,
+          "imageAlt": "",
+          "badge": "",
+          "badgeTone": "orange",
+          "caption": "",
+          "kicker": "",
+          "title": "",
+          "metrics": [],
+          "slides": []
+        },
+        "anchor": "",
+        "panel": "soluciones-digitales alcance"
+      }
+    },
+    {
+      "discriminant": "webPackages",
+      "value": {
+        "kicker": "Desarrollo Web & Sistemas",
+        "title": "Soluciones listas para impulsar tu negocio",
+        "plans": [
+          {
+            "tag": "Plan Impulso",
+            "tone": "teal",
+            "title": "Web Corporativa Premium",
+            "desc": "Ideal para empresas que buscan posicionamiento de autoridad y captación de leads.",
+            "features": [
+              "Diseño UI/UX a medida estilo Apple",
+              "Optimización SEO y velocidad móvil",
+              "Integración WhatsApp + Formularios CRM",
+              "Hosting, SSL y capacitación de uso"
+            ],
+            "featured": false,
+            "ribbon": "",
+            "button": {
+              "text": "Cotizar Web",
+              "action": "contact",
+              "value": "Web Corporativa Premium"
+            }
+          },
+          {
+            "tag": "Plan Escala",
+            "tone": "orange",
+            "title": "Sistema Web / Plataforma a Medida",
+            "desc": "Digitaliza reservas, pedidos, operaciones internas o portales de clientes.",
+            "features": [
+              "Panel administrativo con roles y permisos",
+              "Base de datos en la nube y reportes exportables",
+              "Automatizaciones y notificaciones automáticas",
+              "Soporte técnico dedicado por 90 días"
+            ],
+            "featured": true,
+            "ribbon": "Más Solicitado",
+            "button": {
+              "text": "Cotizar Sistema",
+              "action": "contact",
+              "value": "Sistema Web a Medida"
+            }
+          },
+          {
+            "tag": "Plan Inteligencia",
+            "tone": "blue",
+            "title": "BI, E-commerce & Flujos IA",
+            "desc": "Automatiza ventas online, atención al cliente con IA y tableros gerenciales.",
+            "features": [
+              "Tienda online con pasarela de pagos PE",
+              "Dashboards Power BI en tiempo real",
+              "Agentes IA para atención y calificación",
+              "Integración con ERP / hojas de cálculo"
+            ],
+            "featured": false,
+            "ribbon": "",
+            "button": {
+              "text": "Cotizar Solución",
+              "action": "contact",
+              "value": "BI, E-commerce & IA"
+            }
+          }
+        ],
+        "anchor": "",
+        "panel": "soluciones-digitales portafolio"
+      }
+    },
+    {
+      "discriminant": "portfolioGrid",
+      "value": {
+        "kicker": "Portafolio Digital",
+        "title": "Proyectos Web & Sistemas Entregados",
+        "allLabel": "Todos",
+        "filters": [
+          {
+            "key": "web",
+            "label": "Web Corporativa"
+          },
+          {
+            "key": "sistema",
+            "label": "Sistemas & Apps"
+          },
+          {
+            "key": "bi",
+            "label": "BI & IA"
+          },
+          {
+            "key": "ecommerce",
+            "label": "E-commerce"
+          }
+        ],
+        "detailText": "Ver detalle ➡️",
+        "solutionLabel": "Qué se implementó",
+        "resultLabel": "Impacto en el negocio",
+        "closeText": "Cerrar",
+        "ctaText": "Cotizar un proyecto similar ➡️",
+        "ctaPrefix": "Proyecto similar a: ",
+        "projects": [
+          {
+            "category": "web",
+            "categoryLabel": "Web Corporativa",
+            "tone": "blue",
+            "image": "@/assets/images/pages/servicios/sections/6/value/projects/0/image.jpg",
+            "imageAlt": "Web Corporativa",
+            "title": "Grupo Inmobiliario Andino",
+            "summary": "Portal interactivo + cotizador online (+62% leads).",
+            "modalCategory": "Web Corporativa - Sector Inmobiliario",
+            "desc": "Rediseño integral de su ecosistema digital para posicionar proyectos residenciales y capturar prospectos calificados desde dispositivos móviles.",
+            "solution": "Web corporativa estilo Apple con cotizador interactivo por cuota inicial, tour visual de proyectos e integración directa con WhatsApp Business y CRM.",
+            "result": "+62% en leads calificados durante el primer trimestre y reducción del 40% en el tiempo de respuesta comercial.",
+            "tags": [
+              "UX/UI Premium",
+              "Cotizador Web",
+              "Integración CRM",
+              "SEO Local"
+            ]
+          },
+          {
+            "category": "sistema",
+            "categoryLabel": "Sistemas & Apps",
+            "tone": "orange",
+            "image": "@/assets/images/pages/servicios/sections/6/value/projects/1/image.jpg",
+            "imageAlt": "Sistema Operativo",
+            "title": "LogiTrack Operaciones",
+            "summary": "Sistema web de despacho y trazabilidad en tiempo real.",
+            "modalCategory": "Sistemas & Apps - Logística",
+            "desc": "Plataforma web a medida para reemplazar hojas de cálculo dispersas y controlar despachos, rutas y entregas de última milla en tiempo real.",
+            "solution": "Sistema web responsivo con roles para supervisores y transportistas, carga de evidencias fotográficas y alertas automáticas de demora.",
+            "result": "99.2% de trazabilidad diaria y ahorro de 18 horas semanales en consolidación manual de reportes.",
+            "tags": [
+              "Sistema Web",
+              "Base de Datos Cloud",
+              "Roles & Permisos",
+              "Trazabilidad"
+            ]
+          },
+          {
+            "category": "bi",
+            "categoryLabel": "BI & Automatización",
+            "tone": "teal",
+            "image": "@/assets/images/pages/servicios/sections/6/value/projects/2/image.jpg",
+            "imageAlt": "BI Ejecutivo",
+            "title": "Suite Gerencial Financiera",
+            "summary": "Control de flujo de caja y alertas automáticas con IA.",
+            "modalCategory": "BI & Automatización - Finanzas",
+            "desc": "Centralización de información contable, ventas y cobranzas para ofrecer visibilidad ejecutiva diaria al directorio.",
+            "solution": "Tableros interactivos en Power BI conectados a fuentes ERP y flujos de alertas automatizadas con IA ante desvíos de liquidez.",
+            "result": "Cierres gerenciales 4x más rápidos y recuperación anticipada de cartera vencida.",
+            "tags": [
+              "Power BI",
+              "Automatización IA",
+              "KPIs Financieros",
+              "Alertas"
+            ]
+          },
+          {
+            "category": "ecommerce",
+            "categoryLabel": "E-commerce",
+            "tone": "emerald",
+            "image": "@/assets/images/pages/servicios/sections/6/value/projects/3/image.jpg",
+            "imageAlt": "Ecommerce",
+            "title": "Tienda B2B Distribuidora",
+            "summary": "Catálogo mayorista con pedidos recurrentes y Culqi/Niubiz.",
+            "modalCategory": "E-commerce B2B - Distribución",
+            "desc": "Canal digital de autogestión para clientes mayoristas que antes realizaban todos sus pedidos por llamadas y mensajes.",
+            "solution": "Catálogo online con precios diferenciados por cliente, historial de reposición en un clic y pasarela de pagos integrada (Culqi / Niubiz).",
+            "result": "+48% en recurrencia de pedidos y 35% menos errores de digitación en facturación.",
+            "tags": [
+              "E-commerce B2B",
+              "Culqi / Niubiz",
+              "Pedidos Recurrentes",
+              "Catálogo"
+            ]
+          }
+        ],
+        "anchor": "",
+        "panel": "soluciones-digitales portafolio"
+      }
+    },
+    {
+      "discriminant": "ctaBand",
+      "value": {
+        "style": "navy",
+        "title": "¿Necesitas una web de alto impacto o un sistema a medida?",
+        "text": "Te mostramos una propuesta técnica y un estimado en menos de 48 horas.",
+        "buttons": [
+          {
+            "text": "COTIZAR SOLUCIÓN DIGITAL",
+            "action": "contact",
+            "value": "Soluciones Digitales"
+          },
+          {
+            "text": "ESCRÍBENOS POR WHATSAPP",
+            "action": "link",
+            "value": "https://wa.me/51963477301"
+          }
+        ],
+        "anchor": "",
+        "panel": "soluciones-digitales",
+        "kicker": "Webs, sistemas, BI e IA",
+        "icon": "code"
+      }
+    },
+    {
+      "discriminant": "serviceDetail",
+      "value": {
+        "badge": "Entrenamiento & Formación",
+        "tone": "teal",
+        "title": "Entrenamiento & Formación Empresarial",
+        "text": "Desarrollamos las competencias del futuro en tus líderes y equipos mediante metodologías inmersivas de alto impacto y simulación de entornos reales: learning by doing.",
+        "checks": [
+          "Agilidad estratégica y resolución de situaciones complejas",
+          "Cultura, reconocimiento y gestión del cambio",
+          "Ecosistemas colaborativos y equipos conectados",
+          "Liderazgo transformacional: de jefes tradicionales a líderes servidores"
+        ],
+        "primary": {
+          "text": "Diseñar Programa In-House",
+          "action": "contact",
+          "value": "Entrenamiento y Formación"
+        },
+        "primaryStyle": "teal",
+        "secondary": {
+          "text": "▶ Ver Video",
+          "action": "video",
+          "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
+        },
+        "image": "@/assets/images/pages/servicios/sections/8/value/media/image.jpg",
+        "imageAlt": "Entrenamiento y Formación",
+        "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+        "videoTitle": "Servicio: Entrenamiento y Formación",
+        "about": {
+          "kicker": "Nuestro factor diferencial",
+          "tone": "teal",
+          "title": "No entrenamos por entrenar",
+          "text": "Habilitamos ecosistemas de ejecución donde cada concepto se valida resolviendo tus retos reales de negocio. Por eso la teoría y la práctica se convierten en ROI desde el inicio.",
+          "facts": [
+            "Partner Oficial de Certiprof",
+            "Certificación internacional"
+          ]
+        },
+        "includes": {
+          "kicker": "",
+          "tone": "teal",
+          "title": "¿Qué incluye?",
+          "items": [
+            "Diagnóstico previo de brechas del equipo.",
+            "Toolbox de herramientas listo para usar.",
+            "Tablero de adopción de capacidades (KPIs).",
+            "Evaluación de impacto y certificación internacional (Certiprof)."
+          ]
+        },
+        "experience": {
+          "image": "@/assets/images/pages/servicios/sections/8/value/experience/image.jpg",
+          "imageAlt": "Talleres y Formación Empresarial",
+          "badge": "Escuelas In-House",
+          "badgeTone": "teal",
+          "caption": "Talleres vivenciales de liderazgo, agilidad e IA aplicada a retos reales",
+          "kicker": "Impacto en Talento",
+          "title": "Experiencias y métricas logradas",
+          "metrics": [
+            {
+              "value": "+4,000",
+              "label": "Líderes y mandos entrenados",
+              "note": "Banca, Salud & Retail",
+              "tone": "teal"
+            },
+            {
+              "value": "98%",
+              "label": "Índice de satisfacción (NPS)",
+              "note": "Talleres presenciales e híbridos",
+              "tone": "orange"
+            },
+            {
+              "value": "+41%",
+              "label": "Aplicación directa en campo",
+              "note": "Evaluado a los 45 días",
+              "tone": "blue"
+            }
+          ],
+          "slides": [
+            {
+              "image": "@/assets/images/pages/servicios/sections/8/value/experience/slides/0/image.jpg",
+              "alt": "Taller vivencial de liderazgo"
+            },
+            {
+              "image": "@/assets/images/pages/servicios/sections/8/value/experience/slides/1/image.jpg",
+              "alt": "Facilitación de programa in-house"
+            }
+          ]
+        },
+        "anchor": "",
+        "panel": "formacion"
+      }
+    },
+    {
+      "discriminant": "cards",
+      "value": {
+        "kicker": "Formatos de implementación",
+        "title": "El formato que tu necesidad pide",
+        "subtitle": "Cada formato tiene su ritmo y un entregable concreto.",
+        "columns": "4",
+        "items": [
+          {
+            "icon": "presentation",
+            "image": null,
+            "title": "Talleres ejecutivos",
+            "desc": "Para romper la inercia. De 2 a 4 horas. Entregable: diagnóstico de brechas, plan de prioridades inmediatas y una experiencia vivencial.",
+            "href": ""
+          },
+          {
+            "icon": "book",
+            "image": null,
+            "title": "Escuela modular interactiva",
+            "desc": "Para cerrar brechas de competencias. De 3 a 6 módulos. Entregable: plan de acción aplicado y Toolbox listo para usar.",
+            "href": ""
+          },
+          {
+            "icon": "users",
+            "image": null,
+            "title": "Train the Trainers",
+            "desc": "Para multiplicar el impacto habilitando líderes. De 12 a 32 horas. Entregable: célula interna de facilitadores certificados y manual de despliegue propio.",
+            "href": ""
+          },
+          {
+            "icon": "userCheck",
+            "image": null,
+            "title": "Mentoría y refuerzo",
+            "desc": "Para garantizar la adopción. Ritmo mensual. Entregable: tablero de adopción de capacidades (KPIs).",
+            "href": ""
+          }
+        ],
+        "anchor": "",
+        "panel": "formacion",
+        "background": "muted"
+      }
+    },
+    {
+      "discriminant": "cards",
+      "value": {
+        "kicker": "Nuestras experiencias",
+        "title": "Más que capacitación: experiencias de transformación",
+        "subtitle": "Diseñamos experiencias que desarrollan capacidades, fortalecen la cultura y generan impacto en los equipos y el negocio.",
+        "columns": "4",
+        "items": [
+          {
+            "icon": "handshake",
+            "image": null,
+            "title": "Comunidades de innovación y embajadores",
+            "desc": "Redes colaborativas que impulsan innovación, reconocimiento y liderazgo del cambio.",
+            "href": ""
+          },
+          {
+            "icon": "trendingUp",
+            "image": null,
+            "title": "Rutas de desarrollo en transformación",
+            "desc": "Planes de crecimiento en capacidades técnicas, metodológicas y de liderazgo.",
+            "href": ""
+          },
+          {
+            "icon": "zap",
+            "image": null,
+            "title": "Bootcamps y learning by doing",
+            "desc": "Programas prácticos y vivenciales con aplicación inmediata de lo aprendido.",
+            "href": ""
+          },
+          {
+            "icon": "target",
+            "image": null,
+            "title": "Simulaciones y shadowing",
+            "desc": "Escenarios reales para fortalecer la toma de decisiones y el desempeño profesional.",
+            "href": ""
+          }
+        ],
+        "anchor": "",
+        "panel": "formacion",
+        "background": "light"
+      }
+    },
+    {
+      "discriminant": "ctaBand",
+      "value": {
+        "style": "navy",
+        "title": "Potencia hoy las capacidades de tus líderes y equipos",
+        "text": "Diseñamos un programa a la medida de las brechas de tu equipo.",
+        "buttons": [
+          {
+            "text": "COTIZAR TALLER",
+            "action": "contact",
+            "value": "Entrenamiento y Formación"
+          },
+          {
+            "text": "ESCRÍBENOS POR WHATSAPP",
+            "action": "link",
+            "value": "https://wa.me/51963477301"
+          }
+        ],
+        "anchor": "",
+        "panel": "formacion",
+        "kicker": "Programas in-house",
+        "icon": "graduation"
+      }
+    }
+  ]
+}

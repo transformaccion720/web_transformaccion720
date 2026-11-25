@@ -1,0 +1,70 @@
+---
+/** Vitrina de logos (clientes, hoteles, certificadoras) en tarjetas blancas */
+import { Image } from 'astro:assets';
+import Icon from '@/components/ui/Icon.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'logos'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+---
+
+<section
+  id={data.anchor || undefined}
+  aria-label={data.title || 'Logos'}
+  class:list={[
+    'relative overflow-hidden border-y border-brand-200/80 bg-gradient-to-r from-brand-50 via-white to-brand-50',
+    first ? 'pt-32 pb-10' : 'py-10',
+  ]}
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {(data.kicker || data.title) && (
+      <div class="mb-6 flex flex-col items-center text-center">
+        {data.kicker && (
+          <span class="mb-1.5 inline-flex items-center gap-2 rounded-full bg-brand-100 px-3.5 py-1 text-[10px] font-extrabold tracking-[0.22em] text-brand-700 uppercase">
+            <Icon name={data.kickerIcon} size={13} />
+            <span data-cms={`${path}.kicker`}>{data.kicker}</span>
+          </span>
+        )}
+        {data.title && (
+          <h2 class="text-lg font-bold text-brand-950 sm:text-xl" data-cms={`${path}.title`}>
+            {data.title}
+          </h2>
+        )}
+        {data.subtitle && (
+          <p class="mt-2 max-w-2xl text-sm text-gray-600" data-cms={`${path}.subtitle`}>
+            {data.subtitle}
+          </p>
+        )}
+      </div>
+    )}
+
+    <ul class="grid grid-cols-2 items-center gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      {data.logos.map((l, i) => {
+        const Tag = l.url ? 'a' : 'div';
+        return (
+          <li>
+            <Tag
+              href={l.url || undefined}
+              target={l.url ? '_blank' : undefined}
+              rel={l.url ? 'noopener noreferrer' : undefined}
+              class="group flex h-20 items-center justify-center rounded-2xl border border-brand-200/70 bg-white px-4 shadow-sm transition hover:border-brand-500 hover:bg-brand-50/60 hover:shadow-md"
+            >
+              <Image
+                src={l.logo}
+                alt={l.name}
+                height={80}
+                class="h-10 w-auto max-w-full object-contain opacity-80 transition group-hover:opacity-100"
+                data-cms={`${path}.logos.${i}.logo`}
+              />
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

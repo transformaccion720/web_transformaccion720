@@ -1,0 +1,103 @@
+/**
+ * Íconos que se pueden elegir en el CMS (lucide-react). Fuente única para keystatic.config.ts,
+ * content.config.ts y el componente Icon.astro. Para añadir uno: sumarlo aquí.
+ */
+import {
+  Award,
+  BarChart3,
+  BookOpen,
+  Bot,
+  Brain,
+  Building2,
+  CircleCheck,
+  Database,
+  ClipboardCheck,
+  Clock,
+  Code,
+  Cpu,
+  Download,
+  FileText,
+  GraduationCap,
+  Handshake,
+  Heart,
+  LayoutDashboard,
+  Lightbulb,
+  Lock,
+  Mail,
+  MapPin,
+  Monitor,
+  Phone,
+  Presentation,
+  Rocket,
+  Send,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sparkles,
+  Star,
+  Target,
+  TrendingUp,
+  UserCheck,
+  UserRound,
+  Users,
+  UsersRound,
+  WandSparkles,
+  Workflow,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react';
+import type { TA_ICONS } from './ta720-icons';
+
+/** Entradas con `ta`: se dibujan con el set propio TA720 (src/lib/ta720-icons.ts); `icon` queda de respaldo. */
+type Entry = { label: string; icon: LucideIcon; ta?: keyof typeof TA_ICONS };
+
+export const ICONS = {
+  trendingUp: { label: 'Estrategia / Roadmap TA720', icon: TrendingUp, ta: 'estrategia' },
+  code: { label: 'Soluciones digitales TA720', icon: Code, ta: 'digital' },
+  users: { label: 'Formación / Talento TA720', icon: Users, ta: 'formacion' },
+  usersRound: { label: 'Comunidad', icon: UsersRound },
+  clipboardCheck: { label: 'Diagnóstico TA720', icon: ClipboardCheck, ta: 'diagnostico' },
+  sliders: { label: 'Diseño a medida TA720', icon: SlidersHorizontal, ta: 'medida' },
+  zap: { label: 'Ejecución ágil TA720', icon: Zap, ta: 'ejecucion' },
+  chart: { label: 'Impacto medible TA720', icon: BarChart3, ta: 'impacto' },
+  dashboard: { label: 'Tablero / BI', icon: LayoutDashboard },
+  workflow: { label: 'Procesos TA720', icon: Workflow, ta: 'procesos' },
+  download: { label: 'Descarga', icon: Download },
+  shieldCheck: { label: 'Escudo con check / Certificación', icon: ShieldCheck },
+  monitor: { label: 'Pantalla / Campus LMS', icon: Monitor },
+  graduation: { label: 'Birrete / Programas', icon: GraduationCap },
+  presentation: { label: 'Presentación / Talleres', icon: Presentation },
+  brain: { label: 'Cerebro / IA', icon: Brain },
+  bot: { label: 'Robot / Asistente IA', icon: Bot },
+  cpu: { label: 'Tecnología / IA TA720', icon: Cpu, ta: 'tecnologia' },
+  rocket: { label: 'Cohete', icon: Rocket },
+  target: { label: 'Objetivo', icon: Target },
+  datos: { label: 'Datos TA720', icon: Database, ta: 'datos' },
+  personas: { label: 'Personas / Cultura TA720', icon: UserRound, ta: 'personas' },
+  lightbulb: { label: 'Idea', icon: Lightbulb },
+  award: { label: 'Premio / Calidad', icon: Award },
+  star: { label: 'Estrella', icon: Star },
+  check: { label: 'Check', icon: CircleCheck },
+  sparkles: { label: 'Destellos', icon: Sparkles },
+  wand: { label: 'Varita', icon: WandSparkles },
+  handshake: { label: 'Apretón de manos / Alianzas', icon: Handshake },
+  heart: { label: 'Corazón', icon: Heart },
+  userCheck: { label: 'Persona con check', icon: UserCheck },
+  building: { label: 'Edificio / Empresa', icon: Building2 },
+  book: { label: 'Libro', icon: BookOpen },
+  file: { label: 'Documento', icon: FileText },
+  lock: { label: 'Candado / Confidencial', icon: Lock },
+  clock: { label: 'Reloj / Horario', icon: Clock },
+  phone: { label: 'Teléfono', icon: Phone },
+  mail: { label: 'Correo', icon: Mail },
+  send: { label: 'Enviar', icon: Send },
+  pin: { label: 'Ubicación', icon: MapPin },
+} satisfies Record<string, Entry>;
+
+export type IconName = keyof typeof ICONS | 'none';
+
+export const ICON_NAMES = ['none', ...Object.keys(ICONS)] as [IconName, ...IconName[]];
+
+export const ICON_OPTIONS = [
+  { value: 'none', label: 'Sin ícono' },
+  ...Object.entries(ICONS).map(([value, { label }]) => ({ value, label })),
+];

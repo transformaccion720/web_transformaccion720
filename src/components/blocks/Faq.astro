@@ -1,0 +1,35 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'faq'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+---
+
+<Section anchor={data.anchor} background={data.background} first={first} containerClass="max-w-3xl">
+  <SectionHeading kicker={data.kicker} title={data.title} subtitle={data.subtitle} path={path} />
+  <div class="divide-y divide-line border-y border-line">
+    {data.items.map((item, i) => (
+      <details class="group py-5" open={i === 0}>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
+          <span data-cms={`${path}.items.${i}.question`}>{item.question}</span>
+          <span class="text-xl text-primary transition group-open:rotate-45" aria-hidden="true">
+            +
+          </span>
+        </summary>
+        <p
+          class="mt-3 leading-relaxed whitespace-pre-line text-ink-soft"
+          data-cms={`${path}.items.${i}.answer`}
+        >
+          {item.answer}
+        </p>
+      </details>
+    ))}
+  </div>
+</Section>

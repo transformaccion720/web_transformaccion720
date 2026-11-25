@@ -1,0 +1,205 @@
+---
+/**
+ * 2.2 Filosofía y metodología, en horizontal: encabezado (título + texto) y beneficios en una fila, y debajo un
+ * panel de vidrio con 3 pestañas (Ikigai, Pilares, CORE720). Se adapta a modo claro y oscuro; la altura del panel
+ * es fija en escritorio para que no salte al cambiar de pestaña.
+ */
+import Icon from '@/components/ui/Icon.astro';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'methodology'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const ik = data.ikigai;
+const tabs = [
+  { key: 'ikigai', label: data.tabIkigai },
+  { key: 'pilares', label: data.tabPillars },
+  { key: 'core', label: data.tabCore },
+];
+const label = 'fill-sky-950 dark:fill-sky-100';
+---
+
+<section
+  id={data.anchor || undefined}
+  class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-sky-50/70 py-14 text-slate-900 dark:from-[#071528] dark:via-[#0a1c33] dark:to-[#071528] dark:text-white"
+  data-method
+>
+  <span class="pointer-events-none absolute -top-32 -left-24 size-96 rounded-full bg-sky-300/25 blur-3xl dark:bg-blue-500/15" aria-hidden="true"></span>
+  <span class="pointer-events-none absolute -right-24 -bottom-32 size-96 rounded-full bg-amber-200/30 blur-3xl dark:bg-teal-500/10" aria-hidden="true"></span>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-end gap-6 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-7">
+        {data.kicker && <span class="text-xs font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+        <h2 class="mt-2 font-display text-3xl leading-tight font-black text-brand-navy sm:text-4xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+      </div>
+      {data.text && <p class="text-sm leading-relaxed text-slate-600 lg:col-span-5 dark:text-slate-300" data-cms={`${path}.text`}>{data.text}</p>}
+    </div>
+
+    <div class="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      {data.highlights.map((h, i) => (
+        <div class="rounded-2xl border border-slate-200/80 bg-white/70 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+          <div class:list={['mb-1 text-sm font-bold', tone(h.tone).text]}>
+            {h.symbol} <span data-cms={`${path}.highlights.${i}.title`}>{h.title}</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400" data-cms={`${path}.highlights.${i}.desc`}>{h.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-6 rounded-[2rem] border border-white/70 bg-white/75 p-5 shadow-apple-lg ring-1 ring-slate-900/5 backdrop-blur-2xl sm:p-7 dark:border-white/10 dark:bg-white/[0.04] dark:ring-white/5">
+      <div class="mb-5 flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
+        <div>
+          {data.panelKicker && <span class="text-[11px] font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400" data-cms={`${path}.panelKicker`}>{data.panelKicker}</span>}
+          <h3 class="mt-0.5 font-display text-xl font-extrabold text-brand-navy dark:text-white" data-cms={`${path}.panelTitle`}>{data.panelTitle}</h3>
+        </div>
+        <div class="apple-segment w-full justify-between lg:w-auto" role="tablist">
+          {tabs.map((t, i) => (
+            <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-method-tab={t.key} class:list={['apple-segment-btn flex-1 text-center lg:flex-none', i === 0 && 'active']}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex items-center lg:h-[290px]">
+        <div class="w-full" data-method-panel="ikigai">
+          <div class="grid grid-cols-1 items-center gap-6 md:grid-cols-12">
+            <div class="flex justify-center md:col-span-5">
+              <svg viewBox="0 0 280 280" class="size-64 lg:size-72" role="img" aria-label="Diagrama Ikigai TA720">
+                <g class="ikigai-orbit">
+                  <circle cx="140" cy="88" r="58" fill="#0EA5E9" fill-opacity="0.22" stroke="#38BDF8" stroke-width="2"></circle>
+                  <text x="140" y="64" text-anchor="middle" class={label} font-size="11" font-weight="800" font-family="Montserrat">{ik.top}</text>
+                  <circle cx="88" cy="140" r="58" fill="#10B981" fill-opacity="0.22" stroke="#34D399" stroke-width="2"></circle>
+                  <text x="64" y="144" text-anchor="middle" class={label} font-size="10.5" font-weight="800" font-family="Montserrat">{ik.left}</text>
+                  <circle cx="192" cy="140" r="58" fill="#F59E0B" fill-opacity="0.22" stroke="#FBBF24" stroke-width="2"></circle>
+                  <text x="215" y={ik.right2 ? 137 : 143} text-anchor="middle" class={label} font-size="9.5" font-weight="800" font-family="Montserrat">{ik.right}</text>
+                  {ik.right2 && <text x="215" y="150" text-anchor="middle" class={label} font-size="9.5" font-weight="800" font-family="Montserrat">{ik.right2}</text>}
+                  <circle cx="140" cy="192" r="58" fill="#6366F1" fill-opacity="0.22" stroke="#818CF8" stroke-width="2"></circle>
+                  <text x="140" y="220" text-anchor="middle" class={label} font-size="11" font-weight="800" font-family="Montserrat">{ik.bottom}</text>
+                </g>
+                <g class="ikigai-core">
+                  <circle cx="140" cy="140" r="30" fill="#071528" stroke="#F59E0B" stroke-width="2.5"></circle>
+                  <text x="140" y="137" text-anchor="middle" fill="#FFFFFF" font-size="10" font-weight="900" font-family="Montserrat">{ik.center}</text>
+                  <text x="140" y="150" text-anchor="middle" fill="#FBBF24" font-size="9" font-weight="800" font-family="Montserrat">{ik.center2}</text>
+                </g>
+              </svg>
+            </div>
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:col-span-7">
+              {ik.items.map((it, i) => (
+                <div class:list={['rounded-2xl border-l-4 bg-slate-100/80 p-4 dark:bg-white/5', tone(it.tone).border]}>
+                  <div class:list={['text-sm font-bold', tone(it.tone).text]} data-cms={`${path}.ikigai.items.${i}.title`}>{it.title}</div>
+                  <p class="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-300" data-cms={`${path}.ikigai.items.${i}.desc`}>{it.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full" data-method-panel="pilares" hidden>
+          <div class="relative">
+            <div class="pointer-events-none absolute top-[2.6rem] right-[12.5%] left-[12.5%] hidden h-px bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 lg:block dark:from-white/5 dark:via-white/20 dark:to-white/5" aria-hidden="true">
+              <span class="pillar-runner"></span>
+            </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {data.pillars.map((p, i) => (
+                <div class="reveal-item group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 transition duration-500 hover:-translate-y-1.5 hover:border-slate-300 hover:shadow-apple-lg dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-white/20" style={`animation-delay:${i * 110}ms`}>
+                  <span class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true"></span>
+                  <span class="relative z-10 mb-4 flex size-11 items-center justify-center rounded-xl bg-brand-navy text-white shadow-md ring-4 ring-white transition duration-500 group-hover:bg-brand-orange group-hover:text-brand-deep dark:bg-white/10 dark:ring-[#0f2140]">
+                    <Icon name={p.icon} size={21} />
+                  </span>
+                  <h4 class="font-display text-lg font-bold text-brand-navy dark:text-white" data-cms={`${path}.pillars.${i}.title`}>{p.title}</h4>
+                  {p.tag && <span class="mt-0.5 text-[11px] font-bold tracking-wide text-slate-400 uppercase transition group-hover:text-brand-orange">{p.tag}</span>}
+                  <p class="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300" data-cms={`${path}.pillars.${i}.desc`}>{p.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full" data-method-panel="core" hidden data-core>
+          <div class="relative mb-5 hidden lg:block" aria-hidden="true">
+            <div class="absolute top-1/2 right-[12.5%] left-[12.5%] h-1 -translate-y-1/2 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10">
+              <div class="core-fill h-full w-0 rounded-full bg-gradient-to-r from-brand-navy via-brand-blue to-brand-orange" data-core-fill></div>
+            </div>
+            <div class="relative grid grid-cols-4">
+              {data.phases.map((p, i) => (
+                <div class="flex justify-center">
+                  <span class="core-node flex size-10 items-center justify-center rounded-full border-2 border-slate-300 bg-white font-display text-sm font-black text-slate-500 transition duration-500 dark:border-white/20 dark:bg-[#0f2140] dark:text-slate-300" data-core-node={i}>{p.letter}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {data.phases.map((p, i) => (
+              <div class="core-card reveal-item relative flex cursor-default flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-5 transition duration-500 dark:border-white/10 dark:bg-white/[0.04]" style={`animation-delay:${i * 110}ms`} data-core-card={i}>
+                <div>
+                  <div class="flex items-center gap-2.5">
+                    <span class="flex size-8 items-center justify-center rounded-lg bg-slate-100 font-display text-sm font-black text-brand-navy lg:hidden dark:bg-white/10 dark:text-white">{p.letter}</span>
+                    <h4 class="font-display text-base font-bold text-brand-navy dark:text-white" data-cms={`${path}.phases.${i}.title`}>{p.title}</h4>
+                  </div>
+                  <p class="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300" data-cms={`${path}.phases.${i}.desc`}>{p.desc}</p>
+                </div>
+                <div class="core-foot mt-4 text-[10px] font-bold tracking-wide text-slate-400 uppercase transition">{p.foot}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Recorrido CORE720: la barra avanza fase a fase y la fase activa se resalta; al pasar el cursor se elige
+  document.querySelectorAll<HTMLElement>('[data-core]').forEach((root) => {
+    const nodes = [...root.querySelectorAll<HTMLElement>('[data-core-node]')];
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-core-card]')];
+    const fill = root.querySelector<HTMLElement>('[data-core-fill]');
+    const n = cards.length;
+    let i = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const set = (k: number) => {
+      i = k;
+      nodes.forEach((x, j) => {
+        x.classList.toggle('is-done', j < k);
+        x.classList.toggle('is-on', j === k);
+      });
+      cards.forEach((c, j) => c.classList.toggle('is-on', j === k));
+      if (fill) fill.style.width = n > 1 ? `${(k / (n - 1)) * 100}%` : '100%';
+    };
+    const play = () => {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        if (!root.hidden) set((i + 1) % n);
+      }, 2600);
+    };
+    cards.forEach((c, j) => {
+      c.addEventListener('mouseenter', () => {
+        clearInterval(timer);
+        set(j);
+      });
+      c.addEventListener('mouseleave', play);
+    });
+    set(0);
+    play();
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-method]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLElement>('[data-method-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-method-panel]')];
+    tabs.forEach((t) =>
+      t.addEventListener('click', () => {
+        tabs.forEach((x) => {
+          x.classList.toggle('active', x === t);
+          x.setAttribute('aria-selected', String(x === t));
+        });
+        panels.forEach((p) => (p.hidden = p.dataset.methodPanel !== t.dataset.methodTab));
+      })
+    );
+  });
+</script>

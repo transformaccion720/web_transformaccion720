@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'team'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+---
+
+<Section anchor={data.anchor} background={data.background} first={first}>
+  <SectionHeading kicker={data.kicker} title={data.title} subtitle={data.subtitle} path={path} />
+  <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    {data.members.map((m, i) => (
+      <li class="text-center">
+        {m.photo ? (
+          <Image
+            src={m.photo}
+            alt={m.name}
+            widths={[300, 600]}
+            sizes="(min-width: 1024px) 25vw, 50vw"
+            class="aspect-square w-full rounded-[var(--radius-card)] object-cover"
+            data-cms={`${path}.members.${i}.photo`}
+          />
+        ) : (
+          <div class="aspect-square w-full rounded-[var(--radius-card)] bg-muted" aria-hidden="true" />
+        )}
+        <p class="mt-4 font-semibold" data-cms={`${path}.members.${i}.name`}>
+          {m.name}
+        </p>
+        {m.role && (
+          <p class="text-sm text-primary" data-cms={`${path}.members.${i}.role`}>
+            {m.role}
+          </p>
+        )}
+        {m.bio && (
+          <p class="mt-2 text-sm text-ink-soft" data-cms={`${path}.members.${i}.bio`}>
+            {m.bio}
+          </p>
+        )}
+      </li>
+    ))}
+  </ul>
+</Section>

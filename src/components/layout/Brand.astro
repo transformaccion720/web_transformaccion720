@@ -1,0 +1,47 @@
+---
+/**
+ * Marca TA720: isotipo + "Transform / Acción 720". Si en el CMS se sube un logo, se usa ese.
+ * tone="light" → menú oscuro (texto blanco). tone="dark" → pie de página (azul marino / blanco en modo oscuro).
+ */
+import { Image } from 'astro:assets';
+import LogoMark from '@/components/ui/LogoMark.astro';
+import type { Site } from '@/lib/content';
+
+interface Props {
+  site: Site;
+  tone?: 'light' | 'dark';
+  href?: string | null;
+  class?: string;
+}
+
+const { site, tone = 'light', href = '/', class: className = '' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const light = tone === 'light';
+---
+
+<Tag
+  href={href ?? undefined}
+  class:list={['group flex items-center gap-2.5 text-left', className]}
+  aria-label={href ? `${site.brandName} · Inicio` : undefined}
+>
+  {site.logo && (light || !site.logoLight) ? (
+    <Image src={site.logo} alt={site.brandName} height={128} class="h-14 w-auto" loading="eager" />
+  ) : site.logoLight ? (
+    <>
+      <Image src={site.logoLight} alt={site.brandName} height={96} class:list={['h-16 w-auto', site.logo && 'dark:hidden']} />
+      {site.logo && <Image src={site.logo} alt="" height={96} class="hidden h-16 w-auto dark:block" />}
+    </>
+  ) : (
+    <>
+      <LogoMark size={40} light={light} class="shrink-0 transition-transform duration-300 group-hover:scale-105" />
+      <span class:list={['leading-none', light ? 'text-[15px]' : 'text-base']}>
+        <span class:list={['block font-display font-extrabold tracking-tight', light ? 'text-white' : 'text-brand-navy dark:text-white']}>
+          Transform
+        </span>
+        <span class="block font-display font-black tracking-tight">
+          <span class={light ? 'text-[#3B82F6]' : 'text-brand-blue'}>Acción</span><span class="ml-1 text-brand-orange">720</span>
+        </span>
+      </span>
+    </>
+  )}
+</Tag>

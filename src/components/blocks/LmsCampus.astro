@@ -1,0 +1,43 @@
+---
+/**
+ * Hub 4.3 Campus LMS (por ahora informativo). Con "Enlace del campus" en el CMS el botón lleva al aula
+ * virtual (TA720Academy); sin enlace muestra el aviso, como el mockup.
+ */
+import { Image } from 'astro:assets';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'lmsCampus'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const btn = 'inline-block rounded-xl bg-brand-orange px-6 py-3 text-xs font-extrabold text-brand-deep transition hover:bg-amber-400';
+---
+
+<section id={data.anchor || undefined} class="bg-white py-14 dark:bg-slate-950">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-8 rounded-3xl bg-[#0B1F3A] p-8 text-white shadow-apple-lg sm:p-10 md:grid-cols-12">
+      <div class="space-y-4 md:col-span-7">
+        {data.badge && <span class="rounded-full bg-indigo-500/25 px-3 py-1 text-xs font-extrabold text-indigo-300 uppercase" data-cms={`${path}.badge`}>{data.badge}</span>}
+        <h2 class="font-display text-2xl font-black sm:text-3xl" data-cms={`${path}.title`}>{data.title}</h2>
+        {data.text && <p class="text-sm leading-relaxed text-slate-300" data-cms={`${path}.text`}>{data.text}</p>}
+        {data.buttonText && (
+          data.buttonHref ? (
+            <a href={data.buttonHref} class={btn} {...(/^https?:/.test(data.buttonHref) && { target: '_blank', rel: 'noopener noreferrer' })}>{data.buttonText}</a>
+          ) : (
+            <button type="button" class={btn} data-lms-notice={data.notice}>{data.buttonText}</button>
+          )
+        )}
+      </div>
+      <div class="md:col-span-5">
+        {data.image && <Image src={data.image} alt={data.imageAlt} widths={[400, 700]} sizes="(min-width: 768px) 380px, 100vw" class="h-56 w-full rounded-2xl object-cover shadow-lg" />}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { showToast } from '@/lib/toast';
+  document.querySelectorAll<HTMLElement>('[data-lms-notice]').forEach((b) => b.addEventListener('click', () => showToast(b.dataset.lmsNotice || '')));
+</script>

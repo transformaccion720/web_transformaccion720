@@ -1,0 +1,239 @@
+---
+/**
+ * Libro de Reclamaciones Virtual (INDECOPI). Formulario con las 4 secciones de la Hoja de Reclamación,
+ * datos del proveedor, número correlativo asignado al enviar y constancia imprimible.
+ */
+import { CircleCheck, Printer } from 'lucide-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LegalShell from '@/components/legal/LegalShell.astro';
+import { COMPLAINTS_SLUG, getComplaintsBook, getSite } from '@/lib/content';
+import { DOC_TYPES } from '@/lib/complaints';
+import { safeJson } from '@/lib/format';
+
+const [site, book] = await Promise.all([getSite(), getComplaintsBook()]);
+const today = new Date().toLocaleDateString('es-PE', { timeZone: 'America/Lima' });
+const label = 'mb-1.5 block text-xs font-bold text-slate-600 uppercase dark:text-slate-300';
+const input = 'w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm focus:border-brand-blue focus:outline-none';
+const legend = 'mb-3 font-display text-sm font-bold tracking-wider text-brand-blue uppercase dark:text-blue-400';
+const business = [book.businessName, book.ruc && `RUC: ${book.ruc}`, book.address].filter(Boolean).join(' - ');
+const config = { success: book.successText, contact: site.email };
+---
+
+<BaseLayout
+  title={`${book.tabLabel} • ${site.brandName}`}
+  description={`${book.title} de ${book.tradeName || site.brandName}, conforme al Código de Protección y Defensa del Consumidor.`}
+>
+  <LegalShell current={COMPLAINTS_SLUG} kicker={book.kicker} title={book.title} subtitle={business} cmsPrefix="complaintsBook">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-6 dark:border-slate-800">
+      <div>
+        <div class="text-xs font-bold text-slate-500 uppercase">Hoja de Reclamación N°</div>
+        <div class="font-display text-xl font-black text-brand-navy dark:text-white" data-number>(se asigna al enviar)</div>
+      </div>
+      <div class="text-right">
+        <div class="text-xs font-bold text-slate-500 uppercase">Fecha de registro</div>
+        <div class="text-sm font-semibold text-brand-navy dark:text-white">{today}</div>
+      </div>
+    </div>
+
+    {book.notice && <p class="mb-6 rounded-2xl bg-brand-cream p-4 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-300" data-cms="complaintsBook.notice">{book.notice}</p>}
+
+    <dl class="mb-8 grid grid-cols-1 gap-3 text-xs text-slate-600 sm:grid-cols-2 dark:text-slate-300">
+      <div><dt class="font-bold text-brand-navy uppercase dark:text-white">Razón social</dt><dd data-cms="complaintsBook.businessName">{book.businessName}</dd></div>
+      <div><dt class="font-bold text-brand-navy uppercase dark:text-white">Nombre comercial</dt><dd>{book.tradeName}</dd></div>
+      <div><dt class="font-bold text-brand-navy uppercase dark:text-white">RUC</dt><dd data-cms="complaintsBook.ruc">{book.ruc}</dd></div>
+      <div><dt class="font-bold text-brand-navy uppercase dark:text-white">Dirección</dt><dd data-cms="complaintsBook.address">{book.address}</dd></div>
+    </dl>
+
+    <form class="space-y-8" data-complaint-form novalidate>
+      <input type="text" name="honeypot" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+      <fieldset>
+        <legend class={legend}>1. Identificación del consumidor reclamante</legend>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div class="sm:col-span-3">
+            <label for="rc-name" class={label}>Nombre completo *</label>
+            <input id="rc-name" name="fullName" required minlength="3" maxlength="150" autocomplete="name" class={input} />
+          </div>
+          <div>
+            <label for="rc-doctype" class={label}>Tipo de documento *</label>
+            <select id="rc-doctype" name="docType" class={input}>
+              {DOC_TYPES.map((d) => <option value={d}>{d}</option>)}
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="rc-doc" class={label}>N° de documento *</label>
+            <input id="rc-doc" name="docNumber" required minlength="6" maxlength="20" pattern="[A-Za-z0-9\-]+" class={input} />
+          </div>
+          <div class="sm:col-span-3">
+            <label for="rc-address" class={label}>Domicilio *</label>
+            <input id="rc-address" name="address" required minlength="5" maxlength="250" autocomplete="street-address" class={input} />
+          </div>
+          <div>
+            <label for="rc-phone" class={label}>Teléfono *</label>
+            <input id="rc-phone" name="phone" type="tel" required minlength="6" maxlength="30" autocomplete="tel" class={input} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="rc-email" class={label}>Correo electrónico *</label>
+            <input id="rc-email" name="email" type="email" required maxlength="160" autocomplete="email" class={input} />
+          </div>
+          <div class="sm:col-span-3">
+            <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+              <input type="checkbox" name="isMinor" class="size-4 accent-brand-600" data-minor />
+              Soy menor de edad
+            </label>
+          </div>
+          <div class="hidden sm:col-span-3" data-guardian>
+            <label for="rc-guardian" class={label}>Nombre del padre, madre o apoderado *</label>
+            <input id="rc-guardian" name="guardianName" maxlength="150" class={input} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class={legend}>2. Identificación del bien contratado</legend>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div>
+            <span class={label}>Tipo *</span>
+            <div class="flex gap-4 pt-2 text-sm">
+              <label class="flex items-center gap-2"><input type="radio" name="goodType" value="Servicio" checked class="accent-brand-600" /> Servicio</label>
+              <label class="flex items-center gap-2"><input type="radio" name="goodType" value="Producto Digital" class="accent-brand-600" /> Producto Digital</label>
+            </div>
+          </div>
+          <div>
+            <label for="rc-amount" class={label}>Monto reclamado (S/)</label>
+            <input id="rc-amount" name="amount" inputmode="decimal" pattern="\d+([.,]\d{1,2})?" maxlength="20" placeholder="0.00" class={input} />
+          </div>
+          <div>
+            <label for="rc-order" class={label}>N° de pedido o comprobante</label>
+            <input id="rc-order" name="orderRef" maxlength="60" class={input} />
+          </div>
+          <div class="sm:col-span-3">
+            <label for="rc-good" class={label}>Descripción del producto o servicio *</label>
+            <input id="rc-good" name="goodDescription" required minlength="3" maxlength="500" placeholder="Ej: Consultoría, taller, desarrollo web…" class={input} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class={legend}>3. Detalle de la reclamación y pedido del consumidor</legend>
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <label class="flex cursor-pointer gap-3 rounded-2xl border border-slate-200 p-4 has-[:checked]:border-brand-blue has-[:checked]:bg-blue-50 dark:border-slate-700 dark:has-[:checked]:bg-slate-800">
+              <input type="radio" name="claimType" value="Reclamo" checked class="mt-1 accent-brand-600" />
+              <span><strong class="block text-sm text-brand-navy dark:text-white">Reclamo</strong><span class="text-xs text-slate-600 dark:text-slate-400">{book.reclamoDefinition}</span></span>
+            </label>
+            <label class="flex cursor-pointer gap-3 rounded-2xl border border-slate-200 p-4 has-[:checked]:border-brand-blue has-[:checked]:bg-blue-50 dark:border-slate-700 dark:has-[:checked]:bg-slate-800">
+              <input type="radio" name="claimType" value="Queja" class="mt-1 accent-brand-600" />
+              <span><strong class="block text-sm text-brand-navy dark:text-white">Queja</strong><span class="text-xs text-slate-600 dark:text-slate-400">{book.quejaDefinition}</span></span>
+            </label>
+          </div>
+          <div>
+            <label for="rc-detail" class={label}>Detalle *</label>
+            <textarea id="rc-detail" name="detail" rows="4" required minlength="10" maxlength="3000" placeholder="Describe detalladamente los hechos..." class={input}></textarea>
+          </div>
+          <div>
+            <label for="rc-request" class={label}>Pedido del consumidor *</label>
+            <textarea id="rc-request" name="request" rows="2" required minlength="3" maxlength="1500" placeholder="¿Qué solución esperas?" class={input}></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="space-y-4 border-t border-slate-200 pt-5 dark:border-slate-800">
+        <label class="flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-300">
+          <input type="checkbox" name="acceptPrivacy" required class="mt-0.5 size-4 accent-brand-600" />
+          <span>{book.privacyText} <a href="/legal/politica-de-privacidad" class="text-brand-600 underline">Ver política</a>.</span>
+        </label>
+        <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+          <p class="max-w-md rounded-2xl border border-amber-200 bg-amber-50 p-3 text-xs text-slate-700 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-slate-300" data-cms="complaintsBook.responseNote">* {book.responseNote}</p>
+          <button type="submit" class="rounded-xl bg-brand-navy px-8 py-3.5 text-sm font-extrabold text-white transition hover:bg-brand-blue dark:bg-brand-blue disabled:opacity-60">
+            <span data-cms="complaintsBook.submitText">{book.submitText}</span>
+          </button>
+        </div>
+        <p class="text-sm font-semibold text-red-700" role="alert" data-error></p>
+      </div>
+    </form>
+
+    <div class="print-area hidden rounded-2xl border border-emerald-200 bg-emerald-50 p-6 sm:p-8 dark:border-emerald-800 dark:bg-emerald-900/20" data-receipt tabindex="-1">
+      <p class="flex items-center gap-2 font-display text-lg font-bold text-emerald-800 dark:text-emerald-300">
+        <CircleCheck size={22} className="text-green-600" aria-hidden="true" />
+        {book.successTitle}
+      </p>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-receipt-text></p>
+      <button type="button" class="back-pill mt-5" data-print>
+        <Printer size={16} aria-hidden="true" /> Imprimir o guardar en PDF
+      </button>
+    </div>
+
+    {book.legalNotes.length > 0 && (
+      <ul class="mt-8 space-y-1.5 border-t border-slate-200 pt-5 dark:border-slate-800 text-[11px] text-slate-500">
+        {book.legalNotes.map((n) => <li>• {n}</li>)}
+      </ul>
+    )}
+    <script type="application/json" data-complaint-config set:html={safeJson(config)} />
+  </LegalShell>
+</BaseLayout>
+
+<script>
+  import { fill } from '@/lib/format';
+
+  const form = document.querySelector<HTMLFormElement>('[data-complaint-form]');
+  if (form) {
+    const cfg = JSON.parse(document.querySelector('[data-complaint-config]')?.textContent || '{}') as {
+      success: string;
+      contact: string;
+    };
+    const error = form.querySelector<HTMLElement>('[data-error]')!;
+    const guardian = form.querySelector<HTMLElement>('[data-guardian]')!;
+    const guardianInput = guardian.querySelector('input')!;
+
+    form.querySelector<HTMLInputElement>('[data-minor]')?.addEventListener('change', (e) => {
+      const on = (e.target as HTMLInputElement).checked;
+      guardian.classList.toggle('hidden', !on);
+      guardianInput.required = on;
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      error.textContent = '';
+      if (!form.reportValidity()) return;
+      const fd = new FormData(form);
+      const data: Record<string, unknown> = Object.fromEntries(fd);
+      data.isMinor = fd.has('isMinor');
+      data.acceptPrivacy = fd.has('acceptPrivacy');
+
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/reclamaciones', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          error.textContent =
+            body.error === 'FORM_DISABLED'
+              ? `El Libro de Reclamaciones virtual no está disponible en este momento. Escríbenos a ${cfg.contact} y registraremos tu reclamo.`
+              : (body.error ?? 'No pudimos registrar tu hoja. Inténtalo de nuevo.');
+          return;
+        }
+        const number = String(body.number);
+        document.querySelectorAll('[data-number]').forEach((el) => (el.textContent = number));
+        const receipt = document.querySelector<HTMLElement>('[data-receipt]')!;
+        receipt.querySelector('[data-receipt-text]')!.textContent = fill(cfg.success, {
+          numero: number,
+          correo: String(data.email),
+        });
+        form.classList.add('hidden');
+        receipt.classList.remove('hidden');
+        receipt.focus();
+      } catch {
+        error.textContent = 'Sin conexión. Inténtalo de nuevo.';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+  }
+</script>

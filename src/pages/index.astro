@@ -1,0 +1,9 @@
+---
+import PageView from '@/components/blocks/PageView.astro';
+import { getPages, HOME_SLUG } from '@/lib/content';
+
+const home = (await getPages()).find((p) => p.id === HOME_SLUG);
+if (!home) throw new Error(`Falta la página "${HOME_SLUG}" (portada) en src/content/pages`);
+---
+
+<PageView page={home} isHome />

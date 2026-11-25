@@ -1,0 +1,93 @@
+---
+/** 1.2 Propuesta de valor: barra de progreso con cohete 🚀 que avanza al pasar por cada paso */
+import Icon from '@/components/ui/Icon.astro';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'valueJourney'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const total = Math.max(1, data.steps.length);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section
+  id={data.anchor || undefined}
+  class="border-b border-slate-200/70 bg-brand-cream py-16 dark:border-slate-800 dark:bg-slate-900/60"
+  data-journey
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        {data.kicker && <span class="kicker" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+        <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+      </div>
+      {data.text && <p class="max-w-md text-sm text-slate-600 dark:text-slate-400" data-cms={`${path}.text`}>{data.text}</p>}
+    </div>
+
+    <div class="relative mb-8 px-2" aria-hidden="true">
+      <div class="relative h-2.5 w-full overflow-visible rounded-full bg-slate-200 dark:bg-slate-800">
+        <div class="journey-fill relative h-full rounded-full bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange" style={`width: ${Math.round(100 / total)}%`} data-journey-fill>
+          <span class="journey-rocket select-none" data-rocket><span class="rocket-body">🚀</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {data.steps.map((s, i) => {
+        const t = tone(s.tone);
+        return (
+          <button
+            type="button"
+            data-journey-step={i}
+            class:list={[
+              'journey-step cursor-pointer rounded-2xl border border-slate-200/80 bg-white p-5 text-left transition-all duration-300 dark:border-slate-800 dark:bg-slate-900',
+              i === 0 && '-translate-y-1 shadow-apple ring-2 ring-brand-orange',
+            ]}
+          >
+            <div class="mb-3 flex items-center justify-between">
+              <span class:list={['text-xs font-extrabold tracking-wider', t.text]}>{data.stepLabel} {pad(i + 1)}</span>
+              <span class:list={['flex size-9 items-center justify-center rounded-xl', t.soft]}>
+                <Icon name={s.icon} size={20} />
+              </span>
+            </div>
+            <h3 class="font-display text-base font-bold text-brand-navy dark:text-white" data-cms={`${path}.steps.${i}.title`}>{s.title}</h3>
+            <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400" data-cms={`${path}.steps.${i}.desc`}>{s.desc}</p>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-journey]').forEach((root) => {
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-journey-step]')];
+    const fill = root.querySelector<HTMLElement>('[data-journey-fill]');
+    const rocket = root.querySelector<HTMLElement>('[data-rocket]');
+    rocket?.addEventListener('animationend', (e) => {
+      if ((e as AnimationEvent).animationName === 'rocketLaunch') rocket.classList.remove('is-launch');
+    });
+    let current = 0;
+    const ACTIVE = ['ring-2', 'ring-brand-orange', 'shadow-apple', '-translate-y-1'];
+    const activate = (idx: number) => {
+      steps.forEach((s, i) => ACTIVE.forEach((c) => s.classList.toggle(c, i === idx)));
+      if (fill) fill.style.width = `${Math.round(((idx + 1) / steps.length) * 100)}%`;
+      // Despegue: el cohete se inclina, acelera y alarga su estela mientras avanza
+      if (rocket && idx !== current) {
+        rocket.classList.remove('is-launch');
+        void rocket.offsetWidth;
+        rocket.classList.add('is-launch');
+      }
+      current = idx;
+    };
+    steps.forEach((s, i) => {
+      s.addEventListener('mouseenter', () => activate(i));
+      s.addEventListener('click', () => activate(i));
+      s.addEventListener('focus', () => activate(i));
+    });
+  });
+</script>

@@ -1,0 +1,162 @@
+---
+import SeoHead from '@/components/seo/SeoHead.astro';
+import SiteHeader from '@/components/layout/SiteHeader.astro';
+import SiteFooter from '@/components/layout/SiteFooter.astro';
+import WhatsAppButton from '@/components/layout/WhatsAppButton.astro';
+import ThemeToggle from '@/components/layout/ThemeToggle.astro';
+import Toast from '@/components/layout/Toast.astro';
+import CookieConsent from '@/components/layout/CookieConsent.astro';
+import VideoModal from '@/components/modals/VideoModal.astro';
+import DiagnosticModal from '@/components/modals/DiagnosticModal.astro';
+import '@/styles/global.css';
+import { THEME_COLOR } from '@/lib/format';
+// Fuentes locales (sin Google Fonts): texto Plus Jakarta Sans, títulos Montserrat (como el mockup)
+import '@fontsource-variable/plus-jakarta-sans/wght.css';
+import '@fontsource/montserrat/latin-600.css';
+import '@fontsource/montserrat/latin-700.css';
+import '@fontsource/montserrat/latin-800.css';
+import '@fontsource/montserrat/latin-900.css';
+import sansUrl from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import displayUrl from '@fontsource/montserrat/files/montserrat-latin-900-normal.woff2?url';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description, image, type, noindex, schema } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content={THEME_COLOR} />
+    <!-- Tema claro/oscuro antes de pintar (evita el parpadeo). Igual que el mockup: elección guardada u horario. -->
+    <script is:inline>
+      (() => {
+        let dark = false;
+        try {
+          const saved = localStorage.getItem('ta720_theme');
+          if (saved) dark = saved === 'dark';
+          else {
+            const h = new Date().getHours();
+            dark = h >= 19 || h < 6;
+          }
+          if (window.parent !== window) dark = false; // vista previa del CMS siempre en claro
+        } catch {
+          // sin almacenamiento: se usa el modo claro
+        }
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayUrl} as="font" type="font/woff2" crossorigin />
+    <SeoHead title={title} description={description} image={image} type={type} noindex={noindex} schema={schema} />
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+    <a
+      href="#contenido"
+      class="sr-only z-[200] rounded-full bg-brand-navy px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+    >
+      Saltar al contenido
+    </a>
+    <SiteHeader />
+    <main id="contenido" class="flex-1">
+      <slot />
+    </main>
+    <SiteFooter />
+    <ThemeToggle />
+    <WhatsAppButton />
+    <Toast />
+    <VideoModal />
+    <DiagnosticModal />
+    {!noindex && <CookieConsent />}
+
+    <script>
+      import '@/scripts/tabs';
+      import '@/scripts/filters';
+      import '@/scripts/modal';
+    </script>
+
+    <!-- Live preview del CMS: solo actúa dentro del iframe del Studio (mismo origen) -->
+    <script is:inline>
+      if (window.parent !== window) {
+        const norm = (t) => (t || '').replace(/\s+/g, ' ').trim();
+        const escapeRe = (t) => t.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+
+        window.addEventListener('message', (event) => {
+          const data = event.data;
+          if (event.origin !== location.origin || !data || data.type !== 'CMS_LIVE_PREVIEW') return;
+
+          // "pages.sections.*.value.title" coincide con "pages.sections.3.value.title"
+          const pattern = new RegExp('^(' + data.paths.map((p) => escapeRe(p).replace(/\*/g, '\\d+')).join('|') + ')$');
+          let targets = [...document.querySelectorAll('[data-cms]')].filter((el) => pattern.test(el.dataset.cms));
+
+          if (targets.length > 1 && data.prev != null && !data.image) {
+            const prev = norm(data.prev);
+            const matches = targets.filter((el) => norm(el.textContent) === prev);
+            const sameField = new Set(targets.map((el) => el.dataset.cms)).size === 1;
+            if (matches.length) targets = matches;
+            else if (!sameField) return;
+          }
+
+          // Respaldo: campo sin data-cms → se busca en la página el texto anterior y se reemplaza
+          if (!targets.length && !data.image && data.prev != null) {
+            const prev = norm(data.prev);
+            if (prev.length < 2) return;
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            const hits = [];
+            for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+              const t = norm(n.nodeValue);
+              if (t === prev || (prev.length >= 12 && t.includes(prev))) hits.push(n);
+            }
+            for (const n of hits) {
+              const replaced = n.nodeValue.split(prev).join(data.value);
+              n.nodeValue = replaced === n.nodeValue ? data.value : replaced;
+            }
+            targets = hits.map((n) => n.parentElement).filter(Boolean);
+            const firstHit = targets[0];
+            if (firstHit) {
+              const r = firstHit.getBoundingClientRect();
+              if (r.bottom < 0 || r.top > innerHeight) firstHit.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+            return;
+          }
+
+          for (const el of targets) {
+            if (data.image) {
+              el.removeAttribute('srcset');
+              el.src = data.value;
+            } else {
+              el.textContent = data.value;
+            }
+          }
+
+          const first = targets[0];
+          if (first) {
+            // Si el texto está en una pestaña oculta, se abre esa pestaña
+            const panel = first.closest('[data-panel][hidden]');
+            if (panel) {
+              const key = panel.dataset.panel.split(/\s+/).pop();
+              if (key) location.hash = key;
+            }
+            const r = first.getBoundingClientRect();
+            if (r.bottom < 0 || r.top > innerHeight) first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

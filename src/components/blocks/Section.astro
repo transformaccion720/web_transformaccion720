@@ -1,0 +1,26 @@
+---
+/**
+ * Envoltorio común de los bloques genéricos: ancla, fondo elegido en el CMS y espaciado.
+ * `first`: si es la primera sección de la página deja espacio para el menú flotante.
+ */
+import Container from '@/components/ui/Container.astro';
+
+interface Props {
+  anchor?: string;
+  background?: 'light' | 'muted' | 'dark' | 'brand';
+  first?: boolean;
+  class?: string;
+  containerClass?: string;
+}
+
+const { anchor, background = 'light', first = false, class: cls = '', containerClass = '' } = Astro.props;
+---
+
+<section
+  id={anchor || undefined}
+  class:list={[`section-${background}`, first ? 'pt-32 pb-16 lg:pt-36 lg:pb-24' : 'py-16 lg:py-24', cls]}
+>
+  <Container class={containerClass}>
+    <slot />
+  </Container>
+</section>

@@ -1,0 +1,29 @@
+---
+/** Portada interior "aurora" (Nosotros, Servicios, Hub, Conversemos) con selector de pestañas opcional */
+import SegmentedTabs from '@/components/molecules/SegmentedTabs.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'pageHero'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const hasTabs = data.tabs.some((t) => t.key);
+---
+
+<section id={data.anchor || undefined} class:list={['hero-aurora text-white', hasTabs ? 'py-14 lg:py-16' : 'py-14']}>
+  <div class="tech-grid-overlay pointer-events-none absolute inset-0"></div>
+  <div class="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+    {data.kicker && <span class="text-xs font-extrabold tracking-[0.22em] text-amber-300 uppercase" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+    <h1 class="mt-2 font-display text-3xl font-black sm:text-5xl" data-cms={`${path}.title`}>{data.title}</h1>
+    {data.text && (
+      <p class:list={['mx-auto mt-3 text-sm text-slate-300 sm:text-base', hasTabs ? 'max-w-2xl' : 'max-w-xl']} data-cms={`${path}.text`}>{data.text}</p>
+    )}
+    {hasTabs && (
+      <div class="mt-8 inline-flex">
+        <SegmentedTabs tabs={data.tabs} variant="dark" path={path} />
+      </div>
+    )}
+  </div>
+</section>

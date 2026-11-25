@@ -1,0 +1,107 @@
+---
+/** 1.1 Portada principal: aurora + título con degradado + botones + cifras + tarjeta de video luminosa */
+import { Image } from 'astro:assets';
+import ActionButton from '@/components/ui/ActionButton.astro';
+import Highlight from '@/components/ui/Highlight.astro';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'heroVideo'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const v = data.video;
+const statColor = (t: string) => (t === 'navy' ? 'text-white' : t === 'cyan' ? 'text-cyan-300' : tone(t).text);
+---
+
+<section id={data.anchor || undefined} class="hero-aurora relative text-white">
+  <div class="tech-grid-overlay pointer-events-none absolute inset-0"></div>
+  <div class="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
+      <div class="animate-fade-up space-y-6 lg:col-span-7">
+        {data.badge && (
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-amber-300 backdrop-blur-md">
+            <span class="size-2 animate-pulse rounded-full bg-emerald-400"></span>
+            <span data-cms={`${path}.badge`}>{data.badge}</span>
+          </div>
+        )}
+
+        <h1 class="font-display text-3xl leading-[1.08] font-black tracking-tight text-white sm:text-5xl lg:text-[50px]">
+          <Highlight
+            text={data.title}
+            markClass="bg-gradient-to-r from-amber-300 via-brand-orange to-cyan-300 bg-clip-text text-transparent"
+          />
+        </h1>
+
+        {data.text && (
+          <p class="max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg" data-cms={`${path}.text`}>{data.text}</p>
+        )}
+
+        <div class="flex flex-wrap items-center gap-3.5 pt-2">
+          <ActionButton
+            btn={data.primary}
+            cms={`${path}.primary.text`}
+            class="transform rounded-full bg-brand-orange px-7 py-3.5 text-sm font-extrabold tracking-wide text-brand-deep shadow-glow transition hover:-translate-y-0.5 hover:bg-amber-400"
+          />
+          <ActionButton
+            btn={data.secondary}
+            cms={`${path}.secondary.text`}
+            class="rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/20"
+          />
+        </div>
+
+        {data.stats.length > 0 && (
+          <dl class="flex flex-wrap items-stretch gap-y-4 pt-3">
+            {data.stats.map((s, i) => (
+              <div class:list={['pr-6 sm:pr-8', i > 0 && 'border-l border-white/15 pl-6 sm:pl-8']}>
+                <dt class:list={['font-display text-[28px] leading-none font-extrabold tracking-tight', statColor(s.tone)]} data-cms={`${path}.stats.${i}.value`}>{s.value}</dt>
+                <dd class="mt-1.5 text-[13px] whitespace-nowrap text-slate-300/90" data-cms={`${path}.stats.${i}.label`}>{s.label}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
+
+      <div class="animate-fade-up lg:col-span-5" style="animation-delay: 0.12s;">
+        <button
+          type="button"
+          data-video={v.url}
+          data-video-title={v.modalTitle || v.label}
+          aria-label={`Ver video: ${v.caption || v.label}`}
+          class="group relative block w-full cursor-pointer rounded-3xl bg-gradient-to-br from-cyan-400/50 via-white/20 to-brand-orange/60 p-[2px] text-left shadow-apple-lg transition-transform duration-500 hover:scale-[1.015]"
+        >
+          <div class="relative aspect-[16/10] overflow-hidden rounded-[22px] bg-slate-900">
+            {v.image && (
+              <Image
+                src={v.image}
+                alt={v.imageAlt}
+                widths={[640, 960, 1280]}
+                sizes="(min-width: 1024px) 600px, 100vw"
+                loading="eager"
+                fetchpriority="high"
+                class="h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-105"
+                data-cms={`${path}.video.image`}
+              />
+            )}
+            <div class="absolute inset-0 bg-gradient-to-t from-[#071528]/90 via-[#071528]/35 to-transparent"></div>
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+              <div class="flex size-20 items-center justify-center rounded-full border border-white/30 bg-white/15 shadow-2xl backdrop-blur-md transition duration-300 group-hover:scale-110 group-hover:border-brand-orange group-hover:bg-brand-orange">
+                <svg class="ml-1 size-8 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+              </div>
+              {v.label && (
+                <span class="mt-4 rounded-full border border-white/15 bg-black/40 px-3.5 py-1 text-[11px] font-bold tracking-widest text-amber-300 uppercase backdrop-blur-md" data-cms={`${path}.video.label`}>
+                  {v.label}
+                </span>
+              )}
+              {v.caption && (
+                <p class="mt-2 max-w-md font-display text-lg font-bold text-white sm:text-xl" data-cms={`${path}.video.caption`}>{v.caption}</p>
+              )}
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

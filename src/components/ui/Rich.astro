@@ -1,0 +1,20 @@
+---
+/** Texto del CMS con **negritas**. Las líneas vacías separan párrafos cuando `paragraphs` está activo. */
+interface Props {
+  text: string;
+  paragraphs?: boolean;
+  class?: string;
+}
+
+const { text, paragraphs = false, class: className } = Astro.props;
+const parts = (t: string) =>
+  t
+    .split(/(\*\*[^*]+\*\*)/g)
+    .filter(Boolean)
+    .map((p) => (p.startsWith('**') && p.endsWith('**') && p.length > 4 ? { b: true, t: p.slice(2, -2) } : { b: false, t: p }));
+const blocks = paragraphs ? text.split(/\n{2,}/).filter((p) => p.trim()) : [text];
+---
+
+{paragraphs
+  ? blocks.map((b) => <p class={className}>{parts(b).map((p) => (p.b ? <strong>{p.t}</strong> : p.t))}</p>)
+  : parts(text).map((p) => (p.b ? <strong>{p.t}</strong> : p.t))}

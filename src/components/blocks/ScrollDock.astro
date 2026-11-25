@@ -1,0 +1,67 @@
+---
+/**
+ * Dock flotante estilo Apple (solo portada): aparece al bajar, muestra el avance de lectura y
+ * la sección actual, con atajos a las secciones y el botón de diagnóstico.
+ */
+import ActionButton from '@/components/ui/ActionButton.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'scrollDock'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+---
+
+<div
+  class="scroll-dock dock-hidden fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-white/15 bg-[#071528]/88 px-3 py-2 text-white shadow-apple-lg backdrop-blur-xl md:flex"
+  data-scroll-dock
+>
+  <div class="flex items-center gap-2 border-r border-white/15 pr-3 pl-2">
+    <div class="h-1.5 w-16 overflow-hidden rounded-full bg-white/15">
+      <div class="h-full rounded-full bg-brand-orange" style="width: 0%" data-dock-bar></div>
+    </div>
+    <span class="text-[11px] font-bold whitespace-nowrap text-slate-300" data-dock-label data-start={data.startLabel}>{data.startLabel}</span>
+  </div>
+  {data.items.map((it, i) => (
+    <a href={`#${it.anchor}`} class="rounded-full px-3 py-1 text-xs font-semibold transition hover:bg-white/10" data-dock-item={it.anchor} data-cms={`${path}.items.${i}.label`}>
+      {it.label}
+    </a>
+  ))}
+  <ActionButton
+    btn={data.button}
+    cms={`${path}.button.text`}
+    class="rounded-full bg-brand-orange px-3.5 py-1.5 text-xs font-extrabold text-brand-deep transition hover:bg-amber-400"
+  />
+</div>
+
+<script>
+  const dock = document.querySelector<HTMLElement>('[data-scroll-dock]');
+  if (dock) {
+    const bar = dock.querySelector<HTMLElement>('[data-dock-bar]')!;
+    const label = dock.querySelector<HTMLElement>('[data-dock-label]')!;
+    const items = [...dock.querySelectorAll<HTMLAnchorElement>('[data-dock-item]')]
+      .map((a) => ({ a, el: document.getElementById(a.dataset.dockItem!) }))
+      .filter((x) => x.el);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const y = window.scrollY;
+      dock.classList.toggle('dock-hidden', y < 320);
+      const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      bar.style.width = `${Math.min(100, Math.round((y / max) * 100))}%`;
+      // Sección actual: la última cuyo inicio ya pasó la mitad de la pantalla
+      let current = label.dataset.start || '';
+      for (const { a, el } of items) if (el!.getBoundingClientRect().top < innerHeight / 2) current = a.textContent!.trim();
+      label.textContent = current;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+    update();
+  }
+</script>

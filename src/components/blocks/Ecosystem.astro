@@ -1,0 +1,66 @@
+---
+/** Hub 4.4 Ecosistema TA720: comunidad privada (estilo Skool) con tarjeta lateral de cifras y botón */
+import { Image } from 'astro:assets';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'ecosystem'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const external = /^https?:/.test(data.buttonHref);
+---
+
+<section id={data.anchor || undefined} class="bg-brand-cream py-14 dark:bg-slate-950">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
+      <div class="space-y-6 rounded-3xl border border-slate-200 bg-white p-7 shadow-sm sm:p-9 lg:col-span-8 dark:border-slate-800 dark:bg-slate-900">
+        {data.image && (
+          <div class="h-56 overflow-hidden rounded-2xl">
+            <Image src={data.image} alt={data.imageAlt} widths={[640, 1000]} sizes="(min-width: 1024px) 700px, 100vw" class="h-full w-full object-cover" />
+          </div>
+        )}
+        <div>
+          {data.badge && <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-extrabold text-emerald-700 uppercase dark:bg-emerald-900/30 dark:text-emerald-300" data-cms={`${path}.badge`}>{data.badge}</span>}
+          <h2 class="mt-2 font-display text-2xl font-black text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+          {data.text && <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300" data-cms={`${path}.text`}>{data.text}</p>}
+        </div>
+        {data.features.length > 0 && (
+          <div class="grid grid-cols-1 gap-3 text-xs text-slate-700 sm:grid-cols-2 dark:text-slate-300">
+            {data.features.map((f, i) => <div class="rounded-xl bg-slate-50 p-3.5 dark:bg-slate-800" data-cms={`${path}.features.${i}`}>✓ {f}</div>)}
+          </div>
+        )}
+      </div>
+
+      <div class="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-apple lg:col-span-4 dark:border-slate-800 dark:bg-slate-900">
+        <div class="flex items-center gap-3">
+          <div class="flex size-12 items-center justify-center rounded-2xl bg-brand-navy font-display font-black text-brand-orange">{data.cardLogo}</div>
+          <div>
+            <div class="font-display text-base font-extrabold text-brand-navy dark:text-white" data-cms={`${path}.cardTitle`}>{data.cardTitle}</div>
+            <div class="text-xs text-slate-500" data-cms={`${path}.cardSubtitle`}>{data.cardSubtitle}</div>
+          </div>
+        </div>
+        {data.stats.length > 0 && (
+          <div class="grid grid-cols-3 gap-2 border-y border-slate-100 py-3 text-center dark:border-slate-800">
+            {data.stats.map((s) => (
+              <div>
+                <div class="font-display text-base font-black text-brand-navy dark:text-white">{s.value}</div>
+                <div class="text-[10px] text-slate-500">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        {data.buttonText && (
+          <a
+            href={data.buttonHref || '#'}
+            {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+            class="block w-full rounded-xl bg-brand-orange py-3.5 text-center text-sm font-extrabold text-brand-deep transition hover:bg-amber-400"
+          >
+            {data.buttonText}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

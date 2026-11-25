@@ -1,0 +1,157 @@
+---
+/** Portafolio digital: filtros + tarjetas; al hacer clic se abre el detalle del proyecto (modal) */
+import { Image, getImage } from 'astro:assets';
+import { contactHref } from '@/lib/actions';
+import { safeJson } from '@/lib/format';
+import { tone } from '@/lib/tones';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'portfolioGrid'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const uid = `port-${Math.random().toString(36).slice(2, 7)}`;
+const projects = await Promise.all(
+  data.projects.map(async (p) => ({
+    ...p,
+    img: p.image ? (await getImage({ src: p.image, width: 1000, format: 'webp' })).src : '',
+    cta: contactHref(`${data.ctaPrefix}${p.title}`),
+  }))
+);
+const modalData = projects.map(({ img, modalCategory, categoryLabel, title, desc, solution, result, tags, cta }) => ({
+  img,
+  cat: modalCategory || categoryLabel,
+  title,
+  desc,
+  solution,
+  result,
+  tags,
+  cta,
+}));
+---
+
+<section id={data.anchor || undefined} class="bg-white pt-12 pb-14 dark:bg-slate-950" data-filter-scope data-portfolio={uid}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="border-t border-slate-200 pt-6 dark:border-slate-800">
+      <div class="mb-7 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          {data.kicker && <span class="kicker" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+          <h3 class="mt-1 font-display text-2xl font-extrabold text-brand-navy dark:text-white" data-cms={`${path}.title`}>{data.title}</h3>
+        </div>
+        {data.filters.length > 0 && (
+          <div class="apple-segment">
+            <button type="button" data-filter="todos" aria-pressed="true" class="apple-segment-btn active">{data.allLabel}</button>
+            {data.filters.map((f) => <button type="button" data-filter={f.key} aria-pressed="false" class="apple-segment-btn">{f.label}</button>)}
+          </div>
+        )}
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {projects.map((p, i) => (
+          <button
+            type="button"
+            data-filter-item={p.category}
+            data-project={i}
+            class="card-3d group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left dark:border-slate-800 dark:bg-slate-900"
+          >
+            <span class="relative block h-36 w-full overflow-hidden">
+              {p.image && <Image src={p.image} alt={p.imageAlt || p.title} widths={[360, 600]} sizes="(min-width: 1024px) 25vw, 50vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
+              {data.detailText && <span class="absolute right-2 bottom-2 rounded-full bg-black/60 px-2.5 py-0.5 text-[10px] font-bold text-white backdrop-blur">{data.detailText}</span>}
+            </span>
+            <span class="flex flex-1 flex-col p-4">
+              <span class:list={['text-[10px] font-bold uppercase', tone(p.tone).text]}>{p.categoryLabel}</span>
+              <span class="mt-1 font-display text-sm font-bold text-brand-navy dark:text-white" data-cms={`${path}.projects.${i}.title`}>{p.title}</span>
+              <span class="mt-1 flex-1 text-xs text-slate-500" data-cms={`${path}.projects.${i}.summary`}>{p.summary}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div
+    id={uid}
+    data-modal
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby={`${uid}-title`}
+    class="ta-modal fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-slate-950/45 p-4 backdrop-blur-md sm:items-center"
+  >
+    <div class="my-8 w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-apple-lg dark:border-slate-800 dark:bg-slate-900">
+      <div class="relative h-60">
+        <img data-p="img" src="" alt="" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 flex items-end bg-gradient-to-t from-brand-navy/85 via-transparent to-transparent p-6">
+          <div>
+            <span data-p="cat" class="rounded-full bg-brand-orange px-3 py-1 text-[10px] font-black text-brand-deep uppercase"></span>
+            <h3 id={`${uid}-title`} data-p="title" class="mt-2 font-display text-2xl font-extrabold text-white"></h3>
+          </div>
+        </div>
+        <button type="button" data-modal-close class="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/75" aria-label="Cerrar detalle">✕</button>
+      </div>
+      <div class="space-y-5 p-7">
+        <p data-p="desc" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl bg-brand-cream p-4 dark:bg-slate-800/70">
+            <div class="mb-1 text-[11px] font-extrabold text-brand-blue uppercase dark:text-blue-400">{data.solutionLabel}</div>
+            <p data-p="solution" class="text-xs leading-relaxed text-slate-600 dark:text-slate-300"></p>
+          </div>
+          <div class="rounded-2xl bg-brand-cream p-4 dark:bg-slate-800/70">
+            <div class="mb-1 text-[11px] font-extrabold text-emerald-600 uppercase dark:text-emerald-400">{data.resultLabel}</div>
+            <p data-p="result" class="text-xs leading-relaxed text-slate-600 dark:text-slate-300"></p>
+          </div>
+        </div>
+        <div data-p="tags" class="flex flex-wrap gap-2"></div>
+        <div class="flex flex-wrap items-center justify-end gap-3 border-t border-slate-200 pt-4 dark:border-slate-800">
+          <button type="button" data-modal-close class="rounded-xl border border-slate-200 px-4 py-2.5 text-xs font-bold dark:border-slate-700">{data.closeText}</button>
+          {data.ctaText && <a data-p="cta" href="#" class="rounded-xl bg-brand-navy px-5 py-2.5 text-xs font-extrabold text-white transition hover:bg-brand-blue">{data.ctaText}</a>}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="application/json" data-portfolio-data set:html={safeJson(modalData)} />
+</section>
+
+<script>
+  import { openModal } from '@/scripts/modal';
+
+  document.querySelectorAll<HTMLElement>('[data-portfolio]').forEach((root) => {
+    const modal = document.getElementById(root.dataset.portfolio!)!;
+    const items = JSON.parse(root.querySelector('[data-portfolio-data]')!.textContent || '[]') as {
+      img: string;
+      cat: string;
+      title: string;
+      desc: string;
+      solution: string;
+      result: string;
+      tags: string[];
+      cta: string;
+    }[];
+    const q = <T extends HTMLElement>(k: string) => modal.querySelector<T>(`[data-p="${k}"]`);
+
+    root.querySelectorAll<HTMLElement>('[data-project]').forEach((card) =>
+      card.addEventListener('click', () => {
+        const p = items[Number(card.dataset.project)];
+        if (!p) return;
+        const img = q<HTMLImageElement>('img')!;
+        img.src = p.img;
+        img.alt = p.title;
+        for (const k of ['cat', 'title', 'desc', 'solution', 'result'] as const) q(k)!.textContent = p[k];
+        const tags = q('tags')!;
+        tags.replaceChildren(
+          ...p.tags.map((t) => {
+            const s = document.createElement('span');
+            s.className = 'rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300';
+            s.textContent = t;
+            return s;
+          })
+        );
+        const cta = q<HTMLAnchorElement>('cta');
+        if (cta) cta.href = p.cta;
+        openModal(modal);
+      })
+    );
+  });
+</script>

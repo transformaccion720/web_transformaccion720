@@ -1,0 +1,655 @@
+/* ------------------------------------------------------------------
+   EFECTOS VISUALES TA720 (copiados del mockup Web_TA720_vf3.html)
+   Aurora, glass, 3D, segmentados, marquee, dock y modo oscuro en formularios.
+   ------------------------------------------------------------------ */
+
+/* Menú translúcido estilo Apple */
+.apple-glass-nav {
+  background: rgba(7, 21, 40, 0.8);
+  backdrop-filter: saturate(200%) blur(24px);
+  -webkit-backdrop-filter: saturate(200%) blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px -12px rgba(0, 0, 0, 0.35);
+}
+.apple-nav-pill {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.apple-nav-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+.apple-nav-pill.nav-active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-weight: 700;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+/* Desplegables del menú */
+.nav-dropdown-panel {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-dropdown:hover .nav-dropdown-panel,
+.nav-dropdown:focus-within .nav-dropdown-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Portada aurora: azul profundo con matiz luminoso (más clara y fresca que el mockup), estilo Apple */
+.hero-aurora {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(110% 80% at 8% -10%, rgba(56, 132, 255, 0.55) 0%, transparent 55%),
+    radial-gradient(80% 70% at 105% 110%, rgba(20, 184, 166, 0.42) 0%, transparent 55%),
+    radial-gradient(60% 50% at 70% 0%, rgba(245, 158, 11, 0.18) 0%, transparent 60%),
+    linear-gradient(135deg, #0e2d55 0%, #143f73 48%, #0f3a5c 100%);
+}
+.hero-aurora::before,
+.hero-aurora::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: 0.5;
+  animation: auroraFloat 14s ease-in-out infinite alternate;
+}
+.hero-aurora::before {
+  width: 560px;
+  height: 560px;
+  top: -160px;
+  left: -120px;
+  background: radial-gradient(circle, #3b82f6 0%, rgba(34, 211, 238, 0.35) 55%, transparent 75%);
+}
+.hero-aurora::after {
+  width: 500px;
+  height: 500px;
+  bottom: -180px;
+  right: -90px;
+  background: radial-gradient(circle, #f59e0b 0%, rgba(45, 212, 191, 0.3) 55%, transparent 75%);
+  animation-delay: -5s;
+}
+.tech-grid-overlay {
+  /* Sin cuadrícula: grano fino (como papel fotográfico) + curvas de luz muy suaves */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(120% 60% at 50% 120%, transparent 58%, rgba(255, 255, 255, 0.07) 59%, transparent 61%),
+    radial-gradient(140% 70% at 50% 130%, transparent 62%, rgba(255, 255, 255, 0.05) 63%, transparent 65%);
+  background-size: 160px 160px, 100% 100%, 100% 100%;
+  opacity: 0.55;
+  mix-blend-mode: soft-light;
+  overflow: hidden;
+}
+/* Destello de luz que recorre la portada (vidrio Apple) */
+.tech-grid-overlay::after {
+  content: '';
+  position: absolute;
+  inset: -50% auto -50% -40%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.09), transparent);
+  transform: skewX(-18deg);
+  animation: heroSheen 9s ease-in-out infinite;
+}
+@keyframes heroSheen {
+  0%,
+  55% {
+    left: -40%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+@keyframes auroraFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(35px, 24px) scale(1.08);
+  }
+}
+
+/* Entrada suave de la portada */
+@keyframes fadeUpSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fadeUpSmooth 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Tarjetas con giro 3D sutil */
+.card-3d {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+}
+.card-3d:hover {
+  transform: perspective(900px) translateY(-6px) rotateX(1.5deg) rotateY(-1.5deg);
+  box-shadow: 0 24px 48px -16px rgba(11, 31, 58, 0.22);
+}
+
+/* Control segmentado claro */
+.apple-segment {
+  background: rgba(15, 23, 42, 0.06);
+  padding: 5px;
+  border-radius: 9999px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.dark .apple-segment {
+  background: rgba(255, 255, 255, 0.08);
+}
+.apple-segment-btn {
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  color: #475569;
+}
+.dark .apple-segment-btn {
+  color: #cbd5e1;
+}
+.apple-segment-btn.active {
+  background: #fff;
+  color: #0b1f3a;
+  box-shadow: 0 4px 14px rgba(11, 31, 58, 0.12);
+}
+.dark .apple-segment-btn.active {
+  background: #1565d8;
+  color: #fff;
+}
+
+/* Control segmentado oscuro */
+.apple-segment-dark {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 5px;
+  border-radius: 9999px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.apple-segment-dark-btn {
+  padding: 0.55rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  transition: all 0.25s ease;
+}
+.apple-segment-dark-btn.active {
+  background: #fff;
+  color: #0b1f3a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Cinta de logos en movimiento */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 32s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Barra del cohete */
+.journey-fill {
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Dock flotante de la portada */
+.scroll-dock {
+  transition:
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s ease;
+}
+.scroll-dock.dock-hidden {
+  transform: translate(-50%, 120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Modales */
+.ta-modal {
+  animation: modalIn 0.22s ease both;
+}
+@keyframes modalIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Formularios legibles en modo oscuro */
+.dark input:not([type='checkbox']):not([type='radio']),
+.dark select,
+.dark textarea {
+  background-color: #13233b !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Ocultar barra de desplazamiento */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Cinta de logos: bordes que se desvanecen */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Cohete de la propuesta de valor: recto sobre la barra, con estela de fuego y despegue notorio al avanzar.
+   El emoji 🚀 viene inclinado 45°: se gira para que apunte en la dirección de la barra. */
+.journey-rocket {
+  position: absolute;
+  top: 50%;
+  right: -1.35rem;
+  display: block;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-top: -1.1rem;
+  font-size: 1.85rem;
+  line-height: 2.2rem;
+  text-align: center;
+  filter: drop-shadow(0 6px 8px rgba(11, 31, 58, 0.3));
+  animation: rocketFloat 1.6s ease-in-out infinite;
+}
+.journey-rocket .rocket-body {
+  display: inline-block;
+  transform: rotate(45deg);
+}
+.journey-rocket::before {
+  content: '';
+  position: absolute;
+  right: 72%;
+  top: 50%;
+  width: 1.8rem;
+  height: 0.55rem;
+  margin-top: -0.28rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.9) 55%, #f97316);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.7);
+  filter: blur(1px);
+  transform-origin: right center;
+  animation: rocketFlame 0.14s ease-in-out infinite alternate;
+}
+.journey-rocket.is-launch {
+  animation: rocketLaunch 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.journey-rocket.is-launch::before {
+  width: 3.6rem;
+  box-shadow: 0 0 22px rgba(249, 115, 22, 0.95);
+}
+.journey-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: fillShine 2.4s linear infinite;
+}
+@keyframes rocketFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(1px, -1.5px);
+  }
+  75% {
+    transform: translate(-1px, 1.5px);
+  }
+}
+@keyframes rocketFlame {
+  from {
+    transform: scaleX(0.75);
+    opacity: 0.75;
+  }
+  to {
+    transform: scaleX(1.15);
+    opacity: 1;
+  }
+}
+@keyframes rocketLaunch {
+  0% {
+    transform: translateX(-14px) scale(0.95);
+  }
+  20% {
+    transform: translate(-6px, 1px) scale(1.05);
+  }
+  30% {
+    transform: translate(-6px, -1px) scale(1.05);
+  }
+  55% {
+    transform: translateX(8px) scale(1.25);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+@keyframes fillShine {
+  from {
+    background-position: -40% 0;
+  }
+  to {
+    background-position: 140% 0;
+  }
+}
+
+/* Ikigai: equilibrio rotativo suave + núcleo que respira */
+.ikigai-orbit {
+  transform-origin: 140px 140px;
+  transform-box: view-box;
+  animation: ikigaiBalance 9s ease-in-out infinite;
+}
+.ikigai-core {
+  transform-origin: 140px 140px;
+  transform-box: view-box;
+  animation: ikigaiPulse 3s ease-in-out infinite;
+}
+@keyframes ikigaiBalance {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+@keyframes ikigaiPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Carrusel de fotos (experiencias de servicios) */
+.fade-slide {
+  transition: opacity 0.9s ease, transform 6s ease;
+}
+
+/* Bandas de llamado a la acción: degradado vivo, orbes de luz, ícono flotante y botón que late */
+.cta-band {
+  background: linear-gradient(120deg, #0b1f3a 0%, #123a66 35%, #0f4c5c 65%, #0b1f3a 100%);
+  background-size: 220% 220%;
+  animation: ctaFlow 14s ease-in-out infinite;
+}
+.cta-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.45;
+  pointer-events: none;
+  animation: auroraFloat 12s ease-in-out infinite alternate;
+}
+.cta-orb-a {
+  width: 340px;
+  height: 340px;
+  left: -90px;
+  top: -160px;
+  background: #3b82f6;
+}
+.cta-orb-b {
+  width: 300px;
+  height: 300px;
+  right: 18%;
+  bottom: -190px;
+  background: #f59e0b;
+  opacity: 0.3;
+  animation-delay: -6s;
+}
+.cta-icon {
+  animation: ctaFloat 4s ease-in-out infinite;
+}
+.cta-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55);
+  animation: ctaPulse 2.4s ease-out infinite;
+}
+.cta-glass {
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 30px 60px -30px rgba(0, 0, 0, 0.5);
+}
+.cta-glass::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, rgba(56, 189, 248, 0.7), transparent 35%, transparent 65%, rgba(245, 158, 11, 0.7));
+  background-size: 200% 200%;
+  animation: ctaFlow 6s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+@keyframes ctaFlow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes ctaFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-4deg);
+  }
+}
+@keyframes ctaPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 16px rgba(245, 158, 11, 0);
+  }
+}
+
+/* Novedades: filtros de categoría del panel izquierdo */
+.news-filter {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 0.9rem;
+  border: 1px solid transparent;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #475569;
+  white-space: nowrap;
+  transition: all 0.25s var(--ease-soft);
+}
+.news-filter:hover {
+  background: #fff;
+  color: var(--color-brand-navy);
+  transform: translateX(2px);
+}
+.news-filter-count {
+  min-width: 1.5rem;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.07);
+  padding: 0.1rem 0.45rem;
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+.news-filter.is-active {
+  background: var(--color-brand-navy);
+  color: #fff;
+  box-shadow: 0 10px 22px -10px rgba(11, 31, 58, 0.6);
+}
+.news-filter.is-active .news-filter-count {
+  background: var(--color-brand-orange);
+  color: var(--color-brand-deep);
+}
+.dark .news-filter {
+  color: #cbd5e1;
+}
+.dark .news-filter:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+.dark .news-filter-count {
+  background: rgba(255, 255, 255, 0.1);
+}
+.dark .news-filter.is-active {
+  background: var(--color-brand-blue);
+}
+
+/* Partner oficial: sello sutil con brillo que recorre el borde */
+.partner-tag {
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  padding: 0.2rem 0.7rem;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-brand-deep);
+}
+.partner-main::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--pa, 0deg), transparent 0 70%, #f59e0b 85%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: partnerSpin 4s linear infinite;
+  pointer-events: none;
+}
+@property --pa {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes partnerSpin {
+  to {
+    --pa: 360deg;
+  }
+}
+
+/* Pilares: punto de luz que recorre la línea que los une + entrada escalonada */
+.pillar-runner {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--color-brand-orange);
+  box-shadow: 0 0 12px 3px rgba(245, 158, 11, 0.55);
+  animation: pillarRun 4.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes pillarRun {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+.reveal-item {
+  animation: fadeUpSmooth 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* CORE720: nodos del recorrido y tarjeta activa */
+.core-fill {
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.core-node.is-done {
+  border-color: var(--color-brand-navy);
+  background: var(--color-brand-navy);
+  color: #fff;
+}
+.dark .core-node.is-done {
+  border-color: var(--color-brand-blue);
+  background: var(--color-brand-blue);
+}
+.core-node.is-on {
+  border-color: var(--color-brand-orange);
+  background: var(--color-brand-orange);
+  color: var(--color-brand-deep);
+  transform: scale(1.15);
+  animation: corePulse 1.6s ease-out infinite;
+}
+@keyframes corePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(245, 158, 11, 0);
+  }
+}
+.core-card.is-on {
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 18px 40px -20px rgba(245, 158, 11, 0.55);
+  transform: translateY(-4px);
+}
+.core-card.is-on .core-foot {
+  color: var(--color-brand-orange);
+}

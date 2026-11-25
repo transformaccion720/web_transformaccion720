@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'gallery'>;
+  path: string;
+  first?: boolean;
+}
+
+const { data, path, first = false } = Astro.props;
+---
+
+<Section anchor={data.anchor} background={data.background} first={first}>
+  <SectionHeading kicker={data.kicker} title={data.title} subtitle={data.subtitle} path={path} />
+  <ul class="grid grid-cols-2 gap-4 lg:grid-cols-3">
+    {data.images.map((img, i) => (
+      <li>
+        <figure>
+          <Image
+            src={img.image}
+            alt={img.alt}
+            widths={[400, 800]}
+            sizes="(min-width: 1024px) 33vw, 50vw"
+            class="aspect-square w-full rounded-[var(--radius-card)] object-cover"
+            data-cms={`${path}.images.${i}.image`}
+          />
+          {img.caption && (
+            <figcaption class="mt-2 text-sm text-ink-soft" data-cms={`${path}.images.${i}.caption`}>
+              {img.caption}
+            </figcaption>
+          )}
+        </figure>
+      </li>
+    ))}
+  </ul>
+</Section>

@@ -1,0 +1,13 @@
+---
+/** Pinta un título del CMS: lo que va entre *asteriscos* se destaca (cursiva, más claro). */
+import { highlight } from '@/lib/format';
+
+interface Props {
+  text: string;
+  markClass?: string;
+}
+
+const { text, markClass = 'font-normal italic text-brand-300' } = Astro.props;
+---
+
+{highlight(text).map((p) => (p.mark ? <span class={markClass}>{p.text}</span> : p.text))}

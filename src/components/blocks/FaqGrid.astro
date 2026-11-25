@@ -1,0 +1,164 @@
+---
+/**
+ * Preguntas frecuentes como recorrido interactivo: un camino con paradas (una por pregunta).
+ * Al tocar una parada se abre su respuesta, se marca como leída y avanza la barra; al leerlas todas
+ * aparece un mensaje de logro con botón. Las respuestas están en el HTML (FAQPage para Google).
+ */
+import ActionButton from '@/components/ui/ActionButton.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'faqGrid'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+const total = data.items.length;
+---
+
+<section id={data.anchor || undefined} class="bg-white pb-20 dark:bg-slate-950" data-faq-journey data-progress-text={data.progressText}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mt-20 border-t border-slate-200 pt-14 dark:border-slate-800">
+      <div class="mb-10 text-center">
+        {data.kicker && <span class="kicker" data-cms={`${path}.kicker`}>{data.kicker}</span>}
+        <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+        {data.hint && <p class="mt-2 text-sm text-slate-500" data-cms={`${path}.hint`}>{data.hint}</p>}
+      </div>
+
+      <!-- Avance -->
+      <div class="mx-auto mb-8 max-w-xl">
+        <div class="mb-2 flex items-center justify-between text-xs font-bold text-slate-500">
+          <span data-faq-count></span>
+          <span class="text-brand-orange" data-faq-pct>0%</span>
+        </div>
+        <div class="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+          <div class="h-full w-0 rounded-full bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange transition-all duration-700" data-faq-bar></div>
+        </div>
+      </div>
+
+      <!-- Camino con paradas -->
+      <div class="relative mb-8">
+        <div class="absolute top-7 right-[8%] left-[8%] hidden h-1 rounded-full bg-[repeating-linear-gradient(90deg,#cbd5e1_0_10px,transparent_10px_18px)] md:block dark:bg-[repeating-linear-gradient(90deg,#334155_0_10px,transparent_10px_18px)]" aria-hidden="true"></div>
+        <ol class="relative grid grid-cols-3 gap-y-6 md:grid-cols-6" role="tablist">
+          {data.items.map((f, i) => (
+            <li class="flex flex-col items-center text-center">
+              <button
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls={`faq-${i}`}
+                data-faq-stop={i}
+                class="faq-stop group relative flex size-14 items-center justify-center rounded-full border-2 border-slate-200 bg-white font-display text-lg font-black text-slate-400 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-orange hover:text-brand-orange dark:border-slate-700 dark:bg-slate-900"
+              >
+                <span data-faq-num>{pad(i + 1)}</span>
+                <span class="absolute -top-1 -right-1 hidden size-5 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white" data-faq-check aria-hidden="true">✓</span>
+              </button>
+              <span class="mt-2 text-[11px] font-extrabold tracking-wide text-slate-500 uppercase">{f.tag}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <!-- Tarjeta de respuesta -->
+      <div class="mx-auto max-w-3xl">
+        {data.items.map((f, i) => (
+          <article
+            id={`faq-${i}`}
+            role="tabpanel"
+            data-faq-card={i}
+            hidden={i !== 0}
+            class="faq-card relative overflow-hidden rounded-3xl border border-slate-200/80 bg-brand-cream p-7 shadow-apple sm:p-9 dark:border-slate-800 dark:bg-slate-900"
+          >
+            <span class="pointer-events-none absolute -top-6 -right-2 font-display text-[110px] leading-none font-black text-brand-orange/10 select-none" aria-hidden="true">{pad(i + 1)}</span>
+            <div class="relative">
+              <div class="text-xs font-extrabold text-brand-orange">{pad(i + 1)} - {f.tag}</div>
+              <h3 class="mt-2 font-display text-xl font-extrabold text-brand-navy sm:text-2xl dark:text-white" data-cms={`${path}.items.${i}.question`}>{f.question}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base dark:text-slate-300" data-cms={`${path}.items.${i}.answer`}>{f.answer}</p>
+              <div class="mt-6 flex items-center justify-between gap-3">
+                <button type="button" data-faq-go={i - 1} disabled={i === 0} class="rounded-full border border-slate-300 px-4 py-2 text-xs font-bold transition hover:bg-white disabled:opacity-30 dark:border-slate-700 dark:hover:bg-slate-800">⬅️ Anterior</button>
+                {i < total - 1 && (
+                  <button type="button" data-faq-go={i + 1} class="rounded-full bg-brand-navy px-5 py-2 text-xs font-extrabold text-white transition hover:bg-brand-blue dark:bg-brand-blue">Siguiente parada ➡️</button>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+
+        <div hidden data-faq-done class="faq-card mt-6 rounded-3xl bg-gradient-to-r from-[#0B1F3A] via-[#123a66] to-[#0f5f6b] p-7 text-center text-white shadow-apple-lg sm:p-9">
+          {data.doneTitle && <p class="font-display text-2xl font-black" data-cms={`${path}.doneTitle`}>{data.doneTitle}</p>}
+          {data.doneText && <p class="mx-auto mt-2 max-w-xl text-sm text-slate-200" data-cms={`${path}.doneText`}>{data.doneText}</p>}
+          <ActionButton btn={data.doneButton} class="mt-5 inline-block rounded-full bg-brand-orange px-7 py-3.5 text-sm font-extrabold text-brand-deep transition hover:-translate-y-0.5 hover:bg-amber-400" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-stop.is-read {
+    border-color: rgb(16 185 129 / 0.6);
+    color: #059669;
+  }
+  .faq-stop.is-active {
+    border-color: var(--color-brand-orange);
+    background: var(--color-brand-orange);
+    color: var(--color-brand-deep);
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 0 0 6px rgb(245 158 11 / 0.18), 0 12px 24px -8px rgb(245 158 11 / 0.6);
+  }
+  .faq-card:not([hidden]) {
+    animation: faqIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes faqIn {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { fill } from '@/lib/format';
+  import { track } from '@/lib/track';
+
+  document.querySelectorAll<HTMLElement>('[data-faq-journey]').forEach((root) => {
+    const stops = [...root.querySelectorAll<HTMLButtonElement>('[data-faq-stop]')];
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-faq-card]')];
+    const bar = root.querySelector<HTMLElement>('[data-faq-bar]')!;
+    const pct = root.querySelector<HTMLElement>('[data-faq-pct]')!;
+    const count = root.querySelector<HTMLElement>('[data-faq-count]')!;
+    const done = root.querySelector<HTMLElement>('[data-faq-done]')!;
+    const read = new Set<number>();
+    const tpl = root.dataset.progressText || '{leidas}/{total}';
+
+    const show = (i: number) => {
+      if (i < 0 || i >= cards.length) return;
+      read.add(i);
+      cards.forEach((c, k) => (c.hidden = k !== i));
+      stops.forEach((s, k) => {
+        s.classList.toggle('is-active', k === i);
+        s.classList.toggle('is-read', read.has(k) && k !== i);
+        s.setAttribute('aria-selected', String(k === i));
+        s.querySelector<HTMLElement>('[data-faq-check]')!.classList.toggle('hidden', !read.has(k) || k === i);
+        s.querySelector<HTMLElement>('[data-faq-check]')!.classList.toggle('flex', read.has(k) && k !== i);
+      });
+      const p = Math.round((read.size / cards.length) * 100);
+      bar.style.width = `${p}%`;
+      pct.textContent = `${p}%`;
+      count.textContent = fill(tpl, { leidas: read.size, total: cards.length });
+      if (read.size === cards.length && done.hidden) {
+        done.hidden = false;
+        track('faq_completado');
+      }
+    };
+
+    stops.forEach((s, i) => s.addEventListener('click', () => show(i)));
+    root.querySelectorAll<HTMLButtonElement>('[data-faq-go]').forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.faqGo))));
+    show(0);
+  });
+</script>

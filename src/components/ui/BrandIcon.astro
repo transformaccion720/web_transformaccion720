@@ -1,0 +1,39 @@
+---
+// Logos oficiales de redes. Por defecto en su color original; con `mono` toman el color del texto.
+// Trazos de Simple Icons (CC0); LinkedIn dibujado aparte porque Simple Icons lo retiró.
+import icons from '@/lib/brand-icons.json';
+
+export type BrandName = keyof typeof icons;
+
+interface Props {
+  name: BrandName;
+  size?: number;
+  class?: string;
+  mono?: boolean;
+}
+
+const { name, size = 20, class: className = '', mono = false } = Astro.props;
+const icon = icons[name];
+const gradientId = `ig-grad-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<svg viewBox="0 0 24 24" width={size} height={size} class={className} aria-hidden="true" focusable="false">
+  {mono ? (
+    <path d={icon.path} fill="currentColor" />
+  ) : name === 'instagram' ? (
+    <>
+      <defs>
+        <radialGradient id={gradientId} cx="0.3" cy="1.07" r="1.2">
+          <stop offset="0" stop-color="#FFD776" />
+          <stop offset="0.25" stop-color="#F3A554" />
+          <stop offset="0.5" stop-color="#F15C3D" />
+          <stop offset="0.75" stop-color="#D62976" />
+          <stop offset="1" stop-color="#5F4FD1" />
+        </radialGradient>
+      </defs>
+      <path d={icon.path} fill={`url(#${gradientId})`} />
+    </>
+  ) : (
+    <path d={icon.path} fill={icon.hex} />
+  )}
+</svg>
