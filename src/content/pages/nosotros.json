@@ -85,37 +85,16 @@
     {
       "discriminant": "teamGrid",
       "value": {
-        "enabled": false,
+        "enabled": true,
         "kicker": "Equipo Especialista",
         "title": "Consultores y especialistas que se suman a cada proyecto",
         "members": [
           {
-            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/0/photo.jpg",
-            "name": "Diego Ríos",
-            "role": "Lead Soluciones Digitales & IA",
+            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/0/photo.jpeg",
+            "name": "Jenissi Mezarino",
+            "role": "Líder de Proyectos de Comunicación",
             "tone": "blue",
-            "bio": "Arquitectura web, automatización de flujos y analítica avanzada con Power BI."
-          },
-          {
-            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/1/photo.jpg",
-            "name": "Valeria Salazar",
-            "role": "Consultora Senior de Procesos",
-            "tone": "orange",
-            "bio": "Rediseño operacional, BPMN, Lean Six Sigma y eficiencia de costos."
-          },
-          {
-            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/2/photo.jpg",
-            "name": "Andrés Mendoza",
-            "role": "Agile Coach & OKRs",
-            "tone": "teal",
-            "bio": "Implementación de células ágiles, marcos Scrum/Kanban y gobierno trimestral."
-          },
-          {
-            "photo": "@/assets/images/pages/nosotros/sections/2/value/members/3/photo.jpg",
-            "name": "Lucía Paredes",
-            "role": "Directora de Formación & LMS",
-            "tone": "emerald",
-            "bio": "Diseño instruccional, academias corporativas y facilitación de talleres ejecutivos."
+            "bio": "Liderar el cambio organizacional mediante estrategias de comunicación corporativa creativas, visuales y de alto impacto."
           }
         ],
         "panel": "quienes-somos"
