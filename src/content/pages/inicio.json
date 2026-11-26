@@ -88,7 +88,7 @@
         "linkHref": "/servicios",
         "cards": [
           {
-            "image": "@/assets/images/pages/inicio/sections/2/value/cards/0/image.jpg",
+            "image": "@/assets/images/pages/inicio/sections/2/value/cards/0/image.jpeg",
             "imageAlt": "Transformación y Consultoría",
             "icon": "trendingUp",
             "title": "Estrategia & Roadmaps de Transformación",
@@ -106,7 +106,7 @@
             "linkText": "Conocer más ➡️"
           },
           {
-            "image": "@/assets/images/pages/inicio/sections/2/value/cards/2/image.jpg",
+            "image": "@/assets/images/pages/inicio/sections/2/value/cards/2/image.jpeg",
             "imageAlt": "Entrenamiento y Formación",
             "icon": "users",
             "title": "Entrenamiento & Formación",
