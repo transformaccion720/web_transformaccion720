@@ -574,7 +574,7 @@
           "action": "video",
           "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
         },
-        "image": "@/assets/images/pages/servicios/sections/9/value/image.jpg",
+        "image": "@/assets/images/pages/servicios/sections/9/value/image.jpeg",
         "imageAlt": "Entrenamiento y Formación",
         "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
         "videoTitle": "Servicio: Entrenamiento y Formación",
@@ -599,15 +599,15 @@
           ]
         },
         "experience": {
-          "image": "@/assets/images/pages/servicios/sections/9/value/experience/image.jpg",
+          "image": "@/assets/images/pages/servicios/sections/9/value/experience/image.jpeg",
           "imageAlt": "Talleres y Formación Empresarial",
           "slides": [
             {
-              "image": "@/assets/images/pages/servicios/sections/9/value/experience/slides/0/image.jpg",
+              "image": "@/assets/images/pages/servicios/sections/9/value/experience/slides/0/image.jpeg",
               "alt": "Taller vivencial de liderazgo"
             },
             {
-              "image": "@/assets/images/pages/servicios/sections/9/value/experience/slides/1/image.jpg",
+              "image": "@/assets/images/pages/servicios/sections/9/value/experience/slides/1/image.jpeg",
               "alt": "Facilitación de programa in-house"
             }
           ],
