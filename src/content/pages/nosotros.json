@@ -135,7 +135,11 @@
             "name": "Jenissi Mezarino",
             "role": "Líder de Proyectos de Comunicación",
             "tone": "blue",
-            "bio": "Liderar el cambio organizacional mediante estrategias de comunicación corporativa creativas, visuales y de alto impacto."
+            "bio": "Liderar el cambio organizacional mediante estrategias de comunicación corporativa creativas, visuales y de alto impacto.",
+            "tags": [
+              "Comunicación Corporativa",
+              "Gestión del Cambio"
+            ]
           }
         ],
         "panel": "quienes-somos"
