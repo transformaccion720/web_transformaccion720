@@ -80,9 +80,9 @@
   animation-delay: -5s;
 }
 .tech-grid-overlay {
-  /* Grano fino tipo papel fotográfico (PNG de 160 px, liviano) + dos curvas de luz muy suaves */
+  /* Grano fino tipo papel fotográfico (WebP de 160 px, ~6 KB) + dos curvas de luz muy suaves */
   background-image:
-    url('/textures/grain.png'),
+    url('/textures/grain.webp'),
     radial-gradient(120% 60% at 50% 120%, transparent 58%, rgba(255, 255, 255, 0.07) 59%, transparent 61%),
     radial-gradient(140% 70% at 50% 130%, transparent 62%, rgba(255, 255, 255, 0.05) 63%, transparent 65%);
   background-size:

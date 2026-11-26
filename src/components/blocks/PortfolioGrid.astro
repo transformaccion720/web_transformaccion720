@@ -1,6 +1,7 @@
 ---
 /** Portafolio digital: filtros + tarjetas; al hacer clic se abre el detalle del proyecto (modal) */
-import { Image, getImage } from 'astro:assets';
+import { getImage } from 'astro:assets';
+import Image from '@/components/ui/Img.astro';
 import { contactHref } from '@/lib/actions';
 import { safeJson } from '@/lib/format';
 import { tone } from '@/lib/tones';
@@ -16,7 +17,7 @@ const uid = `port-${path.replace(/\W+/g, '-')}`;
 const projects = await Promise.all(
   data.projects.map(async (p) => ({
     ...p,
-    img: p.image ? (await getImage({ src: p.image, width: 1000, format: 'webp' })).src : '',
+    img: p.image ? (await getImage({ src: p.image, width: 1000, format: 'webp', quality: 72 })).src : '',
     cta: contactHref(`${data.ctaPrefix}${p.title}`),
   }))
 );

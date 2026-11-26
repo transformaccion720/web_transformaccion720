@@ -1,6 +1,6 @@
 ---
 /** 1.1 Portada principal: aurora + título con degradado + botones + cifras + tarjeta de video luminosa */
-import { Image } from 'astro:assets';
+import Image from '@/components/ui/Img.astro';
 import ActionButton from '@/components/ui/ActionButton.astro';
 import Highlight from '@/components/ui/Highlight.astro';
 import { tone } from '@/lib/tones';
@@ -92,8 +92,8 @@ const statColor = (t: string) =>
               <Image
                 src={v.image}
                 alt={v.imageAlt}
-                widths={[640, 960, 1280]}
-                sizes="(min-width: 1024px) 600px, 100vw"
+                widths={[480, 760, 1000, 1320]}
+                sizes="(min-width: 1024px) 660px, 100vw"
                 loading="eager"
                 fetchpriority="high"
                 class="h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-105"

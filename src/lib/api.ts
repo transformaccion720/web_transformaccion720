@@ -2,28 +2,21 @@
  * Utilidades comunes de los endpoints /api: respuesta JSON, lectura acotada del cuerpo,
  * IP del visitante, límite de envíos (Redis si existe; si no, memoria) y verificación anti-bot opcional.
  */
-import { redis } from '@/lib/redis';
+import { hit } from '@/lib/store';
 import { secret } from '@/lib/env';
 
 export { BodyError, clientIp, json, readJson } from './http';
 
-// Respaldo en memoria (desarrollo o sin Redis), con limpieza de entradas vencidas
+// Respaldo en memoria (desarrollo o sin base de datos), con limpieza de entradas vencidas
 const memory = new Map<string, { count: number; until: number }>();
 
 /** true si la clave superó `max` intentos en `windowSec` segundos. */
 export async function rateLimited(key: string, max: number, windowSec: number) {
   try {
-    const k = `rl:${key}`;
-    const count = await redis(['INCR', k]);
-    if (typeof count === 'number') {
-      // Si el EXPIRE inicial falló, la clave quedaría sin vencimiento: al bloquear se revisa y se repara
-      // (nunca queda un bloqueo para siempre)
-      if (count === 1) await redis(['EXPIRE', k, windowSec]);
-      else if (count > max && (await redis(['TTL', k])) === -1) await redis(['EXPIRE', k, windowSec]);
-      return count > max;
-    }
+    const count = await hit(key, windowSec);
+    if (count !== null) return count > max;
   } catch (err) {
-    console.warn('[api] Límite con Redis no disponible, se usa memoria', err);
+    console.warn('[api] Límite con base de datos no disponible, se usa memoria', err);
   }
   const now = Date.now();
   if (memory.size > 5000) for (const [k, v] of memory) if (v.until < now) memory.delete(k);

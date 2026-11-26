@@ -1,6 +1,6 @@
 ---
 /** 1.3 Resumen de servicios: 3 tarjetas 3D con imagen e ícono; cada una lleva a su pestaña en /servicios */
-import { Image } from 'astro:assets';
+import Image from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Highlight from '@/components/ui/Highlight.astro';
 import type { SectionOf } from '@/lib/content';
@@ -48,8 +48,8 @@ const { data, path } = Astro.props;
               <Image
                 src={c.image}
                 alt={c.imageAlt}
-                widths={[480, 800]}
-                sizes="(min-width: 768px) 33vw, 100vw"
+                widths={[420, 680, 900]}
+                sizes="(min-width: 1280px) 400px, (min-width: 768px) 33vw, calc(100vw - 2rem)"
                 class="h-full w-full object-cover"
                 data-cms={`${path}.cards.${i}.image`}
               />

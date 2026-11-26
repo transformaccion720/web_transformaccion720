@@ -1,0 +1,14 @@
+---
+/**
+ * Imagen optimizada de la web: igual que <Image> de Astro (WebP, varios tamaños, carga diferida)
+ * pero con compresión ajustada por defecto (calidad 72: sin pérdida visible y ~25 % más liviana).
+ * Cualquier imagen subida al CMS pasa por aquí, aunque se suba pesada.
+ */
+import { Image } from 'astro:assets';
+import type { LocalImageProps, RemoteImageProps } from 'astro:assets';
+
+type Props = LocalImageProps | RemoteImageProps;
+const { quality = 72, ...rest } = Astro.props;
+---
+
+<Image {...(rest as Props)} quality={quality} />

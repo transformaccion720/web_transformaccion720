@@ -1,6 +1,6 @@
 /**
  * POST /api/reclamaciones — registra una Hoja de Reclamación.
- * 1) Valida en el servidor.  2) Asigna número correlativo y guarda el registro en Redis (obligatorio en
+ * 1) Valida en el servidor.  2) Asigna número correlativo y guarda el registro en la base de datos — Neon/Postgres o Redis (obligatoria en
  *    producción: sin base de datos no se registra nada).  3) Avisa a la empresa y envía copia al consumidor.
  * Una vez guardada, la hoja nunca se reporta como fallida (evita duplicados y saltos de numeración):
  * si un correo falla, queda marcado en el registro y el consumidor ve su número para imprimir.
@@ -10,7 +10,7 @@ import { getComplaintsBook, getSite } from '@/lib/content';
 import { emailList, sender } from '@/lib/format';
 import { complaintEmail, complaintSchema, fallbackNumber, formatNumber } from '@/lib/complaints';
 import { secret as env } from '@/lib/env';
-import { hasRedis, redis } from '@/lib/redis';
+import { hasStore, nextNumber, saveComplaint } from '@/lib/store';
 import { BodyError, clientIp, isHuman, json, rateLimited, readJson } from '@/lib/api';
 
 export const prerender = false;
@@ -54,9 +54,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const to = emailList(
     mail.complaintsTo || mail.contactTo || env('COMPLAINTS_TO_EMAIL') || env('CONTACT_TO_EMAIL') || ''
   );
-  // En producción la hoja debe quedar guardada: sin correo o sin Redis no se registra
-  if (!apiKey || !to.length || (import.meta.env.PROD && !hasRedis())) {
-    console.error('[reclamaciones] Falta RESEND_API_KEY, correo destino o Redis: la hoja NO se registró');
+  // En producción la hoja debe quedar guardada: sin correo o sin base de datos no se registra
+  if (!apiKey || !to.length || (import.meta.env.PROD && !hasStore())) {
+    console.error(
+      '[reclamaciones] Falta RESEND_API_KEY, correo destino o base de datos: la hoja NO se registró'
+    );
     return json({ error: 'FORM_DISABLED' }, 503);
   }
 
@@ -68,27 +70,23 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   let number: string;
   const record = { date: date.toISOString(), ...c };
   try {
-    const seq = await redis(['INCR', `reclamaciones:${year}`]);
-    if (typeof seq === 'number') {
-      number = formatNumber(seq, year);
-      const save = () =>
-        redis(['SET', `reclamacion:${number}`, JSON.stringify({ number, ...record, mail: 'pendiente' })]);
+    const seq = await nextNumber(`reclamaciones:${year}`);
+    if (seq !== null) {
+      const n = formatNumber(seq, year);
+      number = n;
+      const save = () => saveComplaint(n, year, record, 'pendiente');
       // Un reintento breve: el número ya se asignó, se evita perderlo por un fallo momentáneo
       await save().catch(async () => {
         await new Promise((r) => setTimeout(r, 300));
         return save();
       });
-      // Índice por año para listar y auditar sin recorrer toda la base
-      await redis(['RPUSH', `reclamaciones:index:${year}`, number]).catch((err) =>
-        console.error('[reclamaciones] No se pudo indexar', number, err)
-      );
     } else {
-      // Solo en desarrollo (en producción se exige Redis arriba)
+      // Solo en desarrollo (en producción se exige base de datos arriba)
       number = fallbackNumber(date);
-      console.warn('[reclamaciones] Sin Redis (desarrollo): número no correlativo', number);
+      console.warn('[reclamaciones] Sin base de datos (desarrollo): número no correlativo', number);
     }
   } catch (err) {
-    console.error('[reclamaciones] Redis falló: la hoja NO se registró', err);
+    console.error('[reclamaciones] Base de datos falló: la hoja NO se registró', err);
     return json({ error: 'No pudimos registrar tu hoja. Inténtalo de nuevo en unos minutos.' }, 503);
   }
 
@@ -125,8 +123,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     console.error(`[reclamaciones] ${number}: aviso a la empresa falló`, company.reason);
   if (copy.status === 'rejected')
     console.error(`[reclamaciones] ${number}: copia al consumidor falló`, copy.reason);
-  await redis(['SET', `reclamacion:${number}`, JSON.stringify({ number, ...record, mail: status })]).catch(
-    (err) => console.error('[reclamaciones] No se pudo guardar el estado de envío', err)
+  await saveComplaint(number, year, record, status).catch((err) =>
+    console.error('[reclamaciones] No se pudo guardar el estado de envío', err)
   );
 
   return json({ success: true, number, copySent: copy.status === 'fulfilled' });

@@ -3,7 +3,7 @@ import { getSite } from '@/lib/content';
 import { emailList, escHtml as esc, sender } from '@/lib/format';
 import { secret } from '@/lib/env';
 import { BodyError, clientIp, isHuman, json, rateLimited, readJson } from '@/lib/api';
-import { redis } from '@/lib/redis';
+import { saveLead } from '@/lib/store';
 
 export const prerender = false;
 
@@ -68,6 +68,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     ['Mensaje', message || '—'],
   ];
 
+  const lead = { date: new Date().toISOString(), name, phone, company, service, message };
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
@@ -92,26 +93,18 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       /* respuesta no JSON */
     }
     console.error('[contacto] Motivo:', reason);
-    // Respaldo: el contacto no se pierde aunque el correo falle (Redis → lista "leads:sin-enviar")
-    const lead = JSON.stringify({
-      date: new Date().toISOString(),
-      kind,
-      name,
-      email,
-      phone,
-      company,
-      service,
-      message,
-    });
-    const saved = await redis(['LPUSH', 'leads:sin-enviar', lead]).then(
-      (r) => r !== null,
-      () => false
-    );
-    if (saved) console.warn('[contacto] Correo falló; contacto guardado en Redis (leads:sin-enviar)');
+    // Respaldo: el contacto no se pierde aunque el correo falle (tabla leads, estado "sin-enviar")
+    const saved = await saveLead(kind, email, lead, 'sin-enviar').catch(() => false);
+    if (saved) console.warn('[contacto] Correo falló; contacto guardado como "sin-enviar"');
     // En descargas la persona igual recibe su recurso; en el resto se le pide reintentar
     if (saved && kind === 'descarga') return json({ success: true });
     return json({ error: 'No pudimos enviar tu mensaje. Inténtalo de nuevo.' }, 502);
   }
+
+  // Registro del contacto (base de leads); si falla, el correo ya llegó
+  await saveLead(kind, email, lead, 'enviado').catch((err) =>
+    console.warn('[contacto] No se pudo registrar el contacto', err)
+  );
 
   // Confirmación para quien escribió (CMS → Correos de los formularios). Si falla, el mensaje ya llegó.
   // Máx. 2 confirmaciones por correo destino cada hora: evita usar el formulario para enviar spam a terceros
