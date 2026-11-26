@@ -22,10 +22,21 @@ const { data, path } = Astro.props;
     <div class="h-1.5 w-16 overflow-hidden rounded-full bg-white/15">
       <div class="h-full rounded-full bg-brand-orange" style="width: 0%" data-dock-bar></div>
     </div>
-    <span class="text-[11px] font-bold whitespace-nowrap text-slate-300" data-dock-label data-start={data.startLabel}>{data.startLabel}</span>
+    <span
+      class="text-[11px] font-bold whitespace-nowrap text-slate-300"
+      data-dock-label
+      data-start={data.startLabel}
+    >
+      {data.startLabel}
+    </span>
   </div>
   {data.items.map((it, i) => (
-    <a href={`#${it.anchor}`} class="rounded-full px-3 py-1 text-xs font-semibold transition hover:bg-white/10" data-dock-item={it.anchor} data-cms={`${path}.items.${i}.label`}>
+    <a
+      href={`#${it.anchor}`}
+      class="rounded-full px-3 py-1 text-xs font-semibold transition hover:bg-white/10"
+      data-dock-item={it.anchor}
+      data-cms={`${path}.items.${i}.label`}
+    >
       {it.label}
     </a>
   ))}
@@ -53,15 +64,20 @@ const { data, path } = Astro.props;
       bar.style.width = `${Math.min(100, Math.round((y / max) * 100))}%`;
       // Sección actual: la última cuyo inicio ya pasó la mitad de la pantalla
       let current = label.dataset.start || '';
-      for (const { a, el } of items) if (el!.getBoundingClientRect().top < innerHeight / 2) current = a.textContent!.trim();
+      for (const { a, el } of items)
+        if (el!.getBoundingClientRect().top < innerHeight / 2) current = a.textContent!.trim();
       label.textContent = current;
     };
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
     update();
   }
 </script>

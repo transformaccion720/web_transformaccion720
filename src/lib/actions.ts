@@ -25,7 +25,9 @@ export interface ActionButton {
 
 /** Enlace a Conversemos con el servicio preseleccionado en el formulario */
 export const contactHref = (service: string) =>
-  service.trim() ? `${CONTACT_PATH}?servicio=${encodeURIComponent(service.trim())}#formulario` : `${CONTACT_PATH}#formulario`;
+  service.trim()
+    ? `${CONTACT_PATH}?servicio=${encodeURIComponent(service.trim())}#formulario`
+    : `${CONTACT_PATH}#formulario`;
 
 /**
  * Atributos del botón. Los enlaces son <a>; el diagnóstico y el video son <button> que escuchan
@@ -46,6 +48,7 @@ export function actionAttrs(btn: Pick<ActionButton, 'action' | 'value'>, videoTi
         attrs: { type: 'button', 'data-video': value, 'data-video-title': videoTitle },
       } as const;
     default: {
+      if (/^\s*(javascript|data|vbscript):/i.test(value)) return { tag: 'a', attrs: { href: '#' } } as const;
       const external = /^https?:\/\//i.test(value);
       return {
         tag: 'a',

@@ -65,7 +65,9 @@ export function shortDate(d: Date) {
 
 /** Fecha como en el mockup de Novedades: "19 nov. 2026" */
 export const newsDate = (d: Date) =>
-  d.toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).replace(/\bde\b\s?/g, '');
+  d
+    .toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' })
+    .replace(/\bde\b\s?/g, '');
 
 /** Etiqueta de duración de un artículo: la del CMS o "N min de lectura" */
 export const readLabel = (post: Post) => post.data.readLabel || `${readingMinutes(post.body)} min de lectura`;

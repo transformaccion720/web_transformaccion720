@@ -6,7 +6,7 @@ author: "Gabino Tocto"
 publishedAt: 2026-11-19
 featured: true
 readLabel: ""
-cover: '@/assets/images/blog/la-agilidad-empresarial-necesita-lideres-que-transformen/cover.png'
+cover: '@/assets/images/blog/la-agilidad-empresarial-necesita-lideres-que-transformen/cover.jpg'
 coverAlt: "Equipo directivo en una sesión de trabajo ágil"
 keyTakeaways:
   - "Las herramientas ágiles sin un cambio de liderazgo se vuelven más burocracia."

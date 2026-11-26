@@ -88,7 +88,10 @@ export default defineConfig({
   adapter: vercel(),
   devToolbar: { enabled: false },
   // CSS chico en línea; la hoja principal va en un archivo con caché de 1 año (se reutiliza entre páginas)
-  build: { inlineStylesheets: 'always' }, // CSS dentro del HTML: la primera pantalla se pinta sin esperar otro archivo
+  // CSS de la web (~130 KB) en un archivo aparte con caché de 1 año: se descarga una vez y sirve para todas las páginas
+  build: { inlineStylesheets: 'auto' },
+  // La portada vive en /: la vista previa del CMS abre /inicio
+  redirects: { '/inicio': '/' },
   integrations: [
     react(),
     keystaticStudioIntegration(),

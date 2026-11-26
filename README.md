@@ -62,6 +62,12 @@ Igual que CMS Starter (ver `.env.example`): en Vercel definir `RESEND_API_KEY`, 
 Reclamaciones y, si se usa CMS en la nube, `PUBLIC_KEYSTATIC_CLOUD_PROJECT`. Los correos de destino se
 configuran en CMS → Configuración general → Correos de los formularios.
 
+**Seguridad del CMS:** mientras no se configure `PUBLIC_KEYSTATIC_CLOUD_PROJECT`, en producción `/keystatic` y
+`/api/keystatic` responden 404 (el modo local no tiene login). Para editar en línea, conectar Keystatic Cloud.
+
+**Rendimiento:** las imágenes se optimizan solas (WebP en varios tamaños); aun así, sube fotos de máx. ~1800 px de
+ancho. El CSS va en un archivo con caché de 1 año. Mide en producción con PageSpeed Insights.
+
 ## Pendiente
 
 - Recursos descargables con captura de leads y enlace firmado (fase final).

@@ -79,7 +79,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json({ error: 'Solicitud inválida.' }, 400);
   }
   if (raw.honeypot) return json({ success: true, number: '—' });
-  if (limited(clientAddress ?? 'anon')) return json({ error: 'Demasiados envíos. Intenta en unos minutos.' }, 429);
+  if (limited(clientAddress ?? 'anon'))
+    return json({ error: 'Demasiados envíos. Intenta en unos minutos.' }, 429);
 
   const parsed = complaintSchema.safeParse(raw);
   if (!parsed.success) {
@@ -108,14 +109,23 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const seq = await redis(['INCR', `reclamaciones:${year}`]);
     number = typeof seq === 'number' ? formatNumber(seq, year) : fallbackNumber(date);
     if (typeof seq === 'number')
-      await redis(['SET', `reclamacion:${number}`, JSON.stringify({ number, date: date.toISOString(), ...c })]);
+      await redis([
+        'SET',
+        `reclamacion:${number}`,
+        JSON.stringify({ number, date: date.toISOString(), ...c }),
+      ]);
     else console.warn('[reclamaciones] Sin Redis: número no correlativo', number);
   } catch (err) {
     console.error('[reclamaciones] Redis falló, se usa número de respaldo', err);
     number = fallbackNumber(date);
   }
 
-  const provider = { businessName: book.businessName, tradeName: book.tradeName, ruc: book.ruc, address: book.address };
+  const provider = {
+    businessName: book.businessName,
+    tradeName: book.tradeName,
+    ruc: book.ruc,
+    address: book.address,
+  };
   const html = complaintEmail(c, number, date, provider, book.responseNote);
   const from = sender(
     mail.fromName ? `${mail.fromName} - Libro de Reclamaciones` : '',

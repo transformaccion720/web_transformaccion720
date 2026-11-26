@@ -6,7 +6,7 @@ author: "Gabino Tocto"
 publishedAt: 2026-11-12
 featured: false
 readLabel: ""
-cover: '@/assets/images/blog/como-saber-si-tu-negocio-necesita-orden-antes-de-crecer/cover.png'
+cover: '@/assets/images/blog/como-saber-si-tu-negocio-necesita-orden-antes-de-crecer/cover.jpg'
 coverAlt: "Reunión de planificación estratégica"
 tags:
   - "Estrategia"

@@ -11,7 +11,19 @@ const json = (body: unknown, status = 200) =>
 const clean = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const esc = (t: string) => t.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
-export const POST: APIRoute = async ({ request }) => {
+// Límite simple por IP (por instancia): 8 envíos cada 10 minutos, contra abuso y spam
+const hits = new Map<string, number[]>();
+function limited(ip: string) {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < 10 * 60_000);
+  recent.push(now);
+  hits.set(ip, recent);
+  return recent.length > 8;
+}
+
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  if (Number(request.headers.get('content-length') ?? 0) > 20_000)
+    return json({ error: 'Solicitud demasiado grande.' }, 413);
   let data: Record<string, unknown>;
   try {
     data = await request.json();
@@ -21,6 +33,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   // Trampa para bots: un campo oculto que una persona nunca llena
   if (data.honeypot) return json({ success: true });
+  if (limited(clientAddress ?? 'anon'))
+    return json({ error: 'Demasiados envíos. Intenta en unos minutos.' }, 429);
 
   const name = clean(data.name, 120);
   const email = clean(data.email, 160);
@@ -29,7 +43,11 @@ export const POST: APIRoute = async ({ request }) => {
   const service = clean(data.service, 120);
   const message = clean(data.message, 3000);
   // Origen del formulario: contacto (Conversemos), diagnostico (Centro de Diagnóstico) o descarga (Hub)
-  const KINDS = { contacto: 'Nuevo contacto web', diagnostico: 'Nuevo diagnóstico', descarga: 'Nueva descarga' } as const;
+  const KINDS = {
+    contacto: 'Nuevo contacto web',
+    diagnostico: 'Nuevo diagnóstico',
+    descarga: 'Nueva descarga',
+  } as const;
   const kind = (clean(data.kind, 20) in KINDS ? clean(data.kind, 20) : 'contacto') as keyof typeof KINDS;
 
   if (!name || !email) return json({ error: 'Nombre y correo son obligatorios.' }, 400);
@@ -45,7 +63,11 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: 'FORM_DISABLED' }, 503);
   }
 
-  const from = sender(mail.fromName, mail.fromEmail, secret('CONTACT_FROM_EMAIL') || 'Web <onboarding@resend.dev>');
+  const from = sender(
+    mail.fromName,
+    mail.fromEmail,
+    secret('CONTACT_FROM_EMAIL') || 'Web <onboarding@resend.dev>'
+  );
   // El aviso llega como "Nombre · Web": en la bandeja se ve quién escribió, no tu propia marca
   const fromAddress = emailList(mail.fromEmail)[0];
   const notifyFrom = fromAddress ? `${name.replace(/[<>"]/g, '')} - Web <${fromAddress}>` : from;
@@ -81,7 +103,8 @@ export const POST: APIRoute = async ({ request }) => {
     } catch {
       /* respuesta no JSON */
     }
-    return json({ error: 'No pudimos enviar tu mensaje. Inténtalo de nuevo.', reason }, 502);
+    console.error('[contacto] Motivo:', reason);
+    return json({ error: 'No pudimos enviar tu mensaje. Inténtalo de nuevo.' }, 502);
   }
 
   // Confirmación para quien escribió (CMS → Correos de los formularios). Si falla, el mensaje ya llegó.

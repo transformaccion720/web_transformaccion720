@@ -73,7 +73,8 @@ if (groups.length) {
     render();
     history.replaceState(null, '', `#${key}`);
     // Botón fuera del selector (ej: "Ver Portafolio →"): se lleva la vista al selector
-    if (!a.closest('[data-tab-group]')) keyToGroup.get(key)!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!a.closest('[data-tab-group]'))
+      keyToGroup.get(key)!.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   window.addEventListener('hashchange', () => fromHash(true));

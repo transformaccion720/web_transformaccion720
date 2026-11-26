@@ -62,7 +62,14 @@ const { title, description, image, type, noindex, schema } = Astro.props;
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={displayUrl} as="font" type="font/woff2" crossorigin />
-    <SeoHead title={title} description={description} image={image} type={type} noindex={noindex} schema={schema} />
+    <SeoHead
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      noindex={noindex}
+      schema={schema}
+    />
     <slot name="head" />
   </head>
   <body class="flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
@@ -101,8 +108,12 @@ const { title, description, image, type, noindex, schema } = Astro.props;
           if (event.origin !== location.origin || !data || data.type !== 'CMS_LIVE_PREVIEW') return;
 
           // "pages.sections.*.value.title" coincide con "pages.sections.3.value.title"
-          const pattern = new RegExp('^(' + data.paths.map((p) => escapeRe(p).replace(/\*/g, '\\d+')).join('|') + ')$');
-          let targets = [...document.querySelectorAll('[data-cms]')].filter((el) => pattern.test(el.dataset.cms));
+          const pattern = new RegExp(
+            '^(' + data.paths.map((p) => escapeRe(p).replace(/\*/g, '\\d+')).join('|') + ')$'
+          );
+          let targets = [...document.querySelectorAll('[data-cms]')].filter((el) =>
+            pattern.test(el.dataset.cms)
+          );
 
           if (targets.length > 1 && data.prev != null && !data.image) {
             const prev = norm(data.prev);
@@ -130,7 +141,8 @@ const { title, description, image, type, noindex, schema } = Astro.props;
             const firstHit = targets[0];
             if (firstHit) {
               const r = firstHit.getBoundingClientRect();
-              if (r.bottom < 0 || r.top > innerHeight) firstHit.scrollIntoView({ block: 'center', behavior: 'smooth' });
+              if (r.bottom < 0 || r.top > innerHeight)
+                firstHit.scrollIntoView({ block: 'center', behavior: 'smooth' });
             }
             return;
           }
@@ -153,7 +165,8 @@ const { title, description, image, type, noindex, schema } = Astro.props;
               if (key) location.hash = key;
             }
             const r = first.getBoundingClientRect();
-            if (r.bottom < 0 || r.top > innerHeight) first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            if (r.bottom < 0 || r.top > innerHeight)
+              first.scrollIntoView({ block: 'center', behavior: 'smooth' });
           }
         });
       }

@@ -281,7 +281,10 @@ export default function KeystaticStudio() {
 
     sendToPreview({
       paths: resolved.paths,
-      value: target instanceof HTMLInputElement && target.type === 'checkbox' ? String(target.checked) : target.value,
+      value:
+        target instanceof HTMLInputElement && target.type === 'checkbox'
+          ? String(target.checked)
+          : target.value,
       prev: previousValues.current.get(target) ?? null,
     });
     previousValues.current.set(target, target.value);

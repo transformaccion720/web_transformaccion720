@@ -15,8 +15,15 @@ const revDefault = c.revenueOptions.find((o) => o.selected) ?? c.revenueOptions[
 const fricDefault = c.frictionOptions.find((o) => o.selected) ?? c.frictionOptions[0];
 const first = hoursLost({ team: h.teamDefault, hours: h.hoursDefault, rate: h.rateDefault, weeks: h.weeks });
 const second = costSavings(revDefault?.value ?? 0, fricDefault?.value ?? 0, c.hourCost);
-const config = { weeks: h.weeks, hourCost: c.hourCost, currency: d.currency, success: d.successToast, error: d.errorText };
-const input = 'w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm focus:border-brand-blue focus:outline-none';
+const config = {
+  weeks: h.weeks,
+  hourCost: c.hourCost,
+  currency: d.currency,
+  success: d.successToast,
+  error: d.errorText,
+};
+const input =
+  'w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm focus:border-brand-blue focus:outline-none';
 const label = 'mb-1 block text-xs font-bold';
 ---
 
@@ -32,41 +39,93 @@ const label = 'mb-1 block text-xs font-bold';
   <div class="my-8 w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-apple-lg dark:border-slate-800 dark:bg-slate-900">
     <div class="flex items-center justify-between bg-[#0B1F3A] px-6 py-5 text-white">
       <div>
-        <span class="text-[11px] font-extrabold tracking-widest text-amber-300 uppercase" data-cms="diagnostic.kicker">{d.kicker}</span>
-        <h3 id="diag-title" class="mt-0.5 font-display text-xl font-extrabold" data-cms="diagnostic.title">{d.title}</h3>
+        <span
+          class="text-[11px] font-extrabold tracking-widest text-amber-300 uppercase"
+          data-cms="diagnostic.kicker"
+        >
+          {d.kicker}
+        </span>
+        <h3 id="diag-title" class="mt-0.5 font-display text-xl font-extrabold" data-cms="diagnostic.title">
+          {d.title}
+        </h3>
       </div>
-      <button type="button" data-modal-close class="flex size-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20" aria-label="Cerrar diagnóstico">✕</button>
+      <button
+        type="button"
+        data-modal-close
+        class="flex size-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+        aria-label="Cerrar diagnóstico"
+      >
+        ✕
+      </button>
     </div>
 
     <div class="space-y-5 p-6 text-slate-900 dark:text-slate-100">
       <div class="apple-segment w-full justify-between" role="tablist">
-        <button type="button" role="tab" data-diag-tab="horas" class="apple-segment-btn active flex-1 text-center" data-cms="diagnostic.tabHours">{d.tabHours}</button>
-        <button type="button" role="tab" data-diag-tab="costos" class="apple-segment-btn flex-1 text-center" data-cms="diagnostic.tabCosts">{d.tabCosts}</button>
+        <button
+          type="button"
+          role="tab"
+          data-diag-tab="horas"
+          class="apple-segment-btn active flex-1 text-center"
+          data-cms="diagnostic.tabHours"
+        >
+          {d.tabHours}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          data-diag-tab="costos"
+          class="apple-segment-btn flex-1 text-center"
+          data-cms="diagnostic.tabCosts"
+        >
+          {d.tabCosts}
+        </button>
       </div>
 
       <div data-diag-panel="horas" class="space-y-4">
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="diag-team" class={label}>{h.teamLabel}</label>
+            <label for="diag-team" class={label}>
+              {h.teamLabel}
+            </label>
             <input id="diag-team" type="number" min="1" value={h.teamDefault} class={input} data-diag-input />
           </div>
           <div>
-            <label for="diag-hours" class={label}>{h.hoursLabel}</label>
-            <input id="diag-hours" type="number" min="1" max="40" value={h.hoursDefault} class={input} data-diag-input />
+            <label for="diag-hours" class={label}>
+              {h.hoursLabel}
+            </label>
+            <input
+              id="diag-hours"
+              type="number"
+              min="1"
+              max="40"
+              value={h.hoursDefault}
+              class={input}
+              data-diag-input
+            />
           </div>
           <div class="sm:col-span-2">
-            <label for="diag-rate" class={label}>{h.rateLabel}</label>
+            <label for="diag-rate" class={label}>
+              {h.rateLabel}
+            </label>
             <input id="diag-rate" type="number" min="5" value={h.rateDefault} class={input} data-diag-input />
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-brand-cream p-4 dark:border-slate-700 dark:bg-slate-800">
           <div>
-            <div class="text-[11px] font-bold text-slate-500 uppercase">{h.resultHours}</div>
-            <div id="res-hours" class="font-display text-2xl font-black text-brand-orange">{fmtNumber(first.annualHours)} h</div>
+            <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase">
+              {h.resultHours}
+            </div>
+            <div id="res-hours" class="font-display text-2xl font-black text-brand-orange">
+              {fmtNumber(first.annualHours)} h
+            </div>
           </div>
           <div>
-            <div class="text-[11px] font-bold text-slate-500 uppercase">{h.resultCost}</div>
-            <div id="res-cost" class="font-display text-2xl font-black text-brand-navy dark:text-white">{fmtMoney(first.annualCost, d.currency)}</div>
+            <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase">
+              {h.resultCost}
+            </div>
+            <div id="res-cost" class="font-display text-2xl font-black text-brand-navy dark:text-white">
+              {fmtMoney(first.annualCost, d.currency)}
+            </div>
           </div>
         </div>
       </div>
@@ -74,37 +133,86 @@ const label = 'mb-1 block text-xs font-bold';
       <div data-diag-panel="costos" class="space-y-4" hidden>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="diag-rev" class={label}>{c.revenueLabel}</label>
+            <label for="diag-rev" class={label}>
+              {c.revenueLabel}
+            </label>
             <select id="diag-rev" class={input} data-diag-input>
-              {c.revenueOptions.map((o) => <option value={o.value} selected={o === revDefault}>{o.label}</option>)}
+              {c.revenueOptions.map((o) => (
+                <option value={o.value} selected={o === revDefault}>
+                  {o.label}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label for="diag-fric" class={label}>{c.frictionLabel}</label>
+            <label for="diag-fric" class={label}>
+              {c.frictionLabel}
+            </label>
             <select id="diag-fric" class={input} data-diag-input>
-              {c.frictionOptions.map((o) => <option value={o.value} selected={o === fricDefault}>{o.label}</option>)}
+              {c.frictionOptions.map((o) => (
+                <option value={o.value} selected={o === fricDefault}>
+                  {o.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-brand-cream p-4 dark:border-slate-700 dark:bg-slate-800">
           <div>
-            <div class="text-[11px] font-bold text-slate-500 uppercase">{c.resultSavings}</div>
-            <div id="res-savings" class="font-display text-2xl font-black text-emerald-600 dark:text-emerald-400">{fmtMoney(second.savings, d.currency)}</div>
+            <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase">
+              {c.resultSavings}
+            </div>
+            <div
+              id="res-savings"
+              class="font-display text-2xl font-black text-emerald-600 dark:text-emerald-400"
+            >
+              {fmtMoney(second.savings, d.currency)}
+            </div>
           </div>
           <div>
-            <div class="text-[11px] font-bold text-slate-500 uppercase">{c.resultHours}</div>
-            <div id="res-monthly" class="font-display text-2xl font-black text-brand-navy dark:text-white">{fmtNumber(second.monthlyHours)} h</div>
+            <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase">
+              {c.resultHours}
+            </div>
+            <div id="res-monthly" class="font-display text-2xl font-black text-brand-navy dark:text-white">
+              {fmtNumber(second.monthlyHours)} h
+            </div>
           </div>
         </div>
       </div>
 
       <form class="space-y-3 border-t border-slate-200 pt-4 dark:border-slate-800" data-diag-form>
-        <input type="text" name="honeypot" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-cms="diagnostic.emailIntro">{d.emailIntro}</p>
+        <input
+          type="text"
+          name="honeypot"
+          tabindex="-1"
+          autocomplete="off"
+          class="hidden"
+          aria-hidden="true"
+        />
+        <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-cms="diagnostic.emailIntro">
+          {d.emailIntro}
+        </p>
         <div class="flex flex-col gap-2.5 sm:flex-row">
-          <label for="diag-email" class="sr-only">Correo electrónico</label>
-          <input id="diag-email" name="email" type="email" required maxlength="160" autocomplete="email" placeholder={d.emailPlaceholder} class="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-blue focus:outline-none" />
-          <button type="submit" class="rounded-xl bg-brand-orange px-5 py-2.5 text-xs font-extrabold whitespace-nowrap text-brand-deep transition hover:bg-amber-400 disabled:opacity-60" data-cms="diagnostic.submitText">{d.submitText}</button>
+          <label for="diag-email" class="sr-only">
+            Correo electrónico
+          </label>
+          <input
+            id="diag-email"
+            name="email"
+            type="email"
+            required
+            maxlength="160"
+            autocomplete="email"
+            placeholder={d.emailPlaceholder}
+            class="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-blue focus:outline-none"
+          />
+          <button
+            type="submit"
+            class="rounded-xl bg-brand-orange px-5 py-2.5 text-xs font-extrabold whitespace-nowrap text-brand-deep transition hover:bg-amber-400 disabled:opacity-60"
+            data-cms="diagnostic.submitText"
+          >
+            {d.submitText}
+          </button>
         </div>
       </form>
     </div>
@@ -132,7 +240,12 @@ const label = 'mb-1 block text-xs font-bold';
   let tab = 'horas';
 
   function calc() {
-    const a = hoursLost({ team: val('diag-team'), hours: val('diag-hours'), rate: val('diag-rate'), weeks: cfg.weeks });
+    const a = hoursLost({
+      team: val('diag-team'),
+      hours: val('diag-hours'),
+      rate: val('diag-rate'),
+      weeks: cfg.weeks,
+    });
     $('res-hours').textContent = `${fmtNumber(a.annualHours)} h`;
     $('res-cost').textContent = fmtMoney(a.annualCost, cfg.currency);
     const b = costSavings(val('diag-rev'), val('diag-fric'), cfg.hourCost);
@@ -142,14 +255,18 @@ const label = 'mb-1 block text-xs font-bold';
 
   function show(next: string) {
     tab = next === 'costos' ? 'costos' : 'horas';
-    modal.querySelectorAll<HTMLElement>('[data-diag-panel]').forEach((p) => (p.hidden = p.dataset.diagPanel !== tab));
+    modal
+      .querySelectorAll<HTMLElement>('[data-diag-panel]')
+      .forEach((p) => (p.hidden = p.dataset.diagPanel !== tab));
     modal.querySelectorAll<HTMLElement>('[data-diag-tab]').forEach((b) => {
       b.classList.toggle('active', b.dataset.diagTab === tab);
       b.setAttribute('aria-selected', String(b.dataset.diagTab === tab));
     });
   }
 
-  modal.querySelectorAll<HTMLElement>('[data-diag-tab]').forEach((b) => b.addEventListener('click', () => show(b.dataset.diagTab!)));
+  modal
+    .querySelectorAll<HTMLElement>('[data-diag-tab]')
+    .forEach((b) => b.addEventListener('click', () => show(b.dataset.diagTab!)));
   modal.querySelectorAll('[data-diag-input]').forEach((el) => {
     el.addEventListener('input', calc);
     el.addEventListener('change', calc);

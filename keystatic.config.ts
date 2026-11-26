@@ -44,7 +44,11 @@ const actionButton = (label: string, defaultAction = 'link') =>
   fields.object(
     {
       text: fields.text({ label: 'Texto del botón', description: 'Vacío = no se muestra el botón.' }),
-      action: fields.select({ label: '¿Qué hace al hacer clic?', options: ACTION_OPTIONS, defaultValue: defaultAction }),
+      action: fields.select({
+        label: '¿Qué hace al hacer clic?',
+        options: ACTION_OPTIONS,
+        defaultValue: defaultAction,
+      }),
       value: fields.text({
         label: 'Enlace / servicio / video',
         description:
@@ -58,7 +62,11 @@ const buttonsList = (label = 'Botones') =>
   fields.array(
     fields.object({
       text: fields.text({ label: 'Texto del botón' }),
-      action: fields.select({ label: '¿Qué hace al hacer clic?', options: ACTION_OPTIONS, defaultValue: 'link' }),
+      action: fields.select({
+        label: '¿Qué hace al hacer clic?',
+        options: ACTION_OPTIONS,
+        defaultValue: 'link',
+      }),
       value: fields.text({ label: 'Enlace / servicio / video' }),
     }),
     { label, itemLabel: (p) => p.fields.text.value || 'Botón' }
@@ -81,20 +89,27 @@ const tabsField = (label = 'Pestañas') =>
   fields.array(
     fields.object({
       label: text('Texto de la pestaña'),
-      key: text('Clave', 'Sin espacios ni tildes. Ej: quienes-somos. Se usa en el enlace /nosotros#quienes-somos.'),
+      key: text(
+        'Clave',
+        'Sin espacios ni tildes. Ej: quienes-somos. Se usa en el enlace /nosotros#quienes-somos.'
+      ),
     }),
     { label, itemLabel: (p) => p.fields.label.value || 'Pestaña' }
   );
 
 const filtersField = () =>
-  fields.array(
-    fields.object({ key: text('Clave', 'Ej: banca'), label: text('Texto del filtro') }),
-    { label: 'Filtros', itemLabel: (p) => p.fields.label.value || 'Filtro' }
-  );
+  fields.array(fields.object({ key: text('Clave', 'Ej: banca'), label: text('Texto del filtro') }), {
+    label: 'Filtros',
+    itemLabel: (p) => p.fields.label.value || 'Filtro',
+  });
 
 const metricsField = (label = 'Cifras') =>
   fields.array(
-    fields.object({ value: text('Cifra', 'Ej: +45, -38%, 3x'), label: text('Descripción'), tone: toneField('Color de la cifra', 'navy') }),
+    fields.object({
+      value: text('Cifra', 'Ej: +45, -38%, 3x'),
+      label: text('Descripción'),
+      tone: toneField('Color de la cifra', 'navy'),
+    }),
     { label, itemLabel: (p) => `${p.fields.value.value} ${p.fields.label.value}`.trim() || 'Cifra' }
   );
 
@@ -169,7 +184,12 @@ const ta720Blocks = {
       text: longText('Texto a la derecha'),
       stepLabel: text('Prefijo de cada paso', 'Ej: PASO ➡️ PASO 01', 'PASO'),
       steps: fields.array(
-        fields.object({ title: text('Título'), desc: longText('Descripción'), icon: iconField(), tone: toneField() }),
+        fields.object({
+          title: text('Título'),
+          desc: longText('Descripción'),
+          icon: iconField(),
+          tone: toneField(),
+        }),
         { label: 'Pasos (se numeran solos)', itemLabel: (p) => p.fields.title.value || 'Paso' }
       ),
       ...placement,
@@ -232,7 +252,10 @@ const ta720Blocks = {
           name: text('Nombre'),
           logo: pageImage('Logo (opcional)', 'Vacío = se muestra el nombre en texto, como en el diseño.'),
         }),
-        { label: 'Organizaciones (cinta en movimiento)', itemLabel: (p) => p.fields.name.value || 'Organización' }
+        {
+          label: 'Organizaciones (cinta en movimiento)',
+          itemLabel: (p) => p.fields.name.value || 'Organización',
+        }
       ),
       partnersKicker: text('Partners: antetítulo'),
       partnersTitle: text('Partners: título'),
@@ -253,7 +276,11 @@ const ta720Blocks = {
             defaultValue: 'ally',
           }),
         }),
-        { label: 'Partners y aliados (con logo)', itemLabel: (p) => `${p.fields.name.value} (${p.fields.type.value === 'partner' ? 'partner' : 'aliado'})` }
+        {
+          label: 'Partners y aliados (con logo)',
+          itemLabel: (p) =>
+            `${p.fields.name.value} (${p.fields.type.value === 'partner' ? 'partner' : 'aliado'})`,
+        }
       ),
       ...placement,
     }),
@@ -291,7 +318,10 @@ const ta720Blocks = {
           label: text('Descripción'),
           tone: toneField('Color', 'orange'),
         }),
-        { label: 'Cifras (3 o 4)', itemLabel: (p) => `${p.fields.value.value} ${p.fields.label.value}`.trim() || 'Cifra' }
+        {
+          label: 'Cifras (3 o 4)',
+          itemLabel: (p) => `${p.fields.value.value} ${p.fields.label.value}`.trim() || 'Cifra',
+        }
       ),
       ...placement,
     }),
@@ -353,7 +383,8 @@ const ta720Blocks = {
     schema: fields.object({
       enabled: fields.checkbox({
         label: 'Mostrar el equipo especialista en la web',
-        description: 'Desmárcalo mientras el equipo sean colaboradores independientes. Al tener personas, márcalo y ve agregándolas abajo.',
+        description:
+          'Desmárcalo mientras el equipo sean colaboradores independientes. Al tener personas, márcalo y ve agregándolas abajo.',
         defaultValue: false,
       }),
       kicker: text('Antetítulo'),
@@ -380,7 +411,12 @@ const ta720Blocks = {
       title: text('Título'),
       text: longText('Texto'),
       highlights: fields.array(
-        fields.object({ symbol: text('Símbolo', 'Ej: ⊞ ◎ ⇄ ↗'), title: text('Título'), desc: text('Descripción'), tone: toneField() }),
+        fields.object({
+          symbol: text('Símbolo', 'Ej: ⊞ ◎ ⇄ ↗'),
+          title: text('Título'),
+          desc: text('Descripción'),
+          tone: toneField(),
+        }),
         { label: 'Beneficios (4)', itemLabel: (p) => p.fields.title.value || 'Beneficio' }
       ),
       panelKicker: text('Panel: antetítulo'),
@@ -398,14 +434,24 @@ const ta720Blocks = {
           center: text('Centro (línea 1)', undefined, 'IKIGAI'),
           center2: text('Centro (línea 2)', undefined, 'TA720'),
           items: fields.array(
-            fields.object({ title: text('Título', 'Ej: ↑ Cliente'), desc: text('Descripción'), tone: toneField() }),
+            fields.object({
+              title: text('Título', 'Ej: ↑ Cliente'),
+              desc: text('Descripción'),
+              tone: toneField(),
+            }),
             { label: 'Explicaciones (4)', itemLabel: (p) => p.fields.title.value || 'Explicación' }
           ),
         },
         { label: 'Pestaña 1: Ikigai' }
       ),
       pillars: fields.array(
-        fields.object({ icon: iconField('Ícono', 'chart'), title: text('Título'), tag: text('Palabra clave (opcional)', 'Ej: Decidir con evidencia'), desc: longText('Descripción'), tone: toneField() }),
+        fields.object({
+          icon: iconField('Ícono', 'chart'),
+          title: text('Título'),
+          tag: text('Palabra clave (opcional)', 'Ej: Decidir con evidencia'),
+          desc: longText('Descripción'),
+          tone: toneField(),
+        }),
         { label: 'Pestaña 2: Pilares', itemLabel: (p) => p.fields.title.value || 'Pilar' }
       ),
       phases: fields.array(
@@ -496,17 +542,22 @@ const ta720Blocks = {
         {
           image: pageImage('Imagen principal (vacío = no se muestra este bloque)'),
           imageAlt: text('Texto alternativo'),
-          slides: fields.array(
-            fields.object({ image: pageImage('Foto'), alt: text('Texto alternativo') }),
-            { label: 'Más fotos (carrusel, 1 o 2 adicionales)', itemLabel: (p) => p.fields.alt.value || 'Foto' }
-          ),
+          slides: fields.array(fields.object({ image: pageImage('Foto'), alt: text('Texto alternativo') }), {
+            label: 'Más fotos (carrusel, 1 o 2 adicionales)',
+            itemLabel: (p) => p.fields.alt.value || 'Foto',
+          }),
           badge: text('Etiqueta de la imagen'),
           badgeTone: toneField('Color de la etiqueta', 'orange'),
           caption: text('Frase sobre la imagen'),
           kicker: text('Antetítulo'),
           title: text('Título'),
           metrics: fields.array(
-            fields.object({ value: text('Cifra'), label: text('Descripción'), note: text('Nota'), tone: toneField('Color', 'orange') }),
+            fields.object({
+              value: text('Cifra'),
+              label: text('Descripción'),
+              note: text('Nota'),
+              tone: toneField('Color', 'orange'),
+            }),
             { label: 'Métricas (3)', itemLabel: (p) => p.fields.value.value || 'Métrica' }
           ),
         },
@@ -558,7 +609,11 @@ const ta720Blocks = {
       resultLabel: text('Detalle: título 2', undefined, 'Impacto en el negocio'),
       closeText: text('Detalle: botón cerrar', undefined, 'Cerrar'),
       ctaText: text('Detalle: botón cotizar', undefined, 'Cotizar un proyecto similar ➡️'),
-      ctaPrefix: text('Servicio que se preselecciona', 'Se le suma el nombre del proyecto.', 'Proyecto similar a: '),
+      ctaPrefix: text(
+        'Servicio que se preselecciona',
+        'Se le suma el nombre del proyecto.',
+        'Proyecto similar a: '
+      ),
       projects: fields.array(
         fields.object({
           category: text('Clave del filtro', 'Ej: web'),
@@ -655,7 +710,11 @@ const ta720Blocks = {
       text: longText('Texto'),
       buttonText: text('Botón', undefined, 'INGRESAR AL CAMPUS ➡️'),
       buttonHref: text('Enlace del campus', 'Vacío = muestra el aviso de abajo (aún sin campus).'),
-      notice: text('Aviso si no hay enlace', undefined, 'Acceso LMS habilitado para alumnos y clientes corporativos activos.'),
+      notice: text(
+        'Aviso si no hay enlace',
+        undefined,
+        'Acceso LMS habilitado para alumnos y clientes corporativos activos.'
+      ),
       image: pageImage('Imagen'),
       imageAlt: text('Texto alternativo'),
       ...placement,
@@ -705,7 +764,10 @@ const ta720Blocks = {
       phonePlaceholder: text('Ejemplo teléfono', undefined, '+51 999 000 000'),
       serviceLabel: text('Campo servicio', undefined, 'Servicio de interés'),
       services: fields.array(
-        fields.object({ value: text('Servicio (lo que llega en el correo)'), label: text('Texto en la lista') }),
+        fields.object({
+          value: text('Servicio (lo que llega en el correo)'),
+          label: text('Texto en la lista'),
+        }),
         { label: 'Servicios de la lista', itemLabel: (p) => p.fields.label.value || 'Servicio' }
       ),
       messageLabel: text('Campo mensaje', undefined, 'Cuéntanos tu desafío *'),
@@ -717,8 +779,16 @@ const ta720Blocks = {
       ),
       submitText: text('Botón', undefined, 'ENVIAR SOLICITUD ➡️'),
       sendingText: text('Botón mientras envía', undefined, 'ENVIANDO…'),
-      successToast: text('Aviso al enviar', undefined, '¡Solicitud recibida! Un especialista te contactará en menos de 24 horas.'),
-      errorText: text('Mensaje si falla', undefined, 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.'),
+      successToast: text(
+        'Aviso al enviar',
+        undefined,
+        '¡Solicitud recibida! Un especialista te contactará en menos de 24 horas.'
+      ),
+      errorText: text(
+        'Mensaje si falla',
+        undefined,
+        'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.'
+      ),
       ...placement,
     }),
   },
@@ -730,13 +800,31 @@ const ta720Blocks = {
       kicker: text('Antetítulo'),
       title: text('Título'),
       items: fields.array(
-        fields.object({ tag: text('Etiqueta', 'Ej: TIEMPO (se numera sola: 01 - TIEMPO)'), question: text('Pregunta'), answer: longText('Respuesta') }),
+        fields.object({
+          tag: text('Etiqueta', 'Ej: TIEMPO (se numera sola: 01 - TIEMPO)'),
+          question: text('Pregunta'),
+          answer: longText('Respuesta'),
+        }),
         { label: 'Preguntas', itemLabel: (p) => p.fields.question.value || 'Pregunta' }
       ),
-      hint: text('Ayuda del recorrido', undefined, 'Toca cada parada del recorrido para descubrir la respuesta'),
-      progressText: text('Texto de avance', 'Variables: {leidas}, {total}', '{leidas} de {total} dudas resueltas'),
+      hint: text(
+        'Ayuda del recorrido',
+        undefined,
+        'Toca cada parada del recorrido para descubrir la respuesta'
+      ),
+      prevText: text('Botón anterior', undefined, '⬅️ Anterior'),
+      nextText: text('Botón siguiente', undefined, 'Siguiente parada ➡️'),
+      progressText: text(
+        'Texto de avance',
+        'Variables: {leidas}, {total}',
+        '{leidas} de {total} dudas resueltas'
+      ),
       doneTitle: text('Al completar: título', undefined, '¡Recorrido completado! 🎉'),
-      doneText: text('Al completar: texto', undefined, 'Ya conoces lo esencial. El siguiente paso es conversar sobre tu empresa.'),
+      doneText: text(
+        'Al completar: texto',
+        undefined,
+        'Ya conoces lo esencial. El siguiente paso es conversar sobre tu empresa.'
+      ),
       doneButton: actionButton('Al completar: botón', 'contact'),
       ...placement,
     }),
@@ -774,7 +862,10 @@ const genericBlocks = {
     schema: fields.object({
       ...heading,
       body: longText('Texto', 'Separa párrafos con una línea vacía.'),
-      bullets: fields.array(fields.text({ label: 'Punto' }), { label: 'Lista de puntos (opcional)', itemLabel: (p) => p.value || 'Punto' }),
+      bullets: fields.array(fields.text({ label: 'Punto' }), {
+        label: 'Lista de puntos (opcional)',
+        itemLabel: (p) => p.value || 'Punto',
+      }),
       image: pageImage('Imagen'),
       imageAlt: text('Texto alternativo de la imagen'),
       imageSide: fields.select({
@@ -804,7 +895,13 @@ const genericBlocks = {
         defaultValue: '3',
       }),
       items: fields.array(
-        fields.object({ icon: iconField(), image: pageImage('Imagen (opcional)'), title: text('Título de la tarjeta'), desc: longText('Descripción'), href: text('Enlace (opcional)') }),
+        fields.object({
+          icon: iconField(),
+          image: pageImage('Imagen (opcional)'),
+          title: text('Título de la tarjeta'),
+          desc: longText('Descripción'),
+          href: text('Enlace (opcional)'),
+        }),
         { label: 'Tarjetas', itemLabel: (p) => p.fields.title.value || 'Tarjeta' }
       ),
       ...common,
@@ -816,7 +913,11 @@ const genericBlocks = {
     schema: fields.object({
       ...heading,
       images: fields.array(
-        fields.object({ image: pageImage('Imagen'), alt: text('Texto alternativo'), caption: text('Pie de foto (opcional)') }),
+        fields.object({
+          image: pageImage('Imagen'),
+          alt: text('Texto alternativo'),
+          caption: text('Pie de foto (opcional)'),
+        }),
         { label: 'Imágenes', itemLabel: (p) => p.fields.caption.value || p.fields.alt.value || 'Imagen' }
       ),
       ...common,
@@ -827,10 +928,16 @@ const genericBlocks = {
     itemLabel: titled('Números'),
     schema: fields.object({
       ...heading,
-      items: fields.array(fields.object({ value: text('Cifra', 'Ej: +250, 15 años, 98 %'), label: text('Descripción de la cifra') }), {
-        label: 'Cifras',
-        itemLabel: (p) => `${p.fields.value.value} ${p.fields.label.value}`.trim() || 'Cifra',
-      }),
+      items: fields.array(
+        fields.object({
+          value: text('Cifra', 'Ej: +250, 15 años, 98 %'),
+          label: text('Descripción de la cifra'),
+        }),
+        {
+          label: 'Cifras',
+          itemLabel: (p) => `${p.fields.value.value} ${p.fields.label.value}`.trim() || 'Cifra',
+        }
+      ),
       ...common,
     }),
   },
@@ -840,7 +947,12 @@ const genericBlocks = {
     schema: fields.object({
       ...heading,
       items: fields.array(
-        fields.object({ quote: longText('Testimonio'), name: text('Nombre'), role: text('Cargo / Empresa'), avatar: pageImage('Foto (opcional)') }),
+        fields.object({
+          quote: longText('Testimonio'),
+          name: text('Nombre'),
+          role: text('Cargo / Empresa'),
+          avatar: pageImage('Foto (opcional)'),
+        }),
         { label: 'Testimonios', itemLabel: (p) => p.fields.name.value || 'Testimonio' }
       ),
       ...common,
@@ -852,7 +964,12 @@ const genericBlocks = {
     schema: fields.object({
       ...heading,
       members: fields.array(
-        fields.object({ photo: pageImage('Foto'), name: text('Nombre'), role: text('Cargo'), bio: longText('Descripción breve') }),
+        fields.object({
+          photo: pageImage('Foto'),
+          name: text('Nombre'),
+          role: text('Cargo'),
+          bio: longText('Descripción breve'),
+        }),
         { label: 'Integrantes', itemLabel: (p) => p.fields.name.value || 'Integrante' }
       ),
       ...common,
@@ -877,7 +994,11 @@ const genericBlocks = {
       ...heading,
       kickerIcon: iconField('Ícono del antetítulo', 'handshake'),
       logos: fields.array(
-        fields.object({ logo: pageImage('Logo', 'SVG o PNG con fondo transparente.'), name: text('Nombre'), url: text('Enlace (opcional)') }),
+        fields.object({
+          logo: pageImage('Logo', 'SVG o PNG con fondo transparente.'),
+          name: text('Nombre'),
+          url: text('Enlace (opcional)'),
+        }),
         { label: 'Logos', itemLabel: (p) => p.fields.name.value || 'Logo' }
       ),
       ...common,
@@ -886,16 +1007,28 @@ const genericBlocks = {
   video: {
     label: 'Video',
     itemLabel: titled('Video'),
-    schema: fields.object({ ...heading, url: text('Enlace de YouTube', 'Ej: https://www.youtube.com/watch?v=…'), ...common }),
+    schema: fields.object({
+      ...heading,
+      url: text('Enlace de YouTube', 'Ej: https://www.youtube.com/watch?v=…'),
+      ...common,
+    }),
   },
   cta: {
     label: 'Llamado a la acción (simple)',
     itemLabel: titled('Llamado'),
-    schema: fields.object({ ...heading, primary: button('Botón principal'), secondary: button('Botón secundario'), ...common }),
+    schema: fields.object({
+      ...heading,
+      primary: button('Botón principal'),
+      secondary: button('Botón secundario'),
+      ...common,
+    }),
   },
 };
 
-const sectionBlocks = fields.blocks({ ...ta720Blocks, ...genericBlocks }, { label: 'Secciones de la página' });
+const sectionBlocks = fields.blocks(
+  { ...ta720Blocks, ...genericBlocks },
+  { label: 'Secciones de la página' }
+);
 
 export default config({
   storage: cloudProject ? { kind: 'cloud' } : { kind: 'local' },
@@ -923,10 +1056,17 @@ export default config({
       previewUrl: '/{slug}',
       schema: {
         title: fields.slug({
-          name: { label: 'Título de la página', description: 'La página con dirección "inicio" es la portada.', validation: { isRequired: true } },
+          name: {
+            label: 'Título de la página',
+            description: 'La página con dirección "inicio" es la portada.',
+            validation: { isRequired: true },
+          },
         }),
         seoTitle: text('Título para Google (opcional)', 'Vacío = se usa el título de la página.'),
-        seoDescription: longText('Descripción para Google', '140-160 caracteres. Vacío = la descripción general.'),
+        seoDescription: longText(
+          'Descripción para Google',
+          '140-160 caracteres. Vacío = la descripción general.'
+        ),
         sections: sectionBlocks,
       },
     }),
@@ -961,7 +1101,10 @@ export default config({
         author: text('Autor', 'Ej: Gabino Tocto'),
         publishedAt: fields.date({ label: 'Fecha de publicación', validation: { isRequired: true } }),
         featured: fields.checkbox({ label: '★ Destacado (va arriba, en grande)', defaultValue: false }),
-        readLabel: text('Texto de duración (opcional)', 'Vacío = "3 min de lectura" calculado solo. Ej eventos: Presencial - Lima'),
+        readLabel: text(
+          'Texto de duración (opcional)',
+          'Vacío = "3 min de lectura" calculado solo. Ej eventos: Presencial - Lima'
+        ),
         cover: imageIn('blog')('Imagen de portada', 'Horizontal 16:9.'),
         coverAlt: text('Texto alternativo de la portada'),
         keyTakeaways: fields.array(fields.text({ label: 'Punto', multiline: true }), {
@@ -969,7 +1112,10 @@ export default config({
           itemLabel: (p) => p.value || 'Punto',
         }),
         quote: longText('Cita destacada'),
-        tags: fields.array(fields.text({ label: 'Tema' }), { label: 'Temas', itemLabel: (p) => p.value || 'Tema' }),
+        tags: fields.array(fields.text({ label: 'Tema' }), {
+          label: 'Temas',
+          itemLabel: (p) => p.value || 'Tema',
+        }),
         draft: fields.checkbox({ label: 'Borrador (no se publica)', defaultValue: false }),
       },
     }),
@@ -988,7 +1134,10 @@ export default config({
             description: 'Puedes renombrarla cuando quieras: sus artículos se actualizan solos.',
             validation: { isRequired: true, length: { max: 40 } },
           },
-          slug: { label: 'Identificador', description: 'Se crea solo al guardar. No lo cambies después: los artículos lo usan.' },
+          slug: {
+            label: 'Identificador',
+            description: 'Se crea solo al guardar. No lo cambies después: los artículos lo usan.',
+          },
         }),
         order: fields.integer({ label: 'Orden', description: '1 aparece primero.', defaultValue: 10 }),
       },
@@ -1003,13 +1152,19 @@ export default config({
       columns: ['title', 'updatedAt'],
       previewUrl: '/legal/{slug}',
       schema: {
-        title: fields.slug({ name: { label: 'Nombre (pestaña y footer)', validation: { isRequired: true } } }),
+        title: fields.slug({
+          name: { label: 'Nombre (pestaña y footer)', validation: { isRequired: true } },
+        }),
         shortTitle: text('Nombre corto (barra inferior del footer)', 'Ej: Términos'),
         icon: iconField('Ícono', 'file'),
         kicker: text('Antetítulo', 'Ej: Documento oficial'),
         heading: text('Título de la página', 'Vacío = el nombre.'),
         body: fields.markdoc({ label: 'Contenido', extension: 'md' }),
-        description: fields.text({ label: 'Resumen (SEO)', multiline: true, validation: { isRequired: true } }),
+        description: fields.text({
+          label: 'Resumen (SEO)',
+          multiline: true,
+          validation: { isRequired: true },
+        }),
         updatedAt: fields.date({ label: 'Última actualización', validation: { isRequired: true } }),
         order: fields.integer({ label: 'Orden', defaultValue: 1 }),
       },
@@ -1025,10 +1180,28 @@ export default config({
       schema: {
         brandName: fields.text({ label: 'Nombre de la marca', validation: { isRequired: true } }),
         tagline: text('Lema', 'Se usa en Google y al compartir.'),
-        logo: imageIn('site')('Logo para fondos oscuros (menú)', 'PNG con letras blancas y fondo transparente. Vacío = isotipo dibujado.'),
-        logoLight: imageIn('site')('Logo para fondos claros (pie de página)', 'PNG con letras oscuras. En modo oscuro se usa el de fondos oscuros.'),
-        siteTitle: fields.text({ label: 'Título SEO en Google', description: 'Pestaña del navegador y resultados de Google (50-60 caracteres).', validation: { isRequired: true } }),
-        siteDescription: fields.text({ label: 'Descripción SEO', multiline: true, validation: { isRequired: true } }),
+        logo: imageIn('site')(
+          'Logo para fondos oscuros (menú)',
+          'PNG con letras blancas y fondo transparente. Vacío = isotipo dibujado.'
+        ),
+        shareImage: imageIn('site')(
+          'Imagen para compartir (WhatsApp, LinkedIn, Facebook)',
+          '1200 × 630 px. Se usa en las páginas que no tienen imagen propia.'
+        ),
+        logoLight: imageIn('site')(
+          'Logo para fondos claros (pie de página)',
+          'PNG con letras oscuras. En modo oscuro se usa el de fondos oscuros.'
+        ),
+        siteTitle: fields.text({
+          label: 'Título SEO en Google',
+          description: 'Pestaña del navegador y resultados de Google (50-60 caracteres).',
+          validation: { isRequired: true },
+        }),
+        siteDescription: fields.text({
+          label: 'Descripción SEO',
+          multiline: true,
+          validation: { isRequired: true },
+        }),
         businessType: fields.select({
           label: 'Tipo de negocio (Google)',
           options: [
@@ -1046,7 +1219,11 @@ export default config({
         whatsapp: text('WhatsApp (solo números, con código de país)', 'Ej: 51999999999'),
         whatsappDisplay: text('WhatsApp tal como se muestra', 'Ej: +51 999 999 999'),
         whatsappMessage: fields.text({ label: 'Mensaje de WhatsApp (botón CONVERSEMOS)', multiline: true }),
-        whatsappFloat: fields.checkbox({ label: 'Mostrar botón flotante de WhatsApp', description: 'El diseño oficial no lo usa.', defaultValue: false }),
+        whatsappFloat: fields.checkbox({
+          label: 'Mostrar botón flotante de WhatsApp',
+          description: 'El diseño oficial no lo usa.',
+          defaultValue: false,
+        }),
         whatsappTooltip: text('Globo del botón flotante', undefined, '¿Dudas? ¡Escríbenos por WhatsApp!'),
         email: text('Correo público', 'El que se muestra en la web (contacto y pie de página).'),
         mail: fields.object(
@@ -1067,8 +1244,14 @@ export default config({
               description: 'Debe terminar en el dominio verificado en Resend. No necesita ser un buzón real.',
               defaultValue: 'web@transformaccion720.com',
             }),
-            autoReply: fields.checkbox({ label: '↩️ Enviar confirmación automática a quien escribe', defaultValue: true }),
-            autoReplySubject: fields.text({ label: '↩️ Asunto de la confirmación', defaultValue: 'Recibimos tu mensaje' }),
+            autoReply: fields.checkbox({
+              label: '↩️ Enviar confirmación automática a quien escribe',
+              defaultValue: true,
+            }),
+            autoReplySubject: fields.text({
+              label: '↩️ Asunto de la confirmación',
+              defaultValue: 'Recibimos tu mensaje',
+            }),
             autoReplyMessage: fields.text({
               label: '↩️ Texto de la confirmación',
               description: 'Va después de "Hola {nombre},". Deja una línea en blanco entre párrafos.',
@@ -1080,10 +1263,26 @@ export default config({
         hours: text('Horario de atención'),
         analytics: fields.object(
           {
-            gaId: fields.text({ label: '📊 ID de medición de Google Analytics', description: 'Empieza con G-. Vacío = sin Analytics y sin aviso de cookies.' }),
+            gaId: fields.text({
+              label: '📊 ID de medición de Google Analytics',
+              description: 'Empieza con G-. Vacío = sin Analytics y sin aviso de cookies.',
+            }),
             gaPropertyId: fields.text({ label: '📊 ID de propiedad de Analytics (solo números)' }),
-            searchConsoleSite: fields.text({ label: '🔎 Web en Search Console', description: 'Ej: sc-domain:transformaccion720.com' }),
+            searchConsoleSite: fields.text({
+              label: '🔎 Web en Search Console',
+              description: 'Ej: sc-domain:transformaccion720.com',
+            }),
             cookieText: fields.text({ label: '🍪 Texto del aviso de cookies', multiline: true }),
+            cookieAccept: fields.text({ label: '🍪 Botón aceptar', defaultValue: 'Aceptar' }),
+            cookieReject: fields.text({ label: '🍪 Botón rechazar', defaultValue: 'Rechazar' }),
+            cookieMore: fields.text({
+              label: '🍪 Enlace "más información"',
+              defaultValue: 'Más información',
+            }),
+            cookieSettings: fields.text({
+              label: '🍪 Enlace del pie para cambiar la elección',
+              defaultValue: 'Preferencias de cookies',
+            }),
           },
           { label: '📊 Analítica y cookies' }
         ),
@@ -1098,11 +1297,17 @@ export default config({
                 href: text('Enlace', 'Ej: /servicios#soluciones-digitales'),
                 icon: iconField(),
                 tone: toneField(),
-                mobileLabel: text('Texto en el menú del celular (opcional)', 'Ej: Servicios - Consultoría. Vacío = no aparece en el celular.'),
+                mobileLabel: text(
+                  'Texto en el menú del celular (opcional)',
+                  'Ej: Servicios - Consultoría. Vacío = no aparece en el celular.'
+                ),
               }),
               { label: 'Submenú desplegable (opcional)', itemLabel: (p) => p.fields.label.value || 'Opción' }
             ),
-            mobileHidden: fields.checkbox({ label: 'Ocultar en el menú del celular (se muestran sus opciones)', defaultValue: false }),
+            mobileHidden: fields.checkbox({
+              label: 'Ocultar en el menú del celular (se muestran sus opciones)',
+              defaultValue: false,
+            }),
           }),
           { label: 'Menú principal', itemLabel: (p) => p.fields.label.value || 'Enlace' }
         ),
@@ -1116,7 +1321,30 @@ export default config({
         footerText: longText('Footer: descripción breve'),
         footerNavTitle: text('Footer: título de navegación', undefined, 'Navegación'),
         footerContactTitle: text('Footer: título de contacto', undefined, 'Contacto'),
-        footerBookText: text('Footer: texto bajo "Libro de Reclamaciones"', undefined, 'Virtual - Ley N° 29571 (Perú)'),
+        footerBookText: text(
+          'Footer: texto bajo "Libro de Reclamaciones"',
+          undefined,
+          'Virtual - Ley N° 29571 (Perú)'
+        ),
+        footerLabels: fields.object(
+          {
+            whatsapp: text('Etiqueta WhatsApp', undefined, 'WhatsApp'),
+            email: text('Etiqueta correo', undefined, 'Email'),
+            location: text('Etiqueta ubicación', undefined, 'Ubicación'),
+          },
+          { label: 'Footer: etiquetas de contacto' }
+        ),
+        notFound: fields.object(
+          {
+            kicker: text('Antetítulo', undefined, 'Error 404'),
+            title: text('Título', undefined, 'Esta página no existe'),
+            text: longText('Texto'),
+            primary: text('Botón principal', undefined, 'Volver al inicio'),
+            secondary: text('Botón secundario', undefined, 'Conversemos'),
+            secondaryHref: text('Enlace del botón secundario', undefined, '/conversemos'),
+          },
+          { label: 'Página 404 (no encontrada)' }
+        ),
         social: fields.array(
           fields.object({
             network: fields.select({
@@ -1194,7 +1422,10 @@ export default config({
               }),
               { label: 'Opciones de reprocesos', itemLabel: (p) => p.fields.label.value || 'Opción' }
             ),
-            hourCost: fields.integer({ label: 'Costo hora para convertir ahorro en horas (fórmula)', defaultValue: 24 }),
+            hourCost: fields.integer({
+              label: 'Costo hora para convertir ahorro en horas (fórmula)',
+              defaultValue: 24,
+            }),
             resultSavings: text('Resultado 1', undefined, 'Ahorro potencial anual'),
             resultHours: text('Resultado 2', undefined, 'Horas recuperables / mes'),
           },
@@ -1203,8 +1434,16 @@ export default config({
         emailIntro: longText('Texto sobre el correo'),
         emailPlaceholder: text('Ejemplo de correo', undefined, 'tu.correo@empresa.com'),
         submitText: text('Botón', undefined, 'ENVIAR RESULTADOS ➡️'),
-        successToast: text('Aviso al enviar', 'Variable: {correo}', '¡Listo! Enviamos tu diagnóstico completo a {correo}.'),
-        errorText: text('Aviso si falla', undefined, 'No pudimos enviar tu diagnóstico. Inténtalo de nuevo en unos minutos.'),
+        successToast: text(
+          'Aviso al enviar',
+          'Variable: {correo}',
+          '¡Listo! Enviamos tu diagnóstico completo a {correo}.'
+        ),
+        errorText: text(
+          'Aviso si falla',
+          undefined,
+          'No pudimos enviar tu diagnóstico. Inténtalo de nuevo en unos minutos.'
+        ),
       },
     }),
 
@@ -1220,11 +1459,17 @@ export default config({
         seoDescription: longText('Descripción para Google'),
         searchPlaceholder: text('Buscador', undefined, 'Buscar artículos...'),
         filtersTitle: text('Panel izquierdo: título de categorías', undefined, 'Categorías'),
-        adsEnabled: fields.checkbox({ label: 'Mostrar el espacio de carrusel publicitario (panel izquierdo)', defaultValue: true }),
+        adsEnabled: fields.checkbox({
+          label: 'Mostrar el espacio de carrusel publicitario (panel izquierdo)',
+          defaultValue: true,
+        }),
         adsLabel: text('Carrusel: etiqueta pequeña', undefined, 'Espacio destacado'),
         ads: fields.array(
           fields.object({
-            image: imageIn('blog')('Imagen de fondo (opcional)', 'Vertical u horizontal. Vacío = fondo de color de marca.'),
+            image: imageIn('blog')(
+              'Imagen de fondo (opcional)',
+              'Vertical u horizontal. Vacío = fondo de color de marca.'
+            ),
             imageAlt: text('Texto alternativo'),
             kicker: text('Etiqueta'),
             title: text('Título'),
@@ -1237,7 +1482,11 @@ export default config({
         featuredLabel: text('Etiqueta del destacado', undefined, '★ Destacado'),
         recentTitle: text('Título de la lista', undefined, 'Publicaciones recientes'),
         archiveTitle: text('Título del archivo paginado', undefined, 'Todas las publicaciones'),
-        perPage: fields.integer({ label: 'Publicaciones por página', defaultValue: 6, validation: { min: 3, max: 24 } }),
+        perPage: fields.integer({
+          label: 'Publicaciones por página',
+          defaultValue: 6,
+          validation: { min: 3, max: 24 },
+        }),
         prevText: text('Paginación: anterior', undefined, '⬅️ Anterior'),
         nextText: text('Paginación: siguiente', undefined, 'Siguiente ➡️'),
         countOne: text('Contador singular', undefined, 'artículo'),
@@ -1258,11 +1507,23 @@ export default config({
         promoText: longText('Recuadro lateral: texto'),
         promoButton: actionButton('Recuadro lateral: botón', 'diagnosticHours'),
         relatedTitle: text('Título de otras novedades', undefined, 'Sigue leyendo'),
-        authorRole: text('Artículo: cargo bajo el autor', undefined, 'Consultor en transformación empresarial'),
+        authorRole: text(
+          'Artículo: cargo bajo el autor',
+          undefined,
+          'Consultor en transformación empresarial'
+        ),
         tocTitle: text('Artículo: título del índice', undefined, 'En este artículo'),
         shareTitle: text('Artículo: título de compartir', undefined, 'Compartir'),
-        articleCtaTitle: text('Artículo: llamado final (título)', undefined, '¿Quieres aplicarlo en tu negocio?'),
-        articleCtaText: text('Artículo: llamado final (texto)', undefined, 'Conversemos 30 minutos sobre tu caso, sin compromiso.'),
+        articleCtaTitle: text(
+          'Artículo: llamado final (título)',
+          undefined,
+          '¿Quieres aplicarlo en tu negocio?'
+        ),
+        articleCtaText: text(
+          'Artículo: llamado final (texto)',
+          undefined,
+          'Conversemos 30 minutos sobre tu caso, sin compromiso.'
+        ),
         articleCtaButton: text('Artículo: llamado final (botón)', undefined, 'Agenda una llamada ➡️'),
       },
     }),
@@ -1286,7 +1547,10 @@ export default config({
         reclamoDefinition: longText('Definición de "Reclamo"'),
         quejaDefinition: longText('Definición de "Queja"'),
         responseNote: longText('Nota del plazo de respuesta'),
-        legalNotes: fields.array(fields.text({ label: 'Nota', multiline: true }), { label: 'Notas legales al pie', itemLabel: (p) => p.value || 'Nota' }),
+        legalNotes: fields.array(fields.text({ label: 'Nota', multiline: true }), {
+          label: 'Notas legales al pie',
+          itemLabel: (p) => p.value || 'Nota',
+        }),
         privacyText: longText('Casilla de aceptación de datos'),
         submitText: text('Texto del botón', undefined, 'REGISTRAR HOJA DE RECLAMACIÓN'),
         successTitle: text('Constancia: título', undefined, 'Hoja de Reclamación Registrada'),

@@ -111,7 +111,9 @@
           "text": "AGENDAR SESIÓN EXPLORATORIA ➡️",
           "action": "contact",
           "value": "Sesión Exploratoria"
-        }
+        },
+        "prevText": "⬅️ Anterior",
+        "nextText": "Siguiente parada ➡️"
       }
     }
   ]

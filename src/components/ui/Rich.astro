@@ -11,7 +11,11 @@ const parts = (t: string) =>
   t
     .split(/(\*\*[^*]+\*\*)/g)
     .filter(Boolean)
-    .map((p) => (p.startsWith('**') && p.endsWith('**') && p.length > 4 ? { b: true, t: p.slice(2, -2) } : { b: false, t: p }));
+    .map((p) =>
+      p.startsWith('**') && p.endsWith('**') && p.length > 4
+        ? { b: true, t: p.slice(2, -2) }
+        : { b: false, t: p }
+    );
 const blocks = paragraphs ? text.split(/\n{2,}/).filter((p) => p.trim()) : [text];
 ---
 

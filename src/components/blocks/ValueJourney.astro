@@ -22,16 +22,35 @@ const pad = (n: number) => String(n).padStart(2, '0');
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div>
-        {data.kicker && <span class="kicker" data-cms={`${path}.kicker`}>{data.kicker}</span>}
-        <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+        {data.kicker && (
+          <span class="kicker" data-cms={`${path}.kicker`}>
+            {data.kicker}
+          </span>
+        )}
+        <h2
+          class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white"
+          data-cms={`${path}.title`}
+        >
+          {data.title}
+        </h2>
       </div>
-      {data.text && <p class="max-w-md text-sm text-slate-600 dark:text-slate-400" data-cms={`${path}.text`}>{data.text}</p>}
+      {data.text && (
+        <p class="max-w-md text-sm text-slate-600 dark:text-slate-400" data-cms={`${path}.text`}>
+          {data.text}
+        </p>
+      )}
     </div>
 
     <div class="relative mb-8 px-2" aria-hidden="true">
       <div class="relative h-2.5 w-full overflow-visible rounded-full bg-slate-200 dark:bg-slate-800">
-        <div class="journey-fill relative h-full rounded-full bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange" style={`width: ${Math.round(100 / total)}%`} data-journey-fill>
-          <span class="journey-rocket select-none" data-rocket><span class="rocket-body">🚀</span></span>
+        <div
+          class="journey-fill relative h-full rounded-full bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange"
+          style={`width: ${Math.round(100 / total)}%`}
+          data-journey-fill
+        >
+          <span class="journey-rocket select-none" data-rocket>
+            <span class="rocket-body">🚀</span>
+          </span>
         </div>
       </div>
     </div>
@@ -49,13 +68,25 @@ const pad = (n: number) => String(n).padStart(2, '0');
             ]}
           >
             <div class="mb-3 flex items-center justify-between">
-              <span class:list={['text-xs font-extrabold tracking-wider', t.text]}>{data.stepLabel} {pad(i + 1)}</span>
+              <span class:list={['text-xs font-extrabold tracking-wider', t.text]}>
+                {data.stepLabel} {pad(i + 1)}
+              </span>
               <span class:list={['flex size-9 items-center justify-center rounded-xl', t.soft]}>
                 <Icon name={s.icon} size={20} />
               </span>
             </div>
-            <h3 class="font-display text-base font-bold text-brand-navy dark:text-white" data-cms={`${path}.steps.${i}.title`}>{s.title}</h3>
-            <p class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400" data-cms={`${path}.steps.${i}.desc`}>{s.desc}</p>
+            <h3
+              class="font-display text-base font-bold text-brand-navy dark:text-white"
+              data-cms={`${path}.steps.${i}.title`}
+            >
+              {s.title}
+            </h3>
+            <p
+              class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+              data-cms={`${path}.steps.${i}.desc`}
+            >
+              {s.desc}
+            </p>
           </button>
         );
       })}

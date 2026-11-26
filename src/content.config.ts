@@ -19,6 +19,8 @@ const textOr = (fallback: string) => text.transform((v) => v || fallback);
 /** Enlace: tolera vacío y añade https:// a dominios escritos sin protocolo */
 const link = text.transform((v) => {
   const t = v.trim();
+  // Seguridad: nunca enlaces que ejecuten código
+  if (/^\s*(javascript|data|vbscript):/i.test(t)) return '';
   if (!t || /^(https?:|mailto:|tel:|\/|#|\?)/i.test(t)) return t;
   return /^[\w-]+(\.[\w-]+)+/.test(t) ? `https://${t}` : t;
 });
@@ -29,8 +31,17 @@ const num = (fallback = 0) =>
     .nullish()
     .transform((v) => v ?? fallback);
 
-const list = <T extends z.ZodType>(item: T) => z.array(item).nullish().transform((v) => v ?? []);
-const strings = list(z.string().nullish().transform((v) => v ?? ''));
+const list = <T extends z.ZodType>(item: T) =>
+  z
+    .array(item)
+    .nullish()
+    .transform((v) => v ?? []);
+const strings = list(
+  z
+    .string()
+    .nullish()
+    .transform((v) => v ?? '')
+);
 const bool = (fallback = false) =>
   z
     .boolean()
@@ -40,7 +51,9 @@ const bool = (fallback = false) =>
 const button = z.object({ text, href: link }).default({ text: '', href: '' });
 const icon = z.enum(ICON_NAMES).default('none');
 const tone = z.enum(TONE_NAMES).default('blue');
-const action = z.object({ text, action: z.enum(ACTIONS).default('link'), value: text }).default({ text: '', action: 'link', value: '' });
+const action = z
+  .object({ text, action: z.enum(ACTIONS).default('link'), value: text })
+  .default({ text: '', action: 'link', value: '' });
 const actions = list(z.object({ text, action: z.enum(ACTIONS).default('link'), value: text }));
 const tabs = list(z.object({ label: text, key: text }));
 const filters = list(z.object({ key: text, label: text }));
@@ -72,7 +85,14 @@ const sections = ({ image }: SchemaContext) => {
           primary: action,
           secondary: action,
           stats: metrics,
-          video: z.object({ image: img, imageAlt: text, url: link, label: text, caption: text, modalTitle: text }),
+          video: z.object({
+            image: img,
+            imageAlt: text,
+            url: link,
+            label: text,
+            caption: text,
+            modalTitle: text,
+          }),
           ...placement,
         }),
         block('valueJourney', {
@@ -88,7 +108,17 @@ const sections = ({ image }: SchemaContext) => {
           title: text,
           linkText: text,
           linkHref: link,
-          cards: list(z.object({ image: img, imageAlt: text, icon, title: text, desc: text, href: link, linkText: text })),
+          cards: list(
+            z.object({
+              image: img,
+              imageAlt: text,
+              icon,
+              title: text,
+              desc: text,
+              href: link,
+              linkText: text,
+            })
+          ),
           ...placement,
         }),
         block('ctaBand', {
@@ -109,7 +139,9 @@ const sections = ({ image }: SchemaContext) => {
           partnersText: text,
           partnerLabel: textOr('Partner oficial'),
           alliesLabel: textOr('Aliados estratégicos'),
-          partners: list(z.object({ name: text, logo: img, note: text, type: z.enum(['partner', 'ally']).default('ally') })),
+          partners: list(
+            z.object({ name: text, logo: img, note: text, type: z.enum(['partner', 'ally']).default('ally') })
+          ),
           ...placement,
         }),
         block('testimonialsCarousel', {
@@ -137,7 +169,16 @@ const sections = ({ image }: SchemaContext) => {
           body: text,
           stats: metrics,
           founders: list(
-            z.object({ photo: img, role: text, tone, name: text, linkedin: link, bio: text, quote: text, chips: strings })
+            z.object({
+              photo: img,
+              role: text,
+              tone,
+              name: text,
+              linkedin: link,
+              bio: text,
+              quote: text,
+              chips: strings,
+            })
           ),
           ...placement,
         }),
@@ -302,7 +343,15 @@ const sections = ({ image }: SchemaContext) => {
           kickerTone: tone,
           title: text,
           items: list(
-            z.object({ image: img, imageAlt: text, meta: text, tone: tone.default('orange'), title: text, desc: text, button: action })
+            z.object({
+              image: img,
+              imageAlt: text,
+              meta: text,
+              tone: tone.default('orange'),
+              title: text,
+              desc: text,
+              button: action,
+            })
           ),
           ...placement,
         }),
@@ -363,6 +412,8 @@ const sections = ({ image }: SchemaContext) => {
           title: text,
           items: list(z.object({ tag: text, question: text, answer: text })),
           hint: text,
+          prevText: textOr('⬅️ Anterior'),
+          nextText: textOr('Siguiente parada ➡️'),
           progressText: textOr('{leidas} de {total} dudas resueltas'),
           doneTitle: text,
           doneText: text,
@@ -396,14 +447,22 @@ const sections = ({ image }: SchemaContext) => {
           items: list(z.object({ icon, image: img, title: text, desc: text, href: link })),
           ...common,
         }),
-        block('gallery', { ...heading, images: list(z.object({ image: image(), alt: text, caption: text })), ...common }),
+        block('gallery', {
+          ...heading,
+          images: list(z.object({ image: image(), alt: text, caption: text })),
+          ...common,
+        }),
         block('stats', { ...heading, items: list(z.object({ value: text, label: text })), ...common }),
         block('testimonials', {
           ...heading,
           items: list(z.object({ quote: text, name: text, role: text, avatar: img })),
           ...common,
         }),
-        block('team', { ...heading, members: list(z.object({ photo: img, name: text, role: text, bio: text })), ...common }),
+        block('team', {
+          ...heading,
+          members: list(z.object({ photo: img, name: text, role: text, bio: text })),
+          ...common,
+        }),
         block('faq', { ...heading, items: list(z.object({ question: text, answer: text })), ...common }),
         block('logos', {
           ...heading,
@@ -420,7 +479,8 @@ const sections = ({ image }: SchemaContext) => {
 
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/pages' }),
-  schema: (ctx) => z.object({ title: z.string(), seoTitle: text, seoDescription: text, sections: sections(ctx) }),
+  schema: (ctx) =>
+    z.object({ title: z.string(), seoTitle: text, seoDescription: text, sections: sections(ctx) }),
 });
 
 const blogCategories = defineCollection({
@@ -470,9 +530,12 @@ const site = defineCollection({
       tagline: text,
       logo: image().nullish(),
       logoLight: image().nullish(),
+      shareImage: image().nullish(),
       siteTitle: z.string(),
       siteDescription: z.string(),
-      businessType: z.enum(['ProfessionalService', 'Organization', 'LocalBusiness']).default('ProfessionalService'),
+      businessType: z
+        .enum(['ProfessionalService', 'Organization', 'LocalBusiness'])
+        .default('ProfessionalService'),
       city: text,
       country: textOr('PE'),
       address: text,
@@ -494,10 +557,36 @@ const site = defineCollection({
           autoReplySubject: text,
           autoReplyMessage: text,
         })
-        .default({ contactTo: '', complaintsTo: '', fromName: '', fromEmail: '', autoReply: false, autoReplySubject: '', autoReplyMessage: '' }),
+        .default({
+          contactTo: '',
+          complaintsTo: '',
+          fromName: '',
+          fromEmail: '',
+          autoReply: false,
+          autoReplySubject: '',
+          autoReplyMessage: '',
+        }),
       analytics: z
-        .object({ gaId: text, gaPropertyId: text, searchConsoleSite: text, cookieText: text })
-        .default({ gaId: '', gaPropertyId: '', searchConsoleSite: '', cookieText: '' }),
+        .object({
+          gaId: text,
+          gaPropertyId: text,
+          searchConsoleSite: text,
+          cookieText: text,
+          cookieAccept: textOr('Aceptar'),
+          cookieReject: textOr('Rechazar'),
+          cookieMore: textOr('Más información'),
+          cookieSettings: textOr('Preferencias de cookies'),
+        })
+        .default({
+          gaId: '',
+          gaPropertyId: '',
+          searchConsoleSite: '',
+          cookieText: '',
+          cookieAccept: 'Aceptar',
+          cookieReject: 'Rechazar',
+          cookieMore: 'Más información',
+          cookieSettings: 'Preferencias de cookies',
+        }),
       hours: text,
       nav: list(
         z.object({
@@ -514,9 +603,38 @@ const site = defineCollection({
       footerNavTitle: textOr('Navegación'),
       footerContactTitle: textOr('Contacto'),
       footerBookText: text,
+      footerLabels: z
+        .object({ whatsapp: textOr('WhatsApp'), email: textOr('Email'), location: textOr('Ubicación') })
+        .default({ whatsapp: 'WhatsApp', email: 'Email', location: 'Ubicación' }),
+      notFound: z
+        .object({
+          kicker: text,
+          title: textOr('Esta página no existe'),
+          text,
+          primary: textOr('Volver al inicio'),
+          secondary: text,
+          secondaryHref: link,
+        })
+        .default({
+          kicker: 'Error 404',
+          title: 'Esta página no existe',
+          text: '',
+          primary: 'Volver al inicio',
+          secondary: '',
+          secondaryHref: '',
+        }),
       social: list(
         z.object({
-          network: z.enum(['facebook', 'instagram', 'linkedin', 'tiktok', 'youtube', 'x', 'whatsapp', 'spotify']),
+          network: z.enum([
+            'facebook',
+            'instagram',
+            'linkedin',
+            'tiktok',
+            'youtube',
+            'x',
+            'whatsapp',
+            'spotify',
+          ]),
           url: link,
         })
       ),
@@ -565,48 +683,58 @@ const diagnostic = defineCollection({
 
 const blogSettings = defineCollection({
   loader: glob({ pattern: 'blog.json', base: './src/content/settings' }),
-  schema: ({ image }) => z.object({
-    badge: text,
-    title: textOr('Novedades'),
-    subtitle: text,
-    seoDescription: text,
-    searchPlaceholder: text,
-    filtersTitle: textOr('Categorías'),
-    adsEnabled: bool(true),
-    adsLabel: text,
-    ads: list(z.object({ image: image().nullish(), imageAlt: text, kicker: text, title: text, text, button: action })),
-    allLabel: textOr('Todas'),
-    featuredLabel: text,
-    recentTitle: text,
-    archiveTitle: textOr('Todas las publicaciones'),
-    perPage: num(6),
-    prevText: textOr('⬅️ Anterior'),
-    nextText: textOr('Siguiente ➡️'),
-    countOne: textOr('artículo'),
-    countMany: textOr('artículos'),
-    emptyText: text,
-    readMore: textOr('Leer ›'),
-    byText: textOr('Por'),
-    copyText: text,
-    copiedToast: text,
-    ctaText: text,
-    ctaService: text,
-    openFullText: text,
-    backToList: text,
-    takeawaysTitle: text,
-    topicsLabel: text,
-    promoKicker: text,
-    promoTitle: text,
-    promoText: text,
-    promoButton: action,
-    relatedTitle: text,
-    authorRole: text,
-    tocTitle: text,
-    shareTitle: text,
-    articleCtaTitle: text,
-    articleCtaText: text,
-    articleCtaButton: text,
-  }),
+  schema: ({ image }) =>
+    z.object({
+      badge: text,
+      title: textOr('Novedades'),
+      subtitle: text,
+      seoDescription: text,
+      searchPlaceholder: text,
+      filtersTitle: textOr('Categorías'),
+      adsEnabled: bool(true),
+      adsLabel: text,
+      ads: list(
+        z.object({
+          image: image().nullish(),
+          imageAlt: text,
+          kicker: text,
+          title: text,
+          text,
+          button: action,
+        })
+      ),
+      allLabel: textOr('Todas'),
+      featuredLabel: text,
+      recentTitle: text,
+      archiveTitle: textOr('Todas las publicaciones'),
+      perPage: num(6),
+      prevText: textOr('⬅️ Anterior'),
+      nextText: textOr('Siguiente ➡️'),
+      countOne: textOr('artículo'),
+      countMany: textOr('artículos'),
+      emptyText: text,
+      readMore: textOr('Leer ›'),
+      byText: textOr('Por'),
+      copyText: text,
+      copiedToast: text,
+      ctaText: text,
+      ctaService: text,
+      openFullText: text,
+      backToList: text,
+      takeawaysTitle: text,
+      topicsLabel: text,
+      promoKicker: text,
+      promoTitle: text,
+      promoText: text,
+      promoButton: action,
+      relatedTitle: text,
+      authorRole: text,
+      tocTitle: text,
+      shareTitle: text,
+      articleCtaTitle: text,
+      articleCtaText: text,
+      articleCtaButton: text,
+    }),
 });
 
 const complaintsBook = defineCollection({

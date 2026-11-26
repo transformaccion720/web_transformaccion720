@@ -22,13 +22,29 @@ const arrow =
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
       <div>
-        {data.kicker && <span class="text-xs font-extrabold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-400" data-cms={`${path}.kicker`}>{data.kicker}</span>}
-        <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-4xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+        {data.kicker && (
+          <span
+            class="text-xs font-extrabold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-400"
+            data-cms={`${path}.kicker`}
+          >
+            {data.kicker}
+          </span>
+        )}
+        <h2
+          class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-4xl dark:text-white"
+          data-cms={`${path}.title`}
+        >
+          {data.title}
+        </h2>
       </div>
       {data.items.length > 3 && (
         <div class="flex items-center gap-2">
-          <button type="button" class={arrow} data-shift="-1" aria-label="Testimonio anterior"><ChevronLeft size={16} aria-hidden="true" /></button>
-          <button type="button" class={arrow} data-shift="1" aria-label="Siguiente testimonio"><ChevronRight size={16} aria-hidden="true" /></button>
+          <button type="button" class={arrow} data-shift="-1" aria-label="Testimonio anterior">
+            <ChevronLeft size={16} aria-hidden="true" />
+          </button>
+          <button type="button" class={arrow} data-shift="1" aria-label="Siguiente testimonio">
+            <ChevronRight size={16} aria-hidden="true" />
+          </button>
         </div>
       )}
     </div>
@@ -41,13 +57,34 @@ const arrow =
           hidden={i > 2}
         >
           {t.avatar && (
-            <Image src={t.avatar} alt={t.name} width={112} height={112} class="size-14 shrink-0 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700" />
+            <Image
+              src={t.avatar}
+              alt={t.name}
+              width={112}
+              height={112}
+              class="size-14 shrink-0 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700"
+            />
           )}
           <div class="flex h-full flex-col justify-between">
-            <blockquote class="text-xs leading-relaxed text-slate-600 sm:text-[13px] dark:text-slate-300" data-cms={`${path}.items.${i}.quote`}>“{t.quote}”</blockquote>
+            <blockquote
+              class="text-xs leading-relaxed text-slate-600 sm:text-[13px] dark:text-slate-300"
+              data-cms={`${path}.items.${i}.quote`}
+            >
+              “{t.quote}”
+            </blockquote>
             <figcaption class="mt-4">
-              <div class="font-display text-sm font-bold text-brand-navy dark:text-white" data-cms={`${path}.items.${i}.name`}>{t.name}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400" data-cms={`${path}.items.${i}.role`}>{t.role}</div>
+              <div
+                class="font-display text-sm font-bold text-brand-navy dark:text-white"
+                data-cms={`${path}.items.${i}.name`}
+              >
+                {t.name}
+              </div>
+              <div
+                class="text-[11px] text-slate-500 dark:text-slate-400"
+                data-cms={`${path}.items.${i}.role`}
+              >
+                {t.role}
+              </div>
             </figcaption>
           </div>
         </figure>

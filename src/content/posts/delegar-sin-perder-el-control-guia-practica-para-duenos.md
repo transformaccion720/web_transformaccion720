@@ -6,7 +6,7 @@ author: "Claudia Morales"
 publishedAt: 2026-10-28
 featured: false
 readLabel: ""
-cover: '@/assets/images/blog/delegar-sin-perder-el-control-guia-practica-para-duenos/cover.png'
+cover: '@/assets/images/blog/delegar-sin-perder-el-control-guia-practica-para-duenos/cover.jpg'
 coverAlt: "Líder conversando con su equipo"
 tags:
   - "Liderazgo"

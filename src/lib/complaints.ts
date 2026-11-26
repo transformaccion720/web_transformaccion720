@@ -74,7 +74,13 @@ export const limaDate = (d: Date) =>
 const esc = (t: string) => t.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
 /** Hoja de reclamación en HTML (va al consumidor y a la empresa) */
-export function complaintEmail(c: Complaint, number: string, date: Date, provider: Provider, responseNote: string) {
+export function complaintEmail(
+  c: Complaint,
+  number: string,
+  date: Date,
+  provider: Provider,
+  responseNote: string
+) {
   const row = (k: string, v: string) =>
     `<tr><td style="padding:6px 10px;border:1px solid #e6e0f3;background:#fcfbfd;width:38%"><b>${esc(k)}</b></td><td style="padding:6px 10px;border:1px solid #e6e0f3">${esc(v || '—').replace(/\n/g, '<br>')}</td></tr>`;
   const section = (title: string, rows: string) =>

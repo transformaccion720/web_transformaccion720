@@ -19,7 +19,24 @@ const versionImageUrls = (html: string) =>
     }
   });
 
-export const onRequest = defineMiddleware(async (_context, next) => {
+/**
+ * Seguridad: con el CMS en modo local (sin PUBLIC_KEYSTATIC_CLOUD_PROJECT) la API de Keystatic no tiene login.
+ * En producción se bloquea /keystatic y /api/keystatic para que nadie pueda leer ni escribir contenido.
+ * Para editar en producción: conectar Keystatic Cloud (ver README).
+ */
+const cmsLocked = () => !import.meta.env.DEV && !import.meta.env.PUBLIC_KEYSTATIC_CLOUD_PROJECT;
+
+export const onRequest = defineMiddleware(async (context, next) => {
+  const path = context.url.pathname;
+  if (
+    cmsLocked() &&
+    (path.startsWith('/api/keystatic') || path === '/keystatic' || path.startsWith('/keystatic/'))
+  ) {
+    return new Response(
+      '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>CMS</title><p style="font-family:sans-serif;padding:2rem">El CMS está disponible en local o al conectar Keystatic Cloud.</p>',
+      { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+    );
+  }
   const response = await next();
   if (!import.meta.env.DEV || !response.headers.get('content-type')?.includes('text/html')) return response;
   const html = versionImageUrls(await response.text());

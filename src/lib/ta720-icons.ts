@@ -78,14 +78,16 @@ export const TA_ICONS: Record<string, TaIcon> = {
     label: 'Personas / Cultura',
     fill: '<path d="M5.5 20.5a6.5 6.5 0 0 1 13 0z"/><circle cx="12" cy="7.5" r="3.2"/>',
     base: '<circle cx="12" cy="7.5" r="3.2"/><path d="M5.5 20.5a6.5 6.5 0 0 1 13 0"/>',
-    accent: '<path d="M12 16.4c-1-.9-2.3-1.8-2.3-2.9a1.2 1.2 0 0 1 2.3-.6 1.2 1.2 0 0 1 2.3.6c0 1.1-1.3 2-2.3 2.9z" fill="A"/>',
+    accent:
+      '<path d="M12 16.4c-1-.9-2.3-1.8-2.3-2.9a1.2 1.2 0 0 1 2.3-.6 1.2 1.2 0 0 1 2.3.6c0 1.1-1.3 2-2.3 2.9z" fill="A"/>',
   },
   cohete: {
     label: 'Transformación (abeja-cohete TA720)',
     // Formas del isotipo oficial recalculadas a 24 px (escala uniforme 0.375 + centrado): no se deforma
     fill: '<g transform="translate(.95 -.5) scale(1.1)"><ellipse cx="8.25" cy="9" rx="3.75" ry="2.06" transform="rotate(-24 8.25 9)"/><ellipse cx="14.25" cy="13.5" rx="3.38" ry="1.69" transform="rotate(64 14.25 13.5)"/><path d="M16.5 4.5C13.1 4.9 9 8.6 7.9 13.9 13.1 12.8 16.9 8.6 16.5 4.5Z" fill="A"/></g>',
     base: '<g transform="translate(.95 -.5) scale(1.1)" stroke-width=".62"><ellipse cx="8.25" cy="9" rx="3.75" ry="2.06" transform="rotate(-24 8.25 9)"/><ellipse cx="14.25" cy="13.5" rx="3.38" ry="1.69" transform="rotate(64 14.25 13.5)"/><path d="M16.5 4.5C13.1 4.9 9 8.6 7.9 13.9 13.1 12.8 16.9 8.6 16.5 4.5Z"/><path d="M10.1 9.4l3.8 1.9M8.6 11.6l3 1.5" stroke-width="1.05"/><path d="M16.5 4.5c-1.1.2-2.1.8-2.8 1.5l1.7 1.7c.7-.9 1.1-2 1.1-3.2z" fill="B"/><circle cx="13.3" cy="8.1" r="1.2" fill="#E0F2FE"/><path d="M15.4 4.5l.4-2.2M16.5 5.25l1.9-.75"/><circle cx="15.8" cy="2.05" r=".65" fill="B"/><circle cx="18.55" cy="4.3" r=".65" fill="B"/></g>',
-    accent: '<g transform="translate(.95 -.5) scale(1.1)"><path d="M3.75 14.25C1.5 17.25 3 21 7.1 21c3.4 0 6-2.25 8.6-4.5" stroke-width="1.45"/></g>',
+    accent:
+      '<g transform="translate(.95 -.5) scale(1.1)"><path d="M3.75 14.25C1.5 17.25 3 21 7.1 21c3.4 0 6-2.25 8.6-4.5" stroke-width="1.45"/></g>',
   },
 };
 
@@ -93,12 +95,17 @@ let n = 0;
 /**
  * SVG listo para insertar. `color` = trazo; `deep`/`light` = degradado del volumen; acento siempre naranja de marca.
  */
-export function renderTaIcon(key: string, size = 24, opts: { color?: string; deep?: string; light?: string } = {}) {
+export function renderTaIcon(
+  key: string,
+  size = 24,
+  opts: { color?: string; deep?: string; light?: string } = {}
+) {
   const i = TA_ICONS[key];
   if (!i) return '';
   const id = `ta${++n}`;
   const { color = 'currentColor', deep = '#1565D8', light = '#38BDF8' } = opts;
-  const tok = (t: string) => t.replaceAll('fill="A"', `fill="url(#${id}a)"`).replaceAll('fill="B"', `fill="${color}"`);
+  const tok = (t: string) =>
+    t.replaceAll('fill="A"', `fill="url(#${id}a)"`).replaceAll('fill="B"', `fill="${color}"`);
   return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <defs>
 <linearGradient id="${id}f" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="${light}" stop-opacity=".55"/><stop offset="1" stop-color="${deep}" stop-opacity=".18"/></linearGradient>

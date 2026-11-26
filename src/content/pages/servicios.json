@@ -34,10 +34,11 @@
         "title": "Estrategia & Roadmaps de Transformación",
         "text": "Co-diseñamos el futuro de tu organización alineando datos, procesos, personas y tecnología. Estructuramos la estrategia desde el diagnóstico hasta la ejecución para asegurar un retorno de inversión real y sostenible.",
         "checks": [
-          "Diagnóstico de madurez operativa y digital",
-          "Diseño de hojas de ruta de transformación",
+          "Diagnóstico de madurez operativa & digital",
+          "Diseño de Hojas de ruta de Transformación e IA",
           "Rediseño de procesos y eficiencia operacional",
-          "Estrategia de gestión del cambio y evolución cultural"
+          "Estrategia de gestión del cambio y evolución cultural",
+          "Estrategia de comunicación corporativa"
         ],
         "primary": {
           "text": "Solicitar Propuesta",
@@ -168,9 +169,9 @@
         "title": "Soluciones Digitales e IA Aplicada",
         "text": "Construimos las soluciones que tu empresa necesita para escalar. Optimizamos tu operación mediante la automatización de procesos y convertimos tus datos en ventajas competitivas para la toma de decisiones.",
         "checks": [
-          "Gestión de datos y tableros de control (BI & Analytics)",
-          "Automatización de procesos (RPA & Low-Code)",
-          "Desarrollo de soluciones digitales (Web / SaaS)"
+          "Automatización de procesos e inteligencia artificial",
+          "Desarrollo de soluciones digitales (Web / SaaS)",
+          "Gestión de datos y tableros de control (BI & Analytics)"
         ],
         "primary": {
           "text": "Ver Portafolio & Planes Web ➡️",
@@ -431,10 +432,10 @@
         "title": "Entrenamiento & Formación Empresarial",
         "text": "Desarrollamos las competencias del futuro en tus líderes y equipos mediante metodologías inmersivas de alto impacto y simulación de entornos reales: learning by doing.",
         "checks": [
-          "Agilidad estratégica y resolución de situaciones complejas",
+          "Agilidad, IA y resolución de situaciones complejas",
           "Cultura, reconocimiento y gestión del cambio",
-          "Ecosistemas colaborativos y equipos conectados",
-          "Liderazgo transformacional: de jefes tradicionales a líderes servidores"
+          "Liderazgo Transformacional",
+          "Ecosistemas colaborativos y equipos conectados"
         ],
         "primary": {
           "text": "Diseñar Programa In-House",

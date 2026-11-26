@@ -17,14 +17,27 @@ const metricColor = (i: number) => (i === 0 ? 'text-brand-orange' : 'text-brand-
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div>
-        {data.kicker && <span class="kicker" data-cms={`${path}.kicker`}>{data.kicker}</span>}
-        <h2 class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white" data-cms={`${path}.title`}>{data.title}</h2>
+        {data.kicker && (
+          <span class="kicker" data-cms={`${path}.kicker`}>
+            {data.kicker}
+          </span>
+        )}
+        <h2
+          class="mt-1 font-display text-2xl font-extrabold text-brand-navy sm:text-3xl dark:text-white"
+          data-cms={`${path}.title`}
+        >
+          {data.title}
+        </h2>
       </div>
       {data.filters.length > 0 && (
         <div class="apple-segment">
-          <button type="button" data-filter="todos" aria-pressed="true" class="apple-segment-btn active">{data.allLabel}</button>
+          <button type="button" data-filter="todos" aria-pressed="true" class="apple-segment-btn active">
+            {data.allLabel}
+          </button>
           {data.filters.map((f) => (
-            <button type="button" data-filter={f.key} aria-pressed="false" class="apple-segment-btn">{f.label}</button>
+            <button type="button" data-filter={f.key} aria-pressed="false" class="apple-segment-btn">
+              {f.label}
+            </button>
           ))}
         </div>
       )}
@@ -40,33 +53,64 @@ const metricColor = (i: number) => (i === 0 ? 'text-brand-orange' : 'text-brand-
                 alt={c.imageAlt || c.title}
                 widths={[480, 800]}
                 sizes="(min-width: 768px) 33vw, 100vw"
-                class:list={['h-full w-full object-cover', c.videoUrl && 'transition duration-500 group-hover:scale-105']}
+                class:list={[
+                  'h-full w-full object-cover',
+                  c.videoUrl && 'transition duration-500 group-hover:scale-105',
+                ]}
               />
             )}
-            <span class:list={['absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] font-bold opacity-90', tone(c.tone).solid]}>{c.categoryLabel}</span>
+            <span
+              class:list={[
+                'absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] font-bold opacity-90',
+                tone(c.tone).solid,
+              ]}
+            >
+              {c.categoryLabel}
+            </span>
             {c.videoUrl && (
-              <span class="absolute right-3 bottom-3 flex items-center gap-1 rounded-full bg-brand-orange px-3 py-1 text-[11px] font-extrabold text-brand-deep">{data.videoText}</span>
+              <span class="absolute right-3 bottom-3 flex items-center gap-1 rounded-full bg-brand-orange px-3 py-1 text-[11px] font-extrabold text-brand-deep">
+                {data.videoText}
+              </span>
             )}
           </>
         );
         return (
-          <article class="card-3d flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900" data-filter-item={c.category}>
+          <article
+            class="card-3d flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            data-filter-item={c.category}
+          >
             {c.videoUrl ? (
-              <button type="button" data-video={c.videoUrl} data-video-title={`Caso de Éxito - ${c.categoryLabel}`} class="group relative block h-48 cursor-pointer overflow-hidden text-left" aria-label={`Ver video del caso: ${c.title}`}>
+              <button
+                type="button"
+                data-video={c.videoUrl}
+                data-video-title={`Caso de Éxito - ${c.categoryLabel}`}
+                class="group relative block h-48 cursor-pointer overflow-hidden text-left"
+                aria-label={`Ver video del caso: ${c.title}`}
+              >
                 {media}
               </button>
             ) : (
               <div class="relative h-48 overflow-hidden">{media}</div>
             )}
             <div class="flex flex-1 flex-col p-6">
-              <h3 class="font-display text-lg font-bold text-brand-navy dark:text-white" data-cms={`${path}.cases.${i}.title`}>{c.title}</h3>
-              <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400" data-cms={`${path}.cases.${i}.desc`}>{c.desc}</p>
+              <h3
+                class="font-display text-lg font-bold text-brand-navy dark:text-white"
+                data-cms={`${path}.cases.${i}.title`}
+              >
+                {c.title}
+              </h3>
+              <p
+                class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                data-cms={`${path}.cases.${i}.desc`}
+              >
+                {c.desc}
+              </p>
               {c.metrics.length > 0 && (
                 <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
                   {c.metrics.map((m, j) => (
                     <div>
                       <div class:list={['font-display text-xl font-black', metricColor(j)]}>{m.value}</div>
-                      <div class="text-[11px] text-slate-500">{m.label}</div>
+                      <div class="text-[11px] text-slate-600 dark:text-slate-400">{m.label}</div>
                     </div>
                   ))}
                 </div>

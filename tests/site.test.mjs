@@ -66,7 +66,22 @@ test('las imágenes se sirven optimizadas desde el sitio (sin enlaces a Unsplash
 
 test('el Libro de Reclamaciones tiene los campos exigidos por INDECOPI', () => {
   const html = read('legal/libro-de-reclamaciones/index.html');
-  for (const name of ['fullName', 'docType', 'docNumber', 'address', 'phone', 'email', 'guardianName', 'goodType', 'amount', 'goodDescription', 'claimType', 'detail', 'request', 'acceptPrivacy'])
+  for (const name of [
+    'fullName',
+    'docType',
+    'docNumber',
+    'address',
+    'phone',
+    'email',
+    'guardianName',
+    'goodType',
+    'amount',
+    'goodDescription',
+    'claimType',
+    'detail',
+    'request',
+    'acceptPrivacy',
+  ])
     assert.match(html, new RegExp(`name="${name}"`), name);
   assert.match(html, /RUC/);
   assert.match(html, /quince \(15\) días hábiles/);
@@ -111,7 +126,13 @@ test('existe el feed RSS del blog', () => {
 
 test('cabeceras de seguridad en vercel.json', () => {
   const headers = readJson('vercel.json').headers[0].headers.map((h) => h.key);
-  for (const h of ['X-Content-Type-Options', 'X-Frame-Options', 'Content-Security-Policy', 'Referrer-Policy', 'Strict-Transport-Security'])
+  for (const h of [
+    'X-Content-Type-Options',
+    'X-Frame-Options',
+    'Content-Security-Policy',
+    'Referrer-Policy',
+    'Strict-Transport-Security',
+  ])
     assert.ok(headers.includes(h), h);
 });
 
@@ -130,7 +151,12 @@ test('pestañas: al cargar solo se ve la primera pestaña de cada selector', () 
 
 test('el menú enlaza directo a las pestañas de Servicios y Hub', () => {
   const html = read('index.html');
-  for (const h of ['/servicios#transformacion', '/servicios#soluciones-digitales', '/servicios#formacion', '/hub#campus'])
+  for (const h of [
+    '/servicios#transformacion',
+    '/servicios#soluciones-digitales',
+    '/servicios#formacion',
+    '/hub#campus',
+  ])
     assert.ok(html.includes(`href="${h}"`), h);
 });
 
@@ -139,5 +165,25 @@ test('el Centro de Diagnóstico está en todas las páginas', () => {
 });
 
 test('los botones "Conversemos con servicio" preseleccionan el servicio', () => {
-  assert.ok(read('servicios/index.html').includes('/conversemos?servicio=Web%20Corporativa%20Premium#formulario'));
+  assert.ok(
+    read('servicios/index.html').includes('/conversemos?servicio=Web%20Corporativa%20Premium#formulario')
+  );
+});
+
+test('rendimiento: el CSS va en un archivo con caché (no repetido en cada página)', () => {
+  const html = read('index.html');
+  assert.match(html, /<link rel="stylesheet" href="\/_astro\/[^"]+\.css"/);
+  assert.ok(html.length < 140_000, `index.html pesa ${html.length} bytes`);
+});
+
+test('rendimiento: no se publican imágenes originales gigantes', () => {
+  const big = fs
+    .readdirSync(path.join(DIST, '_astro'))
+    .filter((f) => /\.(png|jpe?g|webp|avif)$/i.test(f))
+    .filter((f) => fs.statSync(path.join(DIST, '_astro', f)).size > 900_000);
+  assert.deepEqual(big, []);
+});
+
+test('al compartir, la portada usa la imagen para compartir de 1200×630', () => {
+  assert.match(read('index.html'), /<meta property="og:image" content="[^"]+\.jpg"/);
 });

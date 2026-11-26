@@ -6,7 +6,7 @@ author: "Valeria Salazar"
 publishedAt: 2026-11-05
 featured: false
 readLabel: ""
-cover: '@/assets/images/blog/que-procesos-ordenar-primero-en-una-empresa-en-crecimiento/cover.png'
+cover: '@/assets/images/blog/que-procesos-ordenar-primero-en-una-empresa-en-crecimiento/cover.jpg'
 coverAlt: "Equipo mapeando procesos en una pizarra"
 tags:
   - "Procesos"

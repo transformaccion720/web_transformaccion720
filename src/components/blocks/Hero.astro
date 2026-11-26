@@ -53,7 +53,12 @@ const Title = first ? 'h1' : 'h2';
   </section>
 ) : layout === 'split' && data.image ? (
   <section id={data.anchor || undefined} class={`section-${data.background}`}>
-    <Container class:list={["grid items-center gap-10 lg:grid-cols-2", first ? "pt-32 pb-16 lg:pt-36 lg:pb-24" : "py-16 lg:py-24"]}>
+    <Container
+      class:list={[
+        'grid items-center gap-10 lg:grid-cols-2',
+        first ? 'pt-32 pb-16 lg:pt-36 lg:pb-24' : 'py-16 lg:py-24',
+      ]}
+    >
       <div>
         {data.kicker && (
           <p class="kicker" data-cms={`${path}.kicker`}>
@@ -87,7 +92,7 @@ const Title = first ? 'h1' : 'h2';
   </section>
 ) : (
   <section id={data.anchor || undefined} class={`section-${data.background}`}>
-    <Container class:list={["text-center", first ? "pt-36 pb-20 lg:pb-28" : "py-20 lg:py-28"]}>
+    <Container class:list={['text-center', first ? 'pt-36 pb-20 lg:pb-28' : 'py-20 lg:py-28']}>
       <div class="mx-auto max-w-3xl">
         {data.kicker && (
           <p class="kicker" data-cms={`${path}.kicker`}>

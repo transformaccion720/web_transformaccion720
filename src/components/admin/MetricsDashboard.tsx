@@ -294,8 +294,8 @@ function TrendChart({ cur, prev, from }: { cur: number[]; prev: number[]; from: 
           <span className="inline-block h-0.5 w-4" style={{ background: C.series }} /> Este periodo
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-4 border-t-2 border-dashed" style={{ borderColor: C.prev }} /> Periodo
-          anterior
+          <span className="inline-block w-4 border-t-2 border-dashed" style={{ borderColor: C.prev }} />{' '}
+          Periodo anterior
         </span>
       </div>
     </div>
@@ -327,9 +327,9 @@ export default function MetricsDashboard() {
     }
   });
   const [data, setData] = useState<Metrics | null>(null);
-  const [state, setState] = useState<'loading' | 'ok' | 'unauthorized' | 'not_configured' | 'no_ids' | 'error'>(
-    'loading'
-  );
+  const [state, setState] = useState<
+    'loading' | 'ok' | 'unauthorized' | 'not_configured' | 'no_ids' | 'error'
+  >('loading');
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async (d: number, refresh = false) => {
@@ -396,9 +396,7 @@ export default function MetricsDashboard() {
                 onClick={() => setDays(r.days)}
                 aria-pressed={days === r.days}
                 className="rounded px-3 py-1 text-[12px] font-medium transition-colors"
-                style={
-                  days === r.days ? { background: C.series, color: '#fff' } : { color: C.ink2 }
-                }
+                style={days === r.days ? { background: C.series, color: '#fff' } : { color: C.ink2 }}
               >
                 {r.label}
               </button>
@@ -417,7 +415,10 @@ export default function MetricsDashboard() {
       </div>
 
       {state !== 'ok' && state !== 'loading' && (
-        <div className="m-5 flex items-start gap-3 rounded-lg border bg-white p-4 text-[13px]" style={{ borderColor: C.line }}>
+        <div
+          className="m-5 flex items-start gap-3 rounded-lg border bg-white p-4 text-[13px]"
+          style={{ borderColor: C.line }}
+        >
           <AlertCircle className="mt-0.5 size-4 shrink-0" style={{ color: C.bad }} />
           <p>
             {state === 'unauthorized' &&
@@ -452,14 +453,38 @@ export default function MetricsDashboard() {
                 <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
                   <Kpi icon={Users} label="Visitantes" value={num(k.activeUsers.cur)} pair={k.activeUsers} />
                   <Kpi icon={UserPlus} label="Nuevos" value={num(k.newUsers.cur)} pair={k.newUsers} />
-                  <Kpi icon={MousePointerClick} label="Visitas (sesiones)" value={num(k.sessions.cur)} pair={k.sessions} />
-                  <Kpi icon={FileText} label="Páginas vistas" value={num(k.screenPageViews.cur)} pair={k.screenPageViews} />
-                  <Kpi icon={Activity} label="Interés real" value={pct(k.engagementRate.cur)} pair={k.engagementRate} />
-                  <Kpi icon={Timer} label="Tiempo por visita" value={dur(k.averageSessionDuration.cur)} pair={k.averageSessionDuration} />
+                  <Kpi
+                    icon={MousePointerClick}
+                    label="Visitas (sesiones)"
+                    value={num(k.sessions.cur)}
+                    pair={k.sessions}
+                  />
+                  <Kpi
+                    icon={FileText}
+                    label="Páginas vistas"
+                    value={num(k.screenPageViews.cur)}
+                    pair={k.screenPageViews}
+                  />
+                  <Kpi
+                    icon={Activity}
+                    label="Interés real"
+                    value={pct(k.engagementRate.cur)}
+                    pair={k.engagementRate}
+                  />
+                  <Kpi
+                    icon={Timer}
+                    label="Tiempo por visita"
+                    value={dur(k.averageSessionDuration.cur)}
+                    pair={k.averageSessionDuration}
+                  />
                 </div>
 
                 <div className="grid gap-4 xl:grid-cols-3">
-                  <Card title="Visitantes por día" hint="Pasa el mouse para ver cada día" className="xl:col-span-2">
+                  <Card
+                    title="Visitantes por día"
+                    hint="Pasa el mouse para ver cada día"
+                    className="xl:col-span-2"
+                  >
                     <TrendChart cur={ga.trend.cur} prev={ga.trend.prev} from={data.from} />
                   </Card>
                   <Card title="Posibles clientes" hint="Acciones de contacto">
@@ -531,13 +556,32 @@ export default function MetricsDashboard() {
             gsc?.totals && (
               <>
                 <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-                  <Kpi icon={MousePointerClick} label="Clics desde Google" value={num(gsc.totals.cur.clicks)} pair={{ cur: gsc.totals.cur.clicks, prev: gsc.totals.prev.clicks }} />
-                  <Kpi icon={Eye} label="Veces que apareciste" value={num(gsc.totals.cur.impressions)} pair={{ cur: gsc.totals.cur.impressions, prev: gsc.totals.prev.impressions }} />
-                  <Kpi icon={Percent} label="% que hizo clic" value={pct(gsc.totals.cur.ctr)} pair={{ cur: gsc.totals.cur.ctr, prev: gsc.totals.prev.ctr }} />
+                  <Kpi
+                    icon={MousePointerClick}
+                    label="Clics desde Google"
+                    value={num(gsc.totals.cur.clicks)}
+                    pair={{ cur: gsc.totals.cur.clicks, prev: gsc.totals.prev.clicks }}
+                  />
+                  <Kpi
+                    icon={Eye}
+                    label="Veces que apareciste"
+                    value={num(gsc.totals.cur.impressions)}
+                    pair={{ cur: gsc.totals.cur.impressions, prev: gsc.totals.prev.impressions }}
+                  />
+                  <Kpi
+                    icon={Percent}
+                    label="% que hizo clic"
+                    value={pct(gsc.totals.cur.ctr)}
+                    pair={{ cur: gsc.totals.cur.ctr, prev: gsc.totals.prev.ctr }}
+                  />
                   <Kpi
                     icon={Trophy}
                     label="Posición media"
-                    value={gsc.totals.cur.position ? gsc.totals.cur.position.toLocaleString('es-PE', { maximumFractionDigits: 1 }) : '—'}
+                    value={
+                      gsc.totals.cur.position
+                        ? gsc.totals.cur.position.toLocaleString('es-PE', { maximumFractionDigits: 1 })
+                        : '—'
+                    }
                     pair={{ cur: gsc.totals.cur.position, prev: gsc.totals.prev.position }}
                     invert
                   />
@@ -547,7 +591,10 @@ export default function MetricsDashboard() {
                     <SearchTable rows={gsc.queries} first="Búsqueda" />
                   </Card>
                   <Card title="Tus páginas en Google" hint="Top 8">
-                    <SearchTable rows={gsc.pages.map((p) => ({ ...p, label: pageName(p.label) }))} first="Página" />
+                    <SearchTable
+                      rows={gsc.pages.map((p) => ({ ...p, label: pageName(p.label) }))}
+                      first="Página"
+                    />
                   </Card>
                 </div>
               </>
@@ -555,8 +602,8 @@ export default function MetricsDashboard() {
           )}
 
           <p className="pb-4 text-center text-[11px]" style={{ color: C.muted }}>
-            Analytics solo cuenta a quienes aceptan cookies. Las flechas comparan con el periodo anterior de la
-            misma duración.
+            Analytics solo cuenta a quienes aceptan cookies. Las flechas comparan con el periodo anterior de
+            la misma duración.
           </p>
         </div>
       )}
@@ -579,7 +626,11 @@ function SearchTable({ rows, first }: { rows: GscRow[]; first: string }) {
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.label} className="border-b last:border-0 hover:bg-slate-50" style={{ borderColor: C.line }}>
+            <tr
+              key={r.label}
+              className="border-b last:border-0 hover:bg-slate-50"
+              style={{ borderColor: C.line }}
+            >
               <td className="max-w-[260px] truncate py-1.5" title={r.label}>
                 {r.label}
               </td>

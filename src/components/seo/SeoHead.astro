@@ -25,9 +25,13 @@ const {
   schema = [],
 } = Astro.props;
 
-// Imagen para redes: la de la página, si no /images/og-default.jpg (si existe) o el logo
+// Imagen para redes: la de la página; si no, la imagen para compartir del CMS; si no, el logo
 const logoUrl = site.logo ? (await getImage({ src: site.logo, width: 512 })).src : '/logo.svg';
-const image = Astro.props.image ?? logoUrl;
+// Imagen para compartir del CMS (1200×630); si no hay, el logo
+const shareUrl = site.shareImage
+  ? (await getImage({ src: site.shareImage, width: 1200, height: 630, format: 'jpg' })).src
+  : undefined;
+const image = Astro.props.image ?? shareUrl ?? logoUrl;
 const fullImageUrl = new URL(image, siteUrl).toString();
 
 const sameAs = site.social.map((s) => s.url).filter((u) => /^https?:\/\//.test(u));

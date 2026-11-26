@@ -30,7 +30,11 @@
     "gaId": "",
     "gaPropertyId": "",
     "searchConsoleSite": "",
-    "cookieText": "Usamos cookies de analítica para entender qué contenido te resulta útil y mejorar la web. Solo se activan si las aceptas."
+    "cookieText": "Usamos cookies de analítica para entender qué contenido te resulta útil y mejorar la web. Solo se activan si las aceptas.",
+    "cookieAccept": "Aceptar",
+    "cookieReject": "Rechazar",
+    "cookieMore": "Más información",
+    "cookieSettings": "Preferencias de cookies"
   },
   "nav": [
     {
@@ -164,5 +168,19 @@
     "text": "Diseñado por",
     "linkText": "TransformAcción720",
     "url": "https://www.transformaccion720.com"
-  }
+  },
+  "footerLabels": {
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "location": "Ubicación"
+  },
+  "notFound": {
+    "kicker": "Error 404",
+    "title": "Esta página no existe",
+    "text": "Puede que el enlace esté mal escrito o que la página haya cambiado de dirección.",
+    "primary": "Volver al inicio",
+    "secondary": "Conversemos",
+    "secondaryHref": "/conversemos"
+  },
+  "shareImage": "@/assets/images/site/share.jpg"
 }

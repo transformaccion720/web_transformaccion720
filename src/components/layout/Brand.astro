@@ -28,18 +28,33 @@ const light = tone === 'light';
     <Image src={site.logo} alt={site.brandName} height={128} class="h-14 w-auto" loading="eager" />
   ) : site.logoLight ? (
     <>
-      <Image src={site.logoLight} alt={site.brandName} height={96} class:list={['h-16 w-auto', site.logo && 'dark:hidden']} />
+      <Image
+        src={site.logoLight}
+        alt={site.brandName}
+        height={96}
+        class:list={['h-16 w-auto', site.logo && 'dark:hidden']}
+      />
       {site.logo && <Image src={site.logo} alt="" height={96} class="hidden h-16 w-auto dark:block" />}
     </>
   ) : (
     <>
-      <LogoMark size={40} light={light} class="shrink-0 transition-transform duration-300 group-hover:scale-105" />
+      <LogoMark
+        size={40}
+        light={light}
+        class="shrink-0 transition-transform duration-300 group-hover:scale-105"
+      />
       <span class:list={['leading-none', light ? 'text-[15px]' : 'text-base']}>
-        <span class:list={['block font-display font-extrabold tracking-tight', light ? 'text-white' : 'text-brand-navy dark:text-white']}>
+        <span
+          class:list={[
+            'block font-display font-extrabold tracking-tight',
+            light ? 'text-white' : 'text-brand-navy dark:text-white',
+          ]}
+        >
           Transform
         </span>
         <span class="block font-display font-black tracking-tight">
-          <span class={light ? 'text-[#3B82F6]' : 'text-brand-blue'}>Acción</span><span class="ml-1 text-brand-orange">720</span>
+          <span class={light ? 'text-[#3B82F6]' : 'text-brand-blue'}>Acción</span>
+          <span class="ml-1 text-brand-orange">720</span>
         </span>
       </span>
     </>

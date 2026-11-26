@@ -13,14 +13,18 @@ const hasGA = /^G-[A-Z0-9]+$/i.test(site.analytics.gaId.trim());
 const SOCIAL: Record<string, { label: string; cls: string }> = {
   linkedin: { label: 'LinkedIn', cls: 'text-[#0A66C2] hover:bg-[#0A66C2] hover:border-[#0A66C2]' },
   instagram: { label: 'Instagram', cls: 'text-[#E1306C] hover:bg-[#E1306C] hover:border-[#E1306C]' },
-  tiktok: { label: 'TikTok', cls: 'text-slate-900 dark:text-white hover:bg-slate-900 dark:hover:bg-white dark:hover:text-slate-900' },
+  tiktok: {
+    label: 'TikTok',
+    cls: 'text-slate-900 dark:text-white hover:bg-slate-900 dark:hover:bg-white dark:hover:text-slate-900',
+  },
   facebook: { label: 'Facebook', cls: 'text-[#1877F2] hover:bg-[#1877F2] hover:border-[#1877F2]' },
   youtube: { label: 'YouTube', cls: 'text-[#FF0000] hover:bg-[#FF0000] hover:border-[#FF0000]' },
   x: { label: 'X', cls: 'text-slate-900 dark:text-white hover:bg-slate-900' },
   whatsapp: { label: 'WhatsApp', cls: 'text-emerald-500 hover:bg-emerald-500 hover:border-emerald-500' },
   spotify: { label: 'Spotify', cls: 'text-[#1DB954] hover:bg-[#1DB954] hover:border-[#1DB954]' },
 };
-const circle = 'flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition dark:border-slate-700 dark:bg-slate-900';
+const circle =
+  'flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition dark:border-slate-700 dark:bg-slate-900';
 ---
 
 <footer class="border-t border-slate-200 bg-white pt-14 pb-8 dark:border-slate-800 dark:bg-slate-950">
@@ -29,7 +33,12 @@ const circle = 'flex size-10 shrink-0 items-center justify-center rounded-full b
       <div class="space-y-4 md:col-span-4">
         <Brand site={site} tone="dark" />
         {site.footerText && (
-          <p class="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-slate-400" data-cms="siteSettings.footerText">{site.footerText}</p>
+          <p
+            class="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+            data-cms="siteSettings.footerText"
+          >
+            {site.footerText}
+          </p>
         )}
         {site.social.length > 0 && (
           <div class="flex items-center gap-3 pt-1">
@@ -50,9 +59,12 @@ const circle = 'flex size-10 shrink-0 items-center justify-center rounded-full b
 
       <div class="flex flex-col justify-between md:col-span-4">
         <div>
-          <h4 class="mb-5 font-sans text-xs font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400" data-cms="siteSettings.footerNavTitle">
+          <h2
+            class="mb-5 font-sans text-xs font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400"
+            data-cms="siteSettings.footerNavTitle"
+          >
             {site.footerNavTitle}
-          </h4>
+          </h2>
           <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-slate-600 dark:text-slate-300">
             {site.nav.map((l) => (
               <a href={l.href} class="flex items-center gap-2 text-left transition hover:text-brand-orange">
@@ -71,24 +83,38 @@ const circle = 'flex size-10 shrink-0 items-center justify-center rounded-full b
               <BookOpen size={16} aria-hidden="true" />
             </span>
             <span class="text-left leading-tight">
-              <span class="block text-xs font-extrabold text-brand-navy dark:text-white">{book.tabLabel}</span>
-              <span class="block text-[10px] text-slate-500">{site.footerBookText || book.footerKicker}</span>
+              <span class="block text-xs font-extrabold text-brand-navy dark:text-white">
+                {book.tabLabel}
+              </span>
+              <span class="block text-[10px] text-slate-600 dark:text-slate-400">
+                {site.footerBookText || book.footerKicker}
+              </span>
             </span>
           </a>
         </div>
       </div>
 
       <div class="space-y-4 md:col-span-4">
-        <h4 class="mb-5 font-sans text-xs font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400" data-cms="siteSettings.footerContactTitle">
+        <h2
+          class="mb-5 font-sans text-xs font-extrabold tracking-[0.2em] text-brand-teal uppercase dark:text-cyan-400"
+          data-cms="siteSettings.footerContactTitle"
+        >
           {site.footerContactTitle}
-        </h4>
+        </h2>
         {site.whatsapp && (
-          <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3.5">
+          <a
+            href={`https://wa.me/${site.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-center gap-3.5"
+          >
             <span class:list={[circle, 'text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white']}>
               <BrandIcon name="whatsapp" size={20} mono />
             </span>
             <span>
-              <span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">WhatsApp</span>
+              <span class="block text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
+                {site.footerLabels.whatsapp}
+              </span>
               <span class="block text-sm font-bold text-brand-navy transition group-hover:text-brand-orange dark:text-white">
                 {site.whatsappDisplay || `+${site.whatsapp}`}
               </span>
@@ -101,8 +127,12 @@ const circle = 'flex size-10 shrink-0 items-center justify-center rounded-full b
               <Mail size={16} aria-hidden="true" />
             </span>
             <span class="min-w-0">
-              <span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Email</span>
-              <span class="block truncate text-sm font-bold text-brand-navy transition group-hover:text-brand-orange dark:text-white">{site.email}</span>
+              <span class="block text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
+                {site.footerLabels.email}
+              </span>
+              <span class="block truncate text-sm font-bold text-brand-navy transition group-hover:text-brand-orange dark:text-white">
+                {site.email}
+              </span>
             </span>
           </a>
         )}
@@ -112,31 +142,51 @@ const circle = 'flex size-10 shrink-0 items-center justify-center rounded-full b
               <MapPin size={16} aria-hidden="true" />
             </span>
             <span>
-              <span class="block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Ubicación</span>
-              <span class="block text-sm font-bold text-brand-navy dark:text-white" data-cms="siteSettings.location">{site.location || site.city}</span>
+              <span class="block text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
+                {site.footerLabels.location}
+              </span>
+              <span
+                class="block text-sm font-bold text-brand-navy dark:text-white"
+                data-cms="siteSettings.location"
+              >
+                {site.location || site.city}
+              </span>
             </span>
           </div>
         )}
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-between gap-3 pt-6 text-xs text-slate-500 sm:flex-row">
+    <div class="flex flex-col items-center justify-between gap-3 pt-6 text-xs text-slate-600 dark:text-slate-400 sm:flex-row">
       <div class="text-center sm:text-left">
         © {year} {site.brandName} - <span data-cms="siteSettings.copyrightText">{site.copyrightText}</span>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-4">
         {legalPages.map((p) => (
-          <a href={`/legal/${p.id}`} class="hover:text-brand-navy dark:hover:text-white">{p.data.shortTitle || p.data.title}</a>
+          <a href={`/legal/${p.id}`} class="hover:text-brand-navy dark:hover:text-white">
+            {p.data.shortTitle || p.data.title}
+          </a>
         ))}
-        <a href={bookHref} class="hover:text-brand-navy dark:hover:text-white">{book.tabLabel}</a>
+        <a href={bookHref} class="hover:text-brand-navy dark:hover:text-white">
+          {book.tabLabel}
+        </a>
         {site.credit.linkText && (
           <span>
             {site.credit.text}{' '}
-            <a href={site.credit.url || '#'} target="_blank" rel="noopener" class="font-bold text-brand-navy transition hover:text-brand-orange dark:text-white">{site.credit.linkText}</a>
+            <a
+              href={site.credit.url || '#'}
+              target="_blank"
+              rel="noopener"
+              class="font-bold text-brand-navy transition hover:text-brand-orange dark:text-white"
+            >
+              {site.credit.linkText}
+            </a>
           </span>
         )}
         {hasGA && (
-          <a href="#" data-cookie-settings class="hover:text-brand-navy dark:hover:text-white">Preferencias de cookies</a>
+          <a href="#" data-cookie-settings class="hover:text-brand-navy dark:hover:text-white">
+            {site.analytics.cookieSettings}
+          </a>
         )}
       </div>
     </div>

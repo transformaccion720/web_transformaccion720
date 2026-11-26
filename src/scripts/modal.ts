@@ -11,7 +11,9 @@ export function openModal(modal: HTMLElement, onClose?: () => void) {
   document.documentElement.style.overflow = 'hidden';
   if (onClose) closers.set(modal, onClose);
   requestAnimationFrame(() =>
-    modal.querySelector<HTMLElement>('[data-autofocus], input, button, [href]')?.focus({ preventScroll: true })
+    modal
+      .querySelector<HTMLElement>('[data-autofocus], input, button, [href]')
+      ?.focus({ preventScroll: true })
   );
 }
 

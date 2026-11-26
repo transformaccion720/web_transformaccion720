@@ -16,7 +16,13 @@ const d = page.data;
 ---
 
 <BaseLayout title={`${d.title} • ${site.brandName}`} description={d.description}>
-  <LegalShell current={page.id} kicker={d.kicker} title={d.heading || d.title} subtitle={`Última actualización: ${formatDate(d.updatedAt)}`} cmsPrefix="legal">
+  <LegalShell
+    current={page.id}
+    kicker={d.kicker}
+    title={d.heading || d.title}
+    subtitle={`Última actualización: ${formatDate(d.updatedAt)}`}
+    cmsPrefix="legal"
+  >
     <div class="prose-body legal-body text-sm sm:text-base">
       <Content />
     </div>

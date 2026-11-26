@@ -7,12 +7,28 @@ import { Image } from 'astro:assets';
 import { Search } from 'lucide-react';
 import ActionButton from '@/components/ui/ActionButton.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { categoryName, getBlogCategories, getBlogSettings, getPosts, getSite, newsDate, readLabel } from '@/lib/content';
+import {
+  categoryName,
+  getBlogCategories,
+  getBlogSettings,
+  getPosts,
+  getSite,
+  newsDate,
+  readLabel,
+} from '@/lib/content';
 import { safeJson } from '@/lib/format';
 
-const [site, texts, all, categories] = await Promise.all([getSite(), getBlogSettings(), getPosts(), getBlogCategories()]);
+const [site, texts, all, categories] = await Promise.all([
+  getSite(),
+  getBlogSettings(),
+  getPosts(),
+  getBlogCategories(),
+]);
 // El destacado va primero (si no hay, el más reciente)
-const featuredIdx = Math.max(0, all.findIndex((p) => p.data.featured));
+const featuredIdx = Math.max(
+  0,
+  all.findIndex((p) => p.data.featured)
+);
 const posts = all.length ? [all[featuredIdx]!, ...all.filter((_, i) => i !== featuredIdx)] : [];
 // Debajo del destacado se mantienen las 3 publicaciones más recientes; el resto va paginado
 const recent = posts.slice(1, 4);
@@ -30,15 +46,37 @@ const countOf = (id: string) => posts.filter((p) => p.data.category === id).leng
 const ads = texts.adsEnabled ? texts.ads : [];
 ---
 
-<BaseLayout title={`${texts.title} • ${site.brandName}`} description={texts.seoDescription || `Novedades de ${site.brandName}.`}>
+<BaseLayout
+  title={`${texts.title} • ${site.brandName}`}
+  description={texts.seoDescription || `Novedades de ${site.brandName}.`}
+>
   <link slot="head" rel="alternate" type="application/rss+xml" title={texts.title} href="/blog/rss.xml" />
 
   <section class="hero-aurora text-white">
     <div class="tech-grid-overlay pointer-events-none absolute inset-0"></div>
     <div class="relative z-10 mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
-      {texts.badge && <span class="text-xs font-extrabold tracking-[0.22em] text-amber-300 uppercase" data-cms="blogSettings.badge">{texts.badge}</span>}
-      <h1 class="mt-2 font-display text-3xl font-black tracking-tight sm:text-5xl" data-cms="blogSettings.title">{texts.title}</h1>
-      {texts.subtitle && <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base" data-cms="blogSettings.subtitle">{texts.subtitle}</p>}
+      {texts.badge && (
+        <span
+          class="text-xs font-extrabold tracking-[0.22em] text-amber-300 uppercase"
+          data-cms="blogSettings.badge"
+        >
+          {texts.badge}
+        </span>
+      )}
+      <h1
+        class="mt-2 font-display text-3xl font-black tracking-tight sm:text-5xl"
+        data-cms="blogSettings.title"
+      >
+        {texts.title}
+      </h1>
+      {texts.subtitle && (
+        <p
+          class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base"
+          data-cms="blogSettings.subtitle"
+        >
+          {texts.subtitle}
+        </p>
+      )}
     </div>
   </section>
 
@@ -47,8 +85,14 @@ const ads = texts.adsEnabled ? texts.ads : [];
       <aside class="space-y-5 lg:col-span-3">
         <div class="space-y-5 lg:sticky lg:top-24">
           <div class="relative">
-            <Search size={16} className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
-            <label for="news-search" class="sr-only">{texts.searchPlaceholder}</label>
+            <Search
+              size={16}
+              className="absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"
+              aria-hidden="true"
+            />
+            <label for="news-search" class="sr-only">
+              {texts.searchPlaceholder}
+            </label>
             <input
               id="news-search"
               type="search"
@@ -58,43 +102,105 @@ const ads = texts.adsEnabled ? texts.ads : [];
           </div>
 
           <div class="rounded-3xl border border-slate-200/80 bg-brand-cream/70 p-4 dark:border-slate-800 dark:bg-slate-900/70">
-            <p class="mb-3 px-2 text-[10px] font-extrabold tracking-[0.2em] text-slate-400 uppercase" data-cms="blogSettings.filtersTitle">{texts.filtersTitle}</p>
-            <div class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" role="group" aria-label={texts.filtersTitle}>
-              <button type="button" data-news-filter="todos" aria-pressed="true" class="news-filter is-active">
-                <span>{texts.allLabel}</span><span class="news-filter-count">{posts.length}</span>
+            <p
+              class="mb-3 px-2 text-[10px] font-extrabold tracking-[0.2em] text-slate-500 dark:text-slate-400 uppercase"
+              data-cms="blogSettings.filtersTitle"
+            >
+              {texts.filtersTitle}
+            </p>
+            <div
+              class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0"
+              role="group"
+              aria-label={texts.filtersTitle}
+            >
+              <button
+                type="button"
+                data-news-filter="todos"
+                aria-pressed="true"
+                class="news-filter is-active"
+              >
+                <span>{texts.allLabel}</span>
+                <span class="news-filter-count">{posts.length}</span>
               </button>
               {usedCats.map(([id, name]) => (
                 <button type="button" data-news-filter={id} aria-pressed="false" class="news-filter">
-                  <span>{name}</span><span class="news-filter-count">{countOf(id)}</span>
+                  <span>{name}</span>
+                  <span class="news-filter-count">{countOf(id)}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {ads.length > 0 && (
-            <div class="relative overflow-hidden rounded-3xl bg-[#0B1F3A] text-white shadow-apple-lg" data-ads>
-              {texts.adsLabel && <span class="absolute top-3 left-4 z-20 text-[9px] font-extrabold tracking-[0.2em] text-white/60 uppercase">{texts.adsLabel}</span>}
+            <div
+              class="relative overflow-hidden rounded-3xl bg-[#0B1F3A] text-white shadow-apple-lg"
+              data-ads
+            >
+              {texts.adsLabel && (
+                <span class="absolute top-3 left-4 z-20 text-[9px] font-extrabold tracking-[0.2em] text-white/60 uppercase">
+                  {texts.adsLabel}
+                </span>
+              )}
               <div class="relative min-h-64">
                 {ads.map((ad, i) => (
-                  <div class:list={['ad-slide absolute inset-0 flex flex-col justify-end p-5 pt-9 transition-opacity duration-700', i === 0 ? 'opacity-100' : 'pointer-events-none opacity-0']} data-ad={i}>
+                  <div
+                    class:list={[
+                      'ad-slide absolute inset-0 flex flex-col justify-end p-5 pt-9 transition-opacity duration-700',
+                      i === 0 ? 'opacity-100' : 'pointer-events-none opacity-0',
+                    ]}
+                    data-ad={i}
+                  >
                     {ad.image ? (
-                      <Image src={ad.image} alt={ad.imageAlt} widths={[400, 700]} sizes="320px" class="absolute inset-0 h-full w-full object-cover" />
+                      <Image
+                        src={ad.image}
+                        alt={ad.imageAlt}
+                        widths={[400, 700]}
+                        sizes="320px"
+                        class="absolute inset-0 h-full w-full object-cover"
+                      />
                     ) : (
-                      <span class="absolute inset-0 bg-gradient-to-br from-[#143f73] via-[#0f4c5c] to-[#0B1F3A]" aria-hidden="true"></span>
+                      <span
+                        class="absolute inset-0 bg-gradient-to-br from-[#143f73] via-[#0f4c5c] to-[#0B1F3A]"
+                        aria-hidden="true"
+                      ></span>
                     )}
-                    <span class="absolute inset-0 bg-gradient-to-t from-[#071528]/90 via-[#071528]/40 to-transparent" aria-hidden="true"></span>
+                    <span
+                      class="absolute inset-0 bg-gradient-to-t from-[#071528]/90 via-[#071528]/40 to-transparent"
+                      aria-hidden="true"
+                    ></span>
                     <div class="relative">
-                      {ad.kicker && <span class="text-[10px] font-extrabold tracking-widest text-amber-300 uppercase">{ad.kicker}</span>}
+                      {ad.kicker && (
+                        <span class="text-[10px] font-extrabold tracking-widest text-amber-300 uppercase">
+                          {ad.kicker}
+                        </span>
+                      )}
                       <p class="mt-1 font-display text-lg leading-snug font-extrabold">{ad.title}</p>
                       {ad.text && <p class="mt-1.5 text-xs text-slate-200">{ad.text}</p>}
-                      <ActionButton btn={ad.button} class="mt-3 inline-block rounded-full bg-brand-orange px-4 py-2 text-xs font-extrabold text-brand-deep transition hover:bg-amber-400" />
+                      <ActionButton
+                        btn={ad.button}
+                        class="mt-3 inline-block rounded-full bg-brand-orange px-4 py-2 text-xs font-extrabold text-brand-deep transition hover:bg-amber-400"
+                      />
                     </div>
                   </div>
                 ))}
               </div>
               {ads.length > 1 && (
-                <div class="absolute top-3 right-4 z-20 flex gap-1.5">
-                  {ads.map((_, i) => <button type="button" data-ad-dot={i} aria-label={`Ver anuncio ${i + 1}`} class:list={['h-1.5 rounded-full bg-white transition-all duration-500', i === 0 ? 'w-5' : 'w-1.5 opacity-60']}></button>)}
+                <div class="absolute top-1.5 right-2 z-20 flex">
+                  {ads.map((_, i) => (
+                    <button
+                      type="button"
+                      data-ad-dot={i}
+                      aria-label={`Ver anuncio ${i + 1}`}
+                      class="group flex h-6 min-w-6 items-center justify-center"
+                    >
+                      <span
+                        class:list={[
+                          'ad-dot block h-1.5 rounded-full bg-white transition-all duration-500',
+                          i === 0 ? 'w-5' : 'w-1.5 opacity-60',
+                        ]}
+                      ></span>
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -103,102 +209,188 @@ const ads = texts.adsEnabled ? texts.ads : [];
       </aside>
 
       <div class="min-w-0 space-y-10 lg:col-span-9">
-      {posts[0] && (() => {
-        const p = posts[0];
-        return (
-          <article data-news-item data-featured data-cat={p.data.category} data-search={`${p.data.title} ${p.data.excerpt} ${categoryName(categories, p.data.category)}`.toLowerCase()}>
-            <a href={`/blog/${p.id}`} class="group grid grid-cols-1 overflow-hidden rounded-3xl border border-slate-200 bg-brand-cream shadow-sm transition hover:shadow-apple lg:grid-cols-12 dark:border-slate-800 dark:bg-slate-900">
-              <div class="aspect-video overflow-hidden lg:col-span-7 lg:aspect-auto">
-                {p.data.cover && <Image src={p.data.cover} alt={p.data.coverAlt || p.data.title} widths={[640, 960]} sizes="(min-width: 1024px) 560px, 100vw" loading="eager" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
-              </div>
-              <div class="flex flex-col justify-between p-7 lg:col-span-5 lg:p-8">
-                <div>
-                  <div class="flex flex-wrap items-center gap-2.5 text-xs">
-                    {texts.featuredLabel && <span class="rounded-full bg-brand-orange/20 px-2.5 py-1 font-extrabold text-brand-amber">{texts.featuredLabel}</span>}
-                    <span class="font-bold text-brand-teal dark:text-cyan-400">{categoryName(categories, p.data.category)}</span>
-                    <span class="text-slate-400">- {readLabel(p)}</span>
+        {posts[0] &&
+          (() => {
+            const p = posts[0];
+            return (
+              <article
+                data-news-item
+                data-featured
+                data-cat={p.data.category}
+                data-search={`${p.data.title} ${p.data.excerpt} ${categoryName(categories, p.data.category)}`.toLowerCase()}
+              >
+                <a
+                  href={`/blog/${p.id}`}
+                  class="group grid grid-cols-1 overflow-hidden rounded-3xl border border-slate-200 bg-brand-cream shadow-sm transition hover:shadow-apple lg:grid-cols-12 dark:border-slate-800 dark:bg-slate-900"
+                >
+                  <div class="aspect-video overflow-hidden lg:col-span-7 lg:aspect-auto">
+                    {p.data.cover && (
+                      <Image
+                        src={p.data.cover}
+                        alt={p.data.coverAlt || p.data.title}
+                        widths={[640, 960]}
+                        sizes="(min-width: 1024px) 560px, 100vw"
+                        loading="eager"
+                        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    )}
                   </div>
-                  <h2 class="mt-3 font-display text-2xl leading-snug font-extrabold text-brand-navy transition group-hover:text-brand-teal sm:text-3xl dark:text-white">{p.data.title}</h2>
-                  <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{p.data.excerpt}</p>
-                </div>
-                <div class="mt-6 flex items-center justify-between border-t border-slate-200/70 pt-4 text-xs dark:border-slate-800">
-                  <span class="font-medium text-slate-500">{p.data.author} - {newsDate(p.data.publishedAt)}</span>
-                  <span class="font-extrabold text-brand-teal transition-transform group-hover:translate-x-1 dark:text-cyan-400">{texts.readMore}</span>
-                </div>
-              </div>
-            </a>
-          </article>
-        );
-      })()}
+                  <div class="flex flex-col justify-between p-7 lg:col-span-5 lg:p-8">
+                    <div>
+                      <div class="flex flex-wrap items-center gap-2.5 text-xs">
+                        {texts.featuredLabel && (
+                          <span class="rounded-full bg-brand-orange/20 px-2.5 py-1 font-extrabold text-amber-800 dark:text-amber-300">
+                            {texts.featuredLabel}
+                          </span>
+                        )}
+                        <span class="font-bold text-brand-teal dark:text-cyan-400">
+                          {categoryName(categories, p.data.category)}
+                        </span>
+                        <span class="text-slate-500 dark:text-slate-400">- {readLabel(p)}</span>
+                      </div>
+                      <h2 class="mt-3 font-display text-2xl leading-snug font-extrabold text-brand-navy transition group-hover:text-brand-teal sm:text-3xl dark:text-white">
+                        {p.data.title}
+                      </h2>
+                      <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                        {p.data.excerpt}
+                      </p>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between border-t border-slate-200/70 pt-4 text-xs dark:border-slate-800">
+                      <span class="font-medium text-slate-600 dark:text-slate-400">
+                        {p.data.author} - {newsDate(p.data.publishedAt)}
+                      </span>
+                      <span class="font-extrabold text-brand-teal transition-transform group-hover:translate-x-1 dark:text-cyan-400">
+                        {texts.readMore}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            );
+          })()}
 
-      {recent.length > 0 && (
-        <div data-recent>
-          <div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
-            <h2 class="font-display text-lg font-extrabold text-brand-navy dark:text-white" data-cms="blogSettings.recentTitle">{texts.recentTitle}</h2>
+        {recent.length > 0 && (
+          <div data-recent>
+            <div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
+              <h2
+                class="font-display text-lg font-extrabold text-brand-navy dark:text-white"
+                data-cms="blogSettings.recentTitle"
+              >
+                {texts.recentTitle}
+              </h2>
+            </div>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {recent.map((p) => (
+                <article>
+                  <a
+                    href={`/blog/${p.id}`}
+                    class="card-3d group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                  >
+                    <div class="h-44 overflow-hidden">
+                      {p.data.cover && (
+                        <Image
+                          src={p.data.cover}
+                          alt={p.data.coverAlt || p.data.title}
+                          widths={[400, 640]}
+                          sizes="(min-width: 768px) 33vw, 100vw"
+                          class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        />
+                      )}
+                    </div>
+                    <div class="flex flex-1 flex-col p-6">
+                      <div class="flex items-center justify-between gap-2 text-[11px]">
+                        <span class="font-extrabold text-brand-teal dark:text-cyan-400">
+                          {categoryName(categories, p.data.category)}
+                        </span>
+                        <span class="text-right text-slate-500 dark:text-slate-400">
+                          {newsDate(p.data.publishedAt)} - {readLabel(p)}
+                        </span>
+                      </div>
+                      <h3 class="mt-2.5 font-display text-base leading-snug font-bold text-brand-navy transition group-hover:text-brand-blue dark:text-white">
+                        {p.data.title}
+                      </h3>
+                      <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                        {p.data.excerpt}
+                      </p>
+                      <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
+                        <span class="text-slate-500 dark:text-slate-400">{p.data.author}</span>
+                        <span class="font-bold text-brand-teal dark:text-cyan-400">{texts.readMore}</span>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+              ))}
+            </div>
           </div>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {recent.map((p) => (
-              <article>
-              <a href={`/blog/${p.id}`} class="card-3d group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div class="h-44 overflow-hidden">
-                  {p.data.cover && <Image src={p.data.cover} alt={p.data.coverAlt || p.data.title} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
-                </div>
-                <div class="flex flex-1 flex-col p-6">
-                  <div class="flex items-center justify-between gap-2 text-[11px]">
-                    <span class="font-extrabold text-brand-teal dark:text-cyan-400">{categoryName(categories, p.data.category)}</span>
-                    <span class="text-right text-slate-400">{newsDate(p.data.publishedAt)} - {readLabel(p)}</span>
+        )}
+
+        <div id="todas">
+          <div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
+            <h2
+              class="font-display text-lg font-extrabold text-brand-navy dark:text-white"
+              data-cms="blogSettings.archiveTitle"
+            >
+              {texts.archiveTitle}
+            </h2>
+            <span class="text-xs font-semibold text-slate-600 dark:text-slate-400" data-news-count></span>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" data-news-grid>
+            {posts.map((p, i) => (
+              <article
+                data-news-item
+                data-cat={p.data.category}
+                data-search={`${p.data.title} ${p.data.excerpt} ${categoryName(categories, p.data.category)}`.toLowerCase()}
+                data-rank={i}
+                hidden
+              >
+                <a
+                  href={`/blog/${p.id}`}
+                  class="card-3d group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                >
+                  <div class="h-44 overflow-hidden">
+                    {p.data.cover && (
+                      <Image
+                        src={p.data.cover}
+                        alt={p.data.coverAlt || p.data.title}
+                        widths={[400, 640]}
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    )}
                   </div>
-                  <h3 class="mt-2.5 font-display text-base leading-snug font-bold text-brand-navy transition group-hover:text-brand-blue dark:text-white">{p.data.title}</h3>
-                  <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{p.data.excerpt}</p>
-                  <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
-                    <span class="text-slate-400">{p.data.author}</span>
-                    <span class="font-bold text-brand-teal dark:text-cyan-400">{texts.readMore}</span>
+                  <div class="flex flex-1 flex-col p-6">
+                    <div class="flex items-center justify-between gap-2 text-[11px]">
+                      <span class="font-extrabold text-brand-teal dark:text-cyan-400">
+                        {categoryName(categories, p.data.category)}
+                      </span>
+                      <span class="text-right text-slate-500 dark:text-slate-400">
+                        {newsDate(p.data.publishedAt)} - {readLabel(p)}
+                      </span>
+                    </div>
+                    <h3 class="mt-2.5 font-display text-base leading-snug font-bold text-brand-navy transition group-hover:text-brand-blue dark:text-white">
+                      {p.data.title}
+                    </h3>
+                    <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                      {p.data.excerpt}
+                    </p>
+                    <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
+                      <span class="text-slate-500 dark:text-slate-400">{p.data.author}</span>
+                      <span class="font-bold text-brand-teal dark:text-cyan-400">{texts.readMore}</span>
+                    </div>
                   </div>
-                </div>
-              </a>
+                </a>
               </article>
             ))}
           </div>
+          <p class="hidden py-14 text-center text-sm text-slate-600 dark:text-slate-400" data-news-empty>
+            {texts.emptyText}
+          </p>
+          <nav
+            class="mt-10 flex flex-wrap items-center justify-center gap-2"
+            aria-label="Paginación de publicaciones"
+            data-news-pager
+          ></nav>
         </div>
-      )}
-
-      <div id="todas">
-        <div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
-          <h2 class="font-display text-lg font-extrabold text-brand-navy dark:text-white" data-cms="blogSettings.archiveTitle">{texts.archiveTitle}</h2>
-          <span class="text-xs font-semibold text-slate-500" data-news-count></span>
-        </div>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" data-news-grid>
-          {posts.map((p, i) => (
-            <article
-              data-news-item
-              data-cat={p.data.category}
-              data-search={`${p.data.title} ${p.data.excerpt} ${categoryName(categories, p.data.category)}`.toLowerCase()}
-              data-rank={i}
-              hidden
-            >
-              <a href={`/blog/${p.id}`} class="card-3d group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div class="h-44 overflow-hidden">
-                  {p.data.cover && <Image src={p.data.cover} alt={p.data.coverAlt || p.data.title} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />}
-                </div>
-                <div class="flex flex-1 flex-col p-6">
-                  <div class="flex items-center justify-between gap-2 text-[11px]">
-                    <span class="font-extrabold text-brand-teal dark:text-cyan-400">{categoryName(categories, p.data.category)}</span>
-                    <span class="text-right text-slate-400">{newsDate(p.data.publishedAt)} - {readLabel(p)}</span>
-                  </div>
-                  <h3 class="mt-2.5 font-display text-base leading-snug font-bold text-brand-navy transition group-hover:text-brand-blue dark:text-white">{p.data.title}</h3>
-                  <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{p.data.excerpt}</p>
-                  <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
-                    <span class="text-slate-400">{p.data.author}</span>
-                    <span class="font-bold text-brand-teal dark:text-cyan-400">{texts.readMore}</span>
-                  </div>
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
-        <p class="hidden py-14 text-center text-sm text-slate-500" data-news-empty>{texts.emptyText}</p>
-        <nav class="mt-10 flex flex-wrap items-center justify-center gap-2" aria-label="Paginación de publicaciones" data-news-pager></nav>
-      </div>
       </div>
     </div>
   </section>
@@ -207,7 +399,6 @@ const ads = texts.adsEnabled ? texts.ads : [];
 </BaseLayout>
 
 <script>
-
   const cfg = JSON.parse(document.querySelector('[data-news-config]')!.textContent || '{}') as {
     one: string;
     many: string;
@@ -309,9 +500,10 @@ const ads = texts.adsEnabled ? texts.ads : [];
         s.classList.toggle('pointer-events-none', k !== i);
       });
       dots.forEach((d, k) => {
-        d.classList.toggle('w-5', k === i);
-        d.classList.toggle('w-1.5', k !== i);
-        d.classList.toggle('opacity-60', k !== i);
+        const dot = d.querySelector('.ad-dot') ?? d;
+        dot.classList.toggle('w-5', k === i);
+        dot.classList.toggle('w-1.5', k !== i);
+        dot.classList.toggle('opacity-60', k !== i);
       });
     };
     if (slides.length > 1) {
