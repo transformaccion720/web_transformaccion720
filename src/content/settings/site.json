@@ -1,7 +1,9 @@
 {
   "brandName": "TransformAcción720",
   "tagline": "La transformación comienza aquí",
-  "logo": "@/assets/images/site/logo-light.png",
+  "logo": "@/assets/images/site/logo.png",
+  "shareImage": "@/assets/images/site/shareImage.jpg",
+  "logoLight": "@/assets/images/site/logoLight.png",
   "siteTitle": "TransformAcción720 | Transformación Empresarial, Estrategia y Soluciones Digitales",
   "siteDescription": "Laboratorio de Transformación Empresarial: alineamos datos, procesos, personas y tecnología con estrategia, soluciones digitales y formación de líderes en Perú y LATAM.",
   "businessType": "ProfessionalService",
@@ -27,9 +29,6 @@
   },
   "hours": "Lunes a Viernes: 9:00 am – 6:00 pm",
   "analytics": {
-    "gaId": "",
-    "gaPropertyId": "",
-    "searchConsoleSite": "",
     "cookieText": "Usamos cookies de analítica para entender qué contenido te resulta útil y mejorar la web. Solo se activan si las aceptas.",
     "cookieAccept": "Aceptar",
     "cookieReject": "Rechazar",
@@ -52,7 +51,6 @@
     {
       "label": "Servicios",
       "href": "/servicios",
-      "mobileHidden": true,
       "children": [
         {
           "label": "Transformación (Consultoría)",
@@ -78,46 +76,43 @@
           "tone": "teal",
           "mobileLabel": "Servicios - Formación"
         }
-      ]
+      ],
+      "mobileHidden": true
     },
     {
       "label": "Hub de Aprendizaje",
       "href": "/hub",
-      "mobileHidden": false,
       "children": [
         {
           "label": "Herramientas Prácticas",
           "desc": "Plantillas y kits descargables",
           "href": "/hub#herramientas",
           "icon": "download",
-          "tone": "orange",
-          "mobileLabel": ""
+          "tone": "orange"
         },
         {
           "label": "Certificaciones & Programas",
           "desc": "Formación ejecutiva avalada",
           "href": "/hub#certificaciones",
           "icon": "shieldCheck",
-          "tone": "blue",
-          "mobileLabel": ""
+          "tone": "blue"
         },
         {
           "label": "Campus LMS",
           "desc": "Aula virtual para empresas",
           "href": "/hub#campus",
           "icon": "monitor",
-          "tone": "indigo",
-          "mobileLabel": ""
+          "tone": "indigo"
         },
         {
           "label": "Ecosistema TA720",
           "desc": "Comunidad de empresarios",
           "href": "/hub#ecosistema",
           "icon": "usersRound",
-          "tone": "emerald",
-          "mobileLabel": ""
+          "tone": "emerald"
         }
-      ]
+      ],
+      "mobileHidden": false
     },
     {
       "label": "Novedades",
@@ -140,35 +135,6 @@
   "footerNavTitle": "Navegación",
   "footerContactTitle": "Contacto",
   "footerBookText": "Virtual - Ley N° 29571 (Perú)",
-  "social": [
-    {
-      "network": "linkedin",
-      "url": "https://linkedin.com"
-    },
-    {
-      "network": "instagram",
-      "url": "https://instagram.com"
-    },
-    {
-      "network": "facebook",
-      "url": "https://facebook.com"
-    },
-    {
-      "network": "youtube",
-      "url": "https://youtube.com"
-    },
-    {
-      "network": "tiktok",
-      "url": "https://tiktok.com"
-    }
-  ],
-  "copyrightText": "Todos los derechos reservados.",
-  "logoLight": "@/assets/images/site/logo-dark.png",
-  "credit": {
-    "text": "Diseñado por",
-    "linkText": "TransformAcción720",
-    "url": "https://www.transformaccion720.com"
-  },
   "footerLabels": {
     "whatsapp": "WhatsApp",
     "email": "Email",
@@ -182,5 +148,32 @@
     "secondary": "Conversemos",
     "secondaryHref": "/conversemos"
   },
-  "shareImage": "@/assets/images/site/share.jpg"
+  "social": [
+    {
+      "network": "linkedin",
+      "url": "https://www.linkedin.com/company/transformaccion720/"
+    },
+    {
+      "network": "instagram",
+      "url": "https://www.instagram.com/transformaccion720/"
+    },
+    {
+      "network": "facebook",
+      "url": "https://www.facebook.com/transformaccion720"
+    },
+    {
+      "network": "youtube",
+      "url": "https://youtube.com"
+    },
+    {
+      "network": "tiktok",
+      "url": "https://tiktok.com"
+    }
+  ],
+  "copyrightText": "Todos los derechos reservados.",
+  "credit": {
+    "text": "Diseñado por",
+    "linkText": "TransformAcción720",
+    "url": "https://www.transformaccion720.com"
+  }
 }
