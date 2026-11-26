@@ -22,8 +22,7 @@
             "label": "Casos de Éxito",
             "key": "casos"
           }
-        ],
-        "anchor": ""
+        ]
       }
     },
     {
@@ -39,12 +38,12 @@
             "tone": "orange"
           },
           {
-            "value": "+45",
+            "value": "+15",
             "label": "Empresas acompañadas",
             "tone": "navy"
           },
           {
-            "value": "+4,000",
+            "value": "+100",
             "label": "Líderes formados",
             "tone": "teal"
           }
@@ -53,15 +52,16 @@
           {
             "photo": "@/assets/images/pages/nosotros/sections/1/value/founders/0/photo.jpg",
             "role": "CEO - Founder720",
-            "tone": "orange",
+            "tone": "indigo",
             "name": "Gabino Tocto",
-            "linkedin": "https://www.linkedin.com",
-            "bio": "Ing. de Sistemas especializado en Transformación Empresarial, Business Agility, Innovación, Liderazgo y Dirección. Máster en Innovación & Sostenibilidad (EADA España) y MBA en Gestión Estratégica de Negocios (PUCP). Más de 12 años orquestando ecosistemas empresariales en banca, retail, agro, salud y consultoría.",
+            "linkedin": "https://www.linkedin.com/in/gabino-alexander-tocto-segura/",
+            "bio": "Ing. de Sistemas especializado en Transformación Empresarial, IA, Business Agility, Innovación, Liderazgo y Dirección. Máster en Innovación & Sostenibilidad (EADA España) y MBA en Gestión Estratégica de Negocios (PUCP). Más de 12 años orquestando ecosistemas empresariales en banca, retail, agro, salud y consultoría.",
             "quote": "Ordenar el negocio es el primer paso para escalar sin perder rentabilidad ni propósito.",
             "chips": [
               "Estrategia & OKRs",
               "Lean & Agilidad",
-              "Excelencia Operacional"
+              "Excelencia Operacional",
+              "Transformación e Innovación"
             ]
           },
           {
@@ -79,13 +79,13 @@
             ]
           }
         ],
-        "anchor": "",
         "panel": "quienes-somos"
       }
     },
     {
       "discriminant": "teamGrid",
       "value": {
+        "enabled": false,
         "kicker": "Equipo Especialista",
         "title": "Consultores y especialistas que se suman a cada proyecto",
         "members": [
@@ -118,9 +118,7 @@
             "bio": "Diseño instruccional, academias corporativas y facilitación de talleres ejecutivos."
           }
         ],
-        "anchor": "",
-        "panel": "quienes-somos",
-        "enabled": false
+        "panel": "quienes-somos"
       }
     },
     {
@@ -143,7 +141,6 @@
             "value": "/servicios"
           }
         ],
-        "anchor": "",
         "panel": "quienes-somos"
       }
     },
@@ -188,7 +185,6 @@
           "top": "CLIENTE",
           "left": "PERSONAS",
           "right": "TECNOLOGÍA",
-          "right2": "",
           "bottom": "FINANZAS",
           "center": "IKIGAI",
           "center2": "TA720",
@@ -275,7 +271,6 @@
             "tone": "emerald"
           }
         ],
-        "anchor": "",
         "panel": "metodologia"
       }
     },
@@ -283,6 +278,8 @@
       "discriminant": "ctaBand",
       "value": {
         "style": "impact",
+        "kicker": "Método propio TA720",
+        "icon": "lightbulb",
         "title": "¿Quieres implementar un método innovador en tu empresa?",
         "text": "Llevamos Ikigai, los Pilares TA720 y CORE720 a tu realidad. Agenda una cita y probemos el motor de tu organización hoy mismo.",
         "buttons": [
@@ -297,10 +294,7 @@
             "value": "https://wa.me/51963477301?text=Hola%20TransformAcci%C3%B3n720%2C%20quiero%20implementar%20su%20m%C3%A9todo%20en%20mi%20empresa."
           }
         ],
-        "anchor": "",
-        "panel": "metodologia",
-        "kicker": "Método propio TA720",
-        "icon": "lightbulb"
+        "panel": "metodologia"
       }
     },
     {
@@ -353,7 +347,6 @@
             "tone": "teal",
             "image": "@/assets/images/pages/nosotros/sections/6/value/cases/1/image.jpg",
             "imageAlt": "Caso Salud",
-            "videoUrl": "",
             "title": "Experiencia del Paciente & Eficiencia",
             "desc": "Digitalización de agendamiento, reducción de tiempos de espera y escuela de mandos medios.",
             "metrics": [
@@ -392,7 +385,6 @@
             ]
           }
         ],
-        "anchor": "",
         "panel": "casos"
       }
     },
@@ -400,13 +392,14 @@
       "discriminant": "ctaBand",
       "value": {
         "style": "navy",
+        "kicker": "Resultados medibles",
+        "icon": "chart",
         "title": "¿Quieres ser nuestro próximo caso de éxito?",
         "text": "Conversemos sobre los cuellos de botella actuales de tu operación.",
         "buttons": [
           {
             "text": "CALCULAR AHORRO",
-            "action": "diagnosticCosts",
-            "value": ""
+            "action": "diagnosticCosts"
           },
           {
             "text": "AGENDAR REUNIÓN",
@@ -414,10 +407,7 @@
             "value": "Caso de Éxito / Consultoría"
           }
         ],
-        "anchor": "",
-        "panel": "casos",
-        "kicker": "Resultados medibles",
-        "icon": "chart"
+        "panel": "casos"
       }
     }
   ]
