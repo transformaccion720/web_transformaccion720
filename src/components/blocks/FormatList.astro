@@ -1,0 +1,64 @@
+---
+/**
+ * Formatos de implementación: 4 tarjetas ejecutivas en una sola fila (horizontal y compacto).
+ * Cada tarjeta = formato (solo el nombre) + necesidad + entregable.
+ */
+import Icon from '@/components/ui/Icon.astro';
+import type { SectionOf } from '@/lib/content';
+
+interface Props {
+  data: SectionOf<'formatList'>;
+  path: string;
+}
+
+const { data, path } = Astro.props;
+const label = 'text-[10px] font-extrabold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400';
+---
+
+<section id={data.anchor || undefined} class="bg-white pb-14 dark:bg-slate-950">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" data-guide-spot>
+    <div class="mb-6 flex flex-col gap-1">
+      {data.kicker && (
+        <span class="kicker" data-cms={`${path}.kicker`}>
+          {data.kicker}
+        </span>
+      )}
+      <h3
+        class="font-display text-2xl font-extrabold text-brand-navy dark:text-white"
+        data-cms={`${path}.title`}
+      >
+        {data.title}
+      </h3>
+    </div>
+
+    <ol class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {data.items.map((f, i) => (
+        <li class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-apple transition duration-300 hover:-translate-y-1 hover:border-brand-orange/50 dark:border-slate-800 dark:bg-slate-900">
+          <span class="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-brand-orange to-amber-300 transition duration-500 group-hover:scale-x-100" />
+          <div class="flex items-center justify-between">
+            <span class="flex size-11 items-center justify-center rounded-xl bg-brand-navy text-white transition group-hover:bg-brand-orange group-hover:text-brand-deep dark:bg-white/10">
+              <Icon name={f.icon} size={22} />
+            </span>
+            <span class="font-display text-2xl font-black text-slate-200 dark:text-slate-700">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+          </div>
+          <h4
+            class="mt-4 font-display text-base font-extrabold text-brand-navy dark:text-white"
+            data-cms={`${path}.items.${i}.name`}
+          >
+            {f.name}
+          </h4>
+          <div class="mt-3 border-t border-slate-100 pt-3 dark:border-slate-800">
+            <div class={label}>{data.needLabel}</div>
+            <p class="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-200">{f.need}</p>
+          </div>
+          <div class="mt-3">
+            <div class={label}>{data.deliverableLabel}</div>
+            <p class="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{f.deliverable}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

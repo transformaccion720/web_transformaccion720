@@ -42,3 +42,11 @@ test('seguridad: un botón del CMS nunca puede ejecutar código', () => {
   assert.equal(actionAttrs({ action: 'link', value: ' JavaScript:alert(1)' }).attrs.href, '#');
   assert.equal(actionAttrs({ action: 'link', value: 'data:text/html,hola' }).attrs.href, '#');
 });
+
+test('acción WhatsApp: mensaje al número del sitio o link de grupo tal cual', () => {
+  const chat = actionAttrs({ action: 'whatsapp', value: 'Hola, quiero el brochure' }, '', '+51 963 477 301');
+  assert.equal(chat.attrs.href, 'https://wa.me/51963477301?text=Hola%2C%20quiero%20el%20brochure');
+  assert.equal(chat.attrs.target, '_blank');
+  const group = actionAttrs({ action: 'whatsapp', value: 'https://chat.whatsapp.com/abc' }, '', '519');
+  assert.equal(group.attrs.href, 'https://chat.whatsapp.com/abc');
+});

@@ -4,6 +4,7 @@
  * El estilo lo pone quien lo usa (class). Sin texto no se dibuja nada.
  */
 import { actionAttrs, type ActionButton } from '@/lib/actions';
+import { getSite } from '@/lib/content';
 
 interface Props {
   btn: ActionButton;
@@ -13,7 +14,8 @@ interface Props {
 }
 
 const { btn, class: className = '', videoTitle = '', cms } = Astro.props;
-const { tag: Tag, attrs } = actionAttrs(btn, videoTitle || btn.text);
+const phone = btn.action === 'whatsapp' ? (await getSite()).whatsapp : '';
+const { tag: Tag, attrs } = actionAttrs(btn, videoTitle || btn.text, phone);
 ---
 
 {btn.text && (

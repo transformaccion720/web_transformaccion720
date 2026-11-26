@@ -36,7 +36,7 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
 
 <section id={data.anchor || undefined} class="bg-white dark:bg-slate-950">
   <div class="mx-auto max-w-7xl space-y-14 px-4 py-14 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+    <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12" data-guide-spot>
       <div class="space-y-5 lg:col-span-6">
         {data.badge && (
           <span
@@ -61,21 +61,50 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
           </p>
         )}
         {data.checks.length > 0 && (
-          <ul class="space-y-2.5 text-sm text-slate-700 dark:text-slate-200">
-            {data.checks.map((c, i) => (
-              <li class="flex items-center gap-2.5">
-                <span
-                  class:list={[
-                    'flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-bold',
-                    t.check,
-                  ]}
-                  aria-hidden="true"
+          <ul class="grid gap-2">
+            {data.checks.map((c, i) => {
+              const tip = data.checkTips[i];
+              return (
+                <li
+                  tabindex={tip ? 0 : undefined}
+                  class="group/check relative flex items-center gap-3 rounded-xl border border-slate-200/70 bg-white px-3.5 py-2.5 shadow-sm transition duration-300 outline-none hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-apple focus-visible:ring-2 focus-visible:ring-brand-orange dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
                 >
-                  ✓
-                </span>
-                <span data-cms={`${path}.checks.${i}`}>{c}</span>
-              </li>
-            ))}
+                  <span
+                    class:list={[
+                      'flex size-6 shrink-0 items-center justify-center rounded-lg text-xs font-black shadow-sm transition group-hover/check:scale-110',
+                      t.solid,
+                    ]}
+                    aria-hidden="true"
+                  >
+                    ✓
+                  </span>
+                  <span
+                    class="text-sm font-semibold text-slate-800 dark:text-slate-100"
+                    data-cms={`${path}.checks.${i}`}
+                  >
+                    {c}
+                  </span>
+                  {tip && (
+                    <>
+                      <span
+                        class="ml-auto flex size-5 shrink-0 items-center justify-center rounded-full border border-slate-300 text-[10px] font-bold text-slate-400 transition group-hover/check:border-brand-orange group-hover/check:text-brand-orange dark:border-slate-600"
+                        aria-hidden="true"
+                      >
+                        i
+                      </span>
+                      <span
+                        role="tooltip"
+                        class="pointer-events-none absolute bottom-full left-10 z-20 mb-2 w-72 max-w-[85vw] translate-y-1 rounded-xl bg-brand-navy px-3.5 py-2.5 text-xs leading-relaxed text-white opacity-0 shadow-xl transition duration-200 group-hover/check:translate-y-0 group-hover/check:opacity-100 group-focus/check:translate-y-0 group-focus/check:opacity-100 dark:bg-slate-700"
+                        data-cms={`${path}.checkTips.${i}`}
+                      >
+                        {tip}
+                        <span class="absolute top-full left-5 size-2.5 -translate-y-1.5 rotate-45 bg-brand-navy dark:bg-slate-700" />
+                      </span>
+                    </>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
         <div class="flex flex-wrap gap-3 pt-2">
@@ -141,7 +170,7 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
     </div>
 
     {(data.about.text || data.includes.items.length > 0) && (
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2" data-guide-spot>
         <div class="rounded-3xl border border-slate-200/80 bg-brand-cream p-8 dark:border-slate-800 dark:bg-slate-900">
           {data.about.kicker && (
             <span class:list={[cardKicker, tone(data.about.tone).text]} data-cms={`${path}.about.kicker`}>
@@ -196,7 +225,10 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
     )}
 
     {ex.image && (
-      <div class="rounded-3xl border border-slate-200/80 bg-slate-50 p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900/60">
+      <div
+        data-guide-spot
+        class="rounded-3xl border border-slate-200/80 bg-slate-50 p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900/60"
+      >
         <div class="grid grid-cols-1 items-center gap-7 lg:grid-cols-12">
           <div class="lg:col-span-5">
             <div class="relative h-56 overflow-hidden rounded-2xl shadow-apple lg:h-64" data-exp-carousel>
@@ -266,10 +298,10 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
             </h3>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {ex.metrics.map((m, i) => (
-                <div class="rounded-2xl border border-slate-200/70 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+                <div class="@container rounded-2xl border border-slate-200/70 bg-white p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-900">
                   <div
                     class:list={[
-                      'font-display text-2xl font-black whitespace-nowrap xl:text-[1.65rem]',
+                      'font-display text-[clamp(1.05rem,12cqi,1.65rem)] leading-tight font-black whitespace-nowrap',
                       metricColor(m.tone),
                     ]}
                     data-cms={`${path}.experience.metrics.${i}.value`}

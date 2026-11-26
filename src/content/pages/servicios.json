@@ -27,6 +27,132 @@
       }
     },
     {
+      "discriminant": "aiGuide",
+      "value": {
+        "image": "@/assets/images/pages/servicios/sections/1/value/image.png",
+        "imageAlt": "Ari, asistente IA de TransformAcción720",
+        "title": "Ari",
+        "role": "Tu guía TA720",
+        "messages": [
+          {
+            "tab": "transformacion",
+            "label": "Nuestro servicio",
+            "icon": "trendingUp",
+            "text": "Estos servicios ordenan tu empresa de punta a punta: diagnóstico, hoja de ruta y procesos que funcionan, para crecer sin caos.",
+            "chips": [
+              "Diagnóstico",
+              "Hoja de ruta",
+              "Procesos"
+            ]
+          },
+          {
+            "tab": "transformacion",
+            "label": "Qué incluye",
+            "icon": "clipboardCheck",
+            "text": "Aquí ves en qué consiste y lo que te llevas. No es teoría: cada entregable queda instalado y en uso.",
+            "chips": [
+              "Entregables",
+              "Método CORE720"
+            ]
+          },
+          {
+            "tab": "transformacion",
+            "label": "Impacto",
+            "icon": "chart",
+            "text": "Estos son resultados reales. Medimos antes y después para que el retorno se vea en números.",
+            "chips": [
+              "Resultados",
+              "Indicadores"
+            ]
+          },
+          {
+            "tab": "soluciones-digitales",
+            "label": "Nuestro servicio",
+            "icon": "code",
+            "text": "Convertimos tareas manuales en flujos automáticos con IA, webs y sistemas a medida y tableros para decidir con datos.",
+            "chips": [
+              "IA aplicada",
+              "Web y SaaS",
+              "BI"
+            ]
+          },
+          {
+            "tab": "soluciones-digitales",
+            "label": "Qué incluye",
+            "icon": "clipboardCheck",
+            "text": "Esto es lo que construimos contigo, paso a paso y con tu equipo involucrado desde el día uno.",
+            "chips": [
+              "Alcance",
+              "Acompañamiento"
+            ]
+          },
+          {
+            "tab": "soluciones-digitales",
+            "label": "Planes",
+            "icon": "sliders",
+            "text": "Elige el plan que se ajusta a tu etapa. Todos se pueden escalar cuando tu negocio crezca.",
+            "chips": [
+              "Planes",
+              "Escalable"
+            ]
+          },
+          {
+            "tab": "soluciones-digitales",
+            "label": "Portafolio",
+            "icon": "star",
+            "text": "Mira proyectos que ya están funcionando. Lo mismo podemos hacer para tu empresa.",
+            "chips": [
+              "Casos reales"
+            ]
+          },
+          {
+            "tab": "formacion",
+            "label": "Nuestro servicio",
+            "icon": "users",
+            "text": "Estos programas preparan a tus líderes y equipos para el cambio: agilidad, IA, cultura y liderazgo aplicados a su día a día.",
+            "chips": [
+              "Liderazgo",
+              "Cultura",
+              "IA"
+            ]
+          },
+          {
+            "tab": "formacion",
+            "label": "Lo que nos diferencia",
+            "icon": "sparkles",
+            "text": "No entrenamos por entrenar. Esto es lo que nos diferencia: cada concepto se aplica a tus retos reales. Por eso vale la pena trabajar juntos.",
+            "chips": [
+              "Learning by doing",
+              "Certiprof"
+            ]
+          },
+          {
+            "tab": "formacion",
+            "label": "Impacto",
+            "icon": "chart",
+            "text": "Este es el impacto que ya logramos: miles de líderes formados y alta aplicación en campo.",
+            "chips": [
+              "+4,000 líderes",
+              "98% NPS"
+            ]
+          },
+          {
+            "tab": "formacion",
+            "label": "Formatos",
+            "icon": "presentation",
+            "text": "Por último, elige el formato que tu necesidad pide: desde un taller de horas hasta mentoría continua.",
+            "chips": [
+              "Talleres",
+              "Escuela",
+              "Mentoría"
+            ]
+          }
+        ],
+        "anchor": "",
+        "panel": ""
+      }
+    },
+    {
       "discriminant": "serviceDetail",
       "value": {
         "badge": "Estrategia & Roadmaps",
@@ -117,7 +243,14 @@
           ]
         },
         "anchor": "",
-        "panel": "transformacion"
+        "panel": "transformacion",
+        "checkTips": [
+          "Medimos dónde está hoy tu empresa en procesos, datos, personas y tecnología.",
+          "Priorizamos iniciativas por impacto y esfuerzo, con responsables y plazos claros.",
+          "Eliminamos pasos que no agregan valor y estandarizamos cómo se trabaja.",
+          "Acompañamos a líderes y equipos para que el cambio se adopte y se sostenga.",
+          "Alineamos mensajes internos y externos para que todos remen hacia el mismo lado."
+        ]
       }
     },
     {
@@ -217,7 +350,12 @@
           "slides": []
         },
         "anchor": "",
-        "panel": "soluciones-digitales alcance"
+        "panel": "soluciones-digitales alcance",
+        "checkTips": [
+          "Flujos y asistentes con IA que liberan horas de trabajo repetitivo cada semana.",
+          "Webs, plataformas y sistemas a medida, listos para crecer con tu negocio.",
+          "Tableros que muestran en tiempo real los indicadores que importan para decidir."
+        ]
       }
     },
     {
@@ -513,91 +651,50 @@
           ]
         },
         "anchor": "",
-        "panel": "formacion"
+        "panel": "formacion",
+        "checkTips": [
+          "Herramientas prácticas para decidir y actuar en escenarios de cambio.",
+          "Hábitos y rituales que consolidan una cultura de mejora continua.",
+          "Líderes que movilizan equipos con propósito y resultados.",
+          "Equipos que colaboran entre áreas con objetivos compartidos."
+        ]
       }
     },
     {
-      "discriminant": "cards",
+      "discriminant": "formatList",
       "value": {
         "kicker": "Formatos de implementación",
         "title": "El formato que tu necesidad pide",
-        "subtitle": "Cada formato tiene su ritmo y un entregable concreto.",
-        "columns": "4",
+        "needLabel": "Necesidad",
+        "deliverableLabel": "Entregable",
         "items": [
           {
             "icon": "presentation",
-            "image": null,
-            "title": "Talleres ejecutivos",
-            "desc": "Para romper la inercia. De 2 a 4 horas. Entregable: diagnóstico de brechas, plan de prioridades inmediatas y una experiencia vivencial.",
-            "href": ""
+            "name": "Talleres ejecutivos",
+            "need": "Romper la inercia",
+            "deliverable": "Diagnóstico de brechas, plan de prioridades inmediatas y experiencia vivencial."
           },
           {
             "icon": "book",
-            "image": null,
-            "title": "Escuela modular interactiva",
-            "desc": "Para cerrar brechas de competencias. De 3 a 6 módulos. Entregable: plan de acción aplicado y Toolbox listo para usar.",
-            "href": ""
+            "name": "Escuela modular interactiva",
+            "need": "Cerrar brechas de competencias",
+            "deliverable": "Plan de acción aplicado y Toolbox de herramientas listo para usar."
           },
           {
             "icon": "users",
-            "image": null,
-            "title": "Train the Trainers",
-            "desc": "Para multiplicar el impacto habilitando líderes. De 12 a 32 horas. Entregable: célula interna de facilitadores certificados y manual de despliegue propio.",
-            "href": ""
+            "name": "Train the Trainers",
+            "need": "Multiplicar el impacto",
+            "deliverable": "Célula interna de facilitadores certificados y manual de despliegue propio."
           },
           {
             "icon": "userCheck",
-            "image": null,
-            "title": "Mentoría y refuerzo",
-            "desc": "Para garantizar la adopción. Ritmo mensual. Entregable: tablero de adopción de capacidades (KPIs).",
-            "href": ""
+            "name": "Mentoría y refuerzo",
+            "need": "Garantizar la adopción",
+            "deliverable": "Tablero de adopción de capacidades (KPIs)."
           }
         ],
         "anchor": "",
-        "panel": "formacion",
-        "background": "muted"
-      }
-    },
-    {
-      "discriminant": "cards",
-      "value": {
-        "kicker": "Nuestras experiencias",
-        "title": "Más que capacitación: experiencias de transformación",
-        "subtitle": "Diseñamos experiencias que desarrollan capacidades, fortalecen la cultura y generan impacto en los equipos y el negocio.",
-        "columns": "4",
-        "items": [
-          {
-            "icon": "handshake",
-            "image": null,
-            "title": "Comunidades de innovación y embajadores",
-            "desc": "Redes colaborativas que impulsan innovación, reconocimiento y liderazgo del cambio.",
-            "href": ""
-          },
-          {
-            "icon": "trendingUp",
-            "image": null,
-            "title": "Rutas de desarrollo en transformación",
-            "desc": "Planes de crecimiento en capacidades técnicas, metodológicas y de liderazgo.",
-            "href": ""
-          },
-          {
-            "icon": "zap",
-            "image": null,
-            "title": "Bootcamps y learning by doing",
-            "desc": "Programas prácticos y vivenciales con aplicación inmediata de lo aprendido.",
-            "href": ""
-          },
-          {
-            "icon": "target",
-            "image": null,
-            "title": "Simulaciones y shadowing",
-            "desc": "Escenarios reales para fortalecer la toma de decisiones y el desempeño profesional.",
-            "href": ""
-          }
-        ],
-        "anchor": "",
-        "panel": "formacion",
-        "background": "light"
+        "panel": "formacion"
       }
     },
     {

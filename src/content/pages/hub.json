@@ -99,6 +99,23 @@
       }
     },
     {
+      "discriminant": "segmentTabs",
+      "value": {
+        "tabs": [
+          {
+            "label": "Programas TA720",
+            "key": "programas"
+          },
+          {
+            "label": "Catálogo Certiprof",
+            "key": "certiprof"
+          }
+        ],
+        "anchor": "",
+        "panel": "certificaciones"
+      }
+    },
+    {
       "discriminant": "programs",
       "value": {
         "kicker": "Formación Avalada",
@@ -113,9 +130,9 @@
             "title": "Certificación en Transformación y Método CORE",
             "desc": "Domina el diagnóstico, rediseño de procesos y gobierno por indicadores.",
             "button": {
-              "text": "Solicitar Brochures",
-              "action": "contact",
-              "value": "Certificación Método CORE"
+              "text": "Solicitar Brochure",
+              "action": "whatsapp",
+              "value": "Hola TransformAcción720, quisiera el brochure de: Certificación en Transformación y Método CORE."
             }
           },
           {
@@ -126,9 +143,9 @@
             "title": "IA y Automatización para Negocios",
             "desc": "Implementa asistentes y flujos sin código que ahorran horas semanales.",
             "button": {
-              "text": "Solicitar Brochures",
-              "action": "contact",
-              "value": "Programa IA para Negocios"
+              "text": "Solicitar Brochure",
+              "action": "whatsapp",
+              "value": "Hola TransformAcción720, quisiera el brochure de: IA y Automatización para Negocios."
             }
           },
           {
@@ -139,14 +156,104 @@
             "title": "Liderazgo Ágil y Gestión del Cambio",
             "desc": "Herramientas prácticas para movilizar equipos y sostener nuevos hábitos.",
             "button": {
-              "text": "Solicitar Brochures",
-              "action": "contact",
-              "value": "Certificación Liderazgo Ágil"
+              "text": "Solicitar Brochure",
+              "action": "whatsapp",
+              "value": "Hola TransformAcción720, quisiera el brochure de: Liderazgo Ágil y Gestión del Cambio."
             }
           }
         ],
         "anchor": "",
-        "panel": "certificaciones"
+        "panel": "certificaciones programas"
+      }
+    },
+    {
+      "discriminant": "certCatalog",
+      "value": {
+        "kicker": "Partner Oficial Certiprof",
+        "title": "Catálogo de certificaciones internacionales",
+        "text": "Complementa la formación de tu equipo con credenciales reconocidas a nivel global.",
+        "logo": "@/assets/images/pages/hub/sections/4/value/logo.png",
+        "logoAlt": "Certiprof",
+        "allLabel": "Todas",
+        "items": [
+          {
+            "code": "SFPC",
+            "name": "Scrum Foundation Professional Certificate",
+            "category": "Agilidad",
+            "meta": "Fundamentos - Examen online",
+            "image": null
+          },
+          {
+            "code": "SMPC",
+            "name": "Scrum Master Professional Certificate",
+            "category": "Agilidad",
+            "meta": "Profesional - Examen online",
+            "image": null
+          },
+          {
+            "code": "KIKF",
+            "name": "Kanban Foundation",
+            "category": "Agilidad",
+            "meta": "Fundamentos - Examen online",
+            "image": null
+          },
+          {
+            "code": "LSSWB",
+            "name": "Lean Six Sigma White Belt",
+            "category": "Lean y procesos",
+            "meta": "Fundamentos - Examen online",
+            "image": null
+          },
+          {
+            "code": "LSSYB",
+            "name": "Lean Six Sigma Yellow Belt",
+            "category": "Lean y procesos",
+            "meta": "Profesional - Examen online",
+            "image": null
+          },
+          {
+            "code": "DTPC",
+            "name": "Design Thinking Professional Certificate",
+            "category": "Innovación",
+            "meta": "Profesional - Examen online",
+            "image": null
+          },
+          {
+            "code": "OKRPC",
+            "name": "OKR Professional Certificate",
+            "category": "Innovación",
+            "meta": "Profesional - Examen online",
+            "image": null
+          },
+          {
+            "code": "CAIEC",
+            "name": "Artificial Intelligence Expert Certificate",
+            "category": "IA y datos",
+            "meta": "Experto - Examen online",
+            "image": null
+          },
+          {
+            "code": "BDPC",
+            "name": "Big Data Professional Certificate",
+            "category": "IA y datos",
+            "meta": "Profesional - Examen online",
+            "image": null
+          },
+          {
+            "code": "RWPC",
+            "name": "Remote Work Professional Certificate",
+            "category": "Liderazgo",
+            "meta": "Profesional - Examen online",
+            "image": null
+          }
+        ],
+        "button": {
+          "text": "Consultar por WhatsApp",
+          "action": "whatsapp",
+          "value": "Hola TransformAcción720, quisiera información sobre las certificaciones Certiprof."
+        },
+        "anchor": "",
+        "panel": "certificaciones certiprof"
       }
     },
     {
@@ -173,32 +280,61 @@
         "title": "Ecosistema TA720 para Empresarios",
         "text": "Un espacio diseñado para micro, pequeños y medianos empresarios que quieren ordenar su negocio, compartir retos reales, acceder a sesiones semanales en vivo y aplicar plantillas probadas.",
         "features": [
-          "Sesiones semanales de Q&A con consultores",
-          "Biblioteca completa de herramientas y guías",
-          "Networking calificado con dueños de negocio",
-          "Retos mensuales de orden y rentabilidad"
+          {
+            "icon": "clock",
+            "text": "Sesiones semanales de Q&A con consultores"
+          },
+          {
+            "icon": "book",
+            "text": "Biblioteca completa de herramientas y guías"
+          },
+          {
+            "icon": "handshake",
+            "text": "Networking calificado con dueños de negocio"
+          },
+          {
+            "icon": "target",
+            "text": "Retos mensuales de orden y rentabilidad"
+          },
+          {
+            "icon": "trendingUp",
+            "text": "Ruta de transformación paso a paso"
+          },
+          {
+            "icon": "award",
+            "text": "Beneficios corporativos y de negocio"
+          }
         ],
         "cardLogo": "720",
         "cardTitle": "Ecosistema TA720",
         "cardSubtitle": "Comunidad de Empresarios",
         "stats": [
           {
-            "value": "420+",
-            "label": "Miembros"
+            "value": "1 sesión",
+            "label": "semanal en vivo"
           },
           {
-            "value": "18",
-            "label": "Cursos"
+            "value": "IA",
+            "label": "aplicada a tu negocio"
           },
           {
-            "value": "En vivo",
-            "label": "Semanal"
+            "value": "Cursos",
+            "label": "a tu ritmo"
+          },
+          {
+            "value": "Eventos",
+            "label": "y networking"
+          },
+          {
+            "value": "Beneficios",
+            "label": "exclusivos para miembros"
           }
         ],
-        "buttonText": "UNIRME AL ECOSISTEMA ➡️",
-        "buttonHref": "https://www.skool.com",
+        "buttonText": "ÚNETE AL GRUPO ➡️",
+        "buttonHref": "https://wa.me/51963477301?text=Hola%20TransformAcci%C3%B3n720%2C%20quiero%20unirme%20al%20Ecosistema%20TA720.",
         "anchor": "",
-        "panel": "ecosistema"
+        "panel": "ecosistema",
+        "cardHook": "Todo lo que necesitas para hacer crecer tu negocio, en una sola membresía."
       }
     }
   ]

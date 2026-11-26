@@ -3,7 +3,14 @@
  * ir a una página, abrir el diagnóstico, abrir un video o llevar a Conversemos con el servicio elegido.
  * El CMS guarda { text, action, value } y aquí se traduce a atributos HTML.
  */
-export const ACTIONS = ['link', 'contact', 'diagnosticHours', 'diagnosticCosts', 'video'] as const;
+export const ACTIONS = [
+  'link',
+  'contact',
+  'diagnosticHours',
+  'diagnosticCosts',
+  'video',
+  'whatsapp',
+] as const;
 export type Action = (typeof ACTIONS)[number];
 
 export const ACTION_OPTIONS = [
@@ -12,6 +19,7 @@ export const ACTION_OPTIONS = [
   { value: 'diagnosticHours', label: 'Abrir diagnóstico: horas perdidas' },
   { value: 'diagnosticCosts', label: 'Abrir diagnóstico: ahorro en costos' },
   { value: 'video', label: 'Abrir video (escribe el enlace de YouTube)' },
+  { value: 'whatsapp', label: 'Abrir WhatsApp (escribe el mensaje o pega el link de un grupo)' },
 ];
 
 /** Página del formulario de contacto */
@@ -33,9 +41,19 @@ export const contactHref = (service: string) =>
  * Atributos del botón. Los enlaces son <a>; el diagnóstico y el video son <button> que escuchan
  * los modales globales (DiagnosticModal y VideoModal en BaseLayout).
  */
-export function actionAttrs(btn: Pick<ActionButton, 'action' | 'value'>, videoTitle = '') {
+export function actionAttrs(btn: Pick<ActionButton, 'action' | 'value'>, videoTitle = '', phone = '') {
   const value = btn.value.trim();
   switch (btn.action) {
+    case 'whatsapp': {
+      // Link de grupo (https://chat.whatsapp.com/…) tal cual; si no, chat con el número del sitio y el mensaje
+      const digits = phone.replace(/\D/g, '');
+      const href = /^https:\/\//i.test(value)
+        ? value
+        : digits
+          ? `https://wa.me/${digits}${value ? `?text=${encodeURIComponent(value)}` : ''}`
+          : contactHref('');
+      return { tag: 'a', attrs: { href, target: '_blank', rel: 'noopener noreferrer' } } as const;
+    }
     case 'contact':
       return { tag: 'a', attrs: { href: contactHref(value) } } as const;
     case 'diagnosticHours':

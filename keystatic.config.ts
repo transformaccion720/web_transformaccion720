@@ -327,6 +327,77 @@ const ta720Blocks = {
     }),
   },
 
+  formatList: {
+    label: '★ Formatos de implementación (lista ejecutiva)',
+    itemLabel: titled('Formatos'),
+    schema: fields.object({
+      kicker: text('Antetítulo'),
+      title: text('Título'),
+      needLabel: text('Encabezado: necesidad', undefined, 'Necesidad'),
+      deliverableLabel: text('Encabezado: entregable', undefined, 'Entregable'),
+      items: fields.array(
+        fields.object({
+          icon: iconField('Ícono', 'presentation'),
+          name: text('Formato', 'Solo el nombre. Ej: Talleres ejecutivos'),
+          need: text('Necesidad', 'Ej: Romper la inercia'),
+          deliverable: longText('Entregable'),
+        }),
+        { label: 'Formatos', itemLabel: (p) => p.fields.name.value || 'Formato' }
+      ),
+      ...placement,
+    }),
+  },
+
+  aiGuide: {
+    label: '★ Guía IA (personaje que presenta cada pestaña)',
+    itemLabel: titled('Guía IA'),
+    schema: fields.object({
+      image: pageImage('Personaje', 'PNG con fondo transparente.'),
+      imageAlt: text('Texto alternativo'),
+      title: text('Nombre del personaje', undefined, 'Ari'),
+      role: text('Rol', undefined, 'Tu guía TA720'),
+      messages: fields.array(
+        fields.object({
+          tab: text(
+            'Clave de la pestaña',
+            'Ej: formacion. Los mensajes de una pestaña siguen el orden de sus bloques (1.º mensaje = 1.er bloque).'
+          ),
+          label: text('Título corto', 'Ej: Nuestros servicios'),
+          icon: iconField('Ícono', 'sparkles'),
+          text: longText('Lo que cuenta el personaje'),
+          chips: strings('Destacados (3)', 'Destacado'),
+        }),
+        { label: 'Mensajes por pestaña', itemLabel: (p) => p.fields.tab.value || 'Mensaje' }
+      ),
+      ...placement,
+    }),
+  },
+
+  certCatalog: {
+    label: '★ Catálogo de certificaciones',
+    itemLabel: titled('Catálogo'),
+    schema: fields.object({
+      kicker: text('Antetítulo'),
+      title: text('Título'),
+      text: longText('Texto'),
+      logo: pageImage('Logo del certificador'),
+      logoAlt: text('Texto alternativo del logo'),
+      allLabel: text('Filtro: todas', undefined, 'Todas'),
+      items: fields.array(
+        fields.object({
+          image: pageImage('Insignia oficial', 'PNG cuadrado. Vacío = se muestra la sigla.'),
+          code: text('Sigla', 'Ej: SFPC'),
+          name: text('Nombre de la certificación'),
+          category: text('Categoría', 'Ej: Agilidad'),
+          meta: text('Detalle corto', 'Ej: Fundamentos - Examen online'),
+        }),
+        { label: 'Certificaciones', itemLabel: (p) => p.fields.name.value || 'Certificación' }
+      ),
+      button: actionButton('Botón', 'whatsapp'),
+      ...placement,
+    }),
+  },
+
   scrollDock: {
     label: '★ Barra flotante de navegación (portada)',
     itemLabel: () => 'Barra flotante',
@@ -504,6 +575,7 @@ const ta720Blocks = {
       title: text('Título'),
       text: longText('Texto'),
       checks: strings('Puntos con check', 'Punto'),
+      checkTips: strings('Detalle al pasar el cursor (mismo orden que los checks)', 'Detalle'),
       primary: actionButton('Botón principal', 'contact'),
       primaryStyle: fields.select({
         label: 'Color del botón principal',
@@ -730,16 +802,26 @@ const ta720Blocks = {
       badge: text('Etiqueta'),
       title: text('Título'),
       text: longText('Texto'),
-      features: strings('Beneficios', 'Beneficio'),
+      features: fields.array(fields.object({ icon: iconField('Ícono', 'check'), text: text('Beneficio') }), {
+        label: 'Beneficios',
+        itemLabel: (p) => p.fields.text.value || 'Beneficio',
+      }),
       cardLogo: text('Tarjeta: sello', undefined, '720'),
       cardTitle: text('Tarjeta: nombre'),
       cardSubtitle: text('Tarjeta: subtítulo'),
+      cardHook: text(
+        'Tarjeta: frase gancho (sobre el botón)',
+        'Ej: Todo para crecer, en una sola membresía.'
+      ),
       stats: fields.array(fields.object({ value: text('Cifra'), label: text('Descripción') }), {
         label: 'Tarjeta: cifras (3)',
         itemLabel: (p) => p.fields.value.value || 'Cifra',
       }),
       buttonText: text('Botón'),
-      buttonHref: text('Enlace del botón', 'Ej: https://www.skool.com/…'),
+      buttonHref: text(
+        'Enlace del botón',
+        'Pega aquí el link del grupo de WhatsApp (https://chat.whatsapp.com/…) o un https://wa.me/51…'
+      ),
       ...placement,
     }),
   },
