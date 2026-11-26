@@ -1,18 +1,14 @@
 {
   "title": "Inicio",
-  "seoTitle": "",
-  "seoDescription": "",
   "sections": [
     {
       "discriminant": "heroVideo",
       "value": {
-        "badge": "",
         "title": "Acelera la transformación real de tu *empresa* con método y tecnología.",
         "text": "Somos un Laboratorio de Transformación Empresarial: alineamos datos, procesos, personas y tecnología para que el cambio sea tu ventaja competitiva, con resultados medibles desde el primer trimestre.",
         "primary": {
-          "text": "HACER DIAGNÓSTICO GRATUITO",
-          "action": "diagnosticHours",
-          "value": ""
+          "text": "Diagnóstico Gratuito ",
+          "action": "diagnosticHours"
         },
         "secondary": {
           "text": "Explorar Servicios ➡️",
@@ -21,7 +17,7 @@
         },
         "stats": [
           {
-            "value": "+45",
+            "value": "+15",
             "label": "Empresas transformadas",
             "tone": "navy"
           },
@@ -31,21 +27,20 @@
             "tone": "orange"
           },
           {
-            "value": "+4,000",
+            "value": "+100",
             "label": "Líderes entrenados",
             "tone": "cyan"
           }
         ],
         "video": {
-          "image": "@/assets/images/pages/inicio/sections/0/value/video/image.jpg",
+          "image": "@/assets/images/pages/inicio/sections/0/value/video/image.jpeg",
           "imageAlt": "Equipo de TransformAcción720 en sesión de trabajo",
           "url": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
-          "label": "Video Explicativo - TA720 (02:15)",
+          "label": "Video Explicativo - TA720 ",
           "caption": "Desarrollamos el talento, los procesos y la tecnología de tu empresa",
           "modalTitle": "Video Explicativo - TransformAcción720"
         },
-        "anchor": "inicio-hero",
-        "panel": ""
+        "anchor": "inicio-hero"
       }
     },
     {
@@ -81,8 +76,7 @@
             "tone": "emerald"
           }
         ],
-        "anchor": "inicio-propuesta",
-        "panel": ""
+        "anchor": "inicio-propuesta"
       }
     },
     {
@@ -121,8 +115,7 @@
             "linkText": "Conocer más ➡️"
           }
         ],
-        "anchor": "inicio-servicios",
-        "panel": ""
+        "anchor": "inicio-servicios"
       }
     },
     {
@@ -153,32 +146,28 @@
             "tone": "indigo"
           }
         ],
-        "anchor": "inicio-costo",
-        "panel": ""
+        "anchor": "inicio-costo"
       }
     },
     {
       "discriminant": "ctaBand",
       "value": {
         "style": "navy",
+        "kicker": "Diagnóstico gratuito en 2 minutos",
+        "icon": "rocket",
         "title": "¿No sabes por dónde empezar la transformación en tu empresa?",
         "text": "Probemos el motor de tu organización hoy mismo: calcula tus horas perdidas y tu ahorro potencial en 2 minutos, o agenda una sesión exploratoria con nuestro equipo.",
         "buttons": [
           {
             "text": "HACER DIAGNÓSTICO",
-            "action": "diagnosticHours",
-            "value": ""
+            "action": "diagnosticHours"
           },
           {
             "text": "AGENDAR SERVICIO",
             "action": "contact",
             "value": "Sesión Exploratoria"
           }
-        ],
-        "anchor": "",
-        "panel": "",
-        "kicker": "Diagnóstico gratuito en 2 minutos",
-        "icon": "rocket"
+        ]
       }
     },
     {
@@ -189,86 +178,80 @@
         "logos": [
           {
             "name": "Alfin Banco",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/0/logo.svg"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/0/logo.svg"
           },
           {
             "name": "PwC",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/1/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/1/logo.png"
           },
           {
             "name": "Banco Pichincha",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/2/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/2/logo.png"
           },
           {
             "name": "Caja Piura",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/3/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/3/logo.png"
           },
           {
             "name": "Grupo Coril",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/4/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/4/logo.png"
           },
           {
             "name": "Grupo EFE",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/5/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/5/logo.png"
           },
           {
             "name": "Santillana",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/6/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/6/logo.png"
           },
           {
             "name": "Certus",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/7/logo.jpg"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/7/logo.jpg"
           },
           {
             "name": "Bunka",
-            "logo": "@/assets/images/pages/inicio/sections/4/value/logos/8/logo.png"
+            "logo": "@/assets/images/pages/inicio/sections/5/value/logos/8/logo.png"
           }
         ],
         "partnersKicker": "Respaldo institucional",
         "partnersTitle": "Partners y aliados estratégicos",
         "partnersText": "Organizaciones que respaldan nuestro trabajo: certificamos internacionalmente y articulamos ecosistemas empresariales, académicos y de innovación.",
+        "partnerLabel": "Partner oficial",
+        "alliesLabel": "Aliados estratégicos",
         "partners": [
           {
             "name": "Certiprof",
-            "logo": "@/assets/images/pages/inicio/partners/certiprof.png",
+            "logo": "@/assets/images/pages/inicio/sections/5/value/partners/0/logo.png",
             "note": "Certificación internacional",
             "type": "partner"
           },
           {
             "name": "Cámara de Comercio de Lima",
-            "logo": "@/assets/images/pages/inicio/partners/ccl-lima.png",
-            "note": "",
+            "logo": "@/assets/images/pages/inicio/sections/5/value/partners/1/logo.png",
             "type": "ally"
           },
           {
             "name": "APECI - Asociación Peruana de Comunicación Interna",
-            "logo": "@/assets/images/pages/inicio/partners/apeci.png",
-            "note": "",
+            "logo": "@/assets/images/pages/inicio/sections/5/value/partners/2/logo.png",
             "type": "ally"
           },
           {
             "name": "Colegio de Ingenieros del Perú - Lambayeque",
-            "logo": "@/assets/images/pages/inicio/partners/cip-lambayeque.png",
-            "note": "",
+            "logo": "@/assets/images/pages/inicio/sections/5/value/partners/3/logo.png",
             "type": "ally"
           },
           {
             "name": "Incubadora 101 Amazonas",
-            "logo": "@/assets/images/pages/inicio/partners/incubadora-101-amazonas.png",
-            "note": "",
+            "logo": "@/assets/images/pages/inicio/sections/5/value/partners/4/logo.png",
             "type": "ally"
           },
           {
             "name": "NASA Space Apps Challenge - Chiclayo",
-            "logo": "@/assets/images/pages/inicio/partners/nasa-space-apps-chiclayo.png",
-            "note": "",
+            "logo": "@/assets/images/pages/inicio/sections/5/value/partners/5/logo.png",
             "type": "ally"
           }
         ],
-        "anchor": "inicio-experiencia",
-        "panel": "",
-        "partnerLabel": "Partner oficial",
-        "alliesLabel": "Aliados estratégicos"
+        "anchor": "inicio-experiencia"
       }
     },
     {
@@ -278,26 +261,25 @@
         "title": "Lo que dicen quienes ya trabajaron con nosotros",
         "items": [
           {
-            "avatar": "@/assets/images/pages/inicio/sections/5/value/items/0/avatar.jpeg",
+            "avatar": "@/assets/images/pages/inicio/sections/6/value/items/0/avatar.jpeg",
             "name": "Celso Concha",
             "role": "Gerente de Riesgos | Banca & Finanzas",
             "quote": "Conectan estrategia y ejecución con mucha claridad. Destacan por acelerar la innovación, optimizar procesos, mitigar riesgos corporativos y articular equipos para la toma de decisiones."
           },
           {
-            "avatar": "@/assets/images/pages/inicio/sections/5/value/items/1/avatar.jpeg",
+            "avatar": "@/assets/images/pages/inicio/sections/6/value/items/1/avatar.jpeg",
             "name": "Johann Wilson",
             "role": "Gerente Comercial | Banca & Finanzas",
             "quote": "Un foco claro en resultados. Los diferencian su apetito por la excelencia operacional y la mejora continua, lo que los vuelve relevantes en procesos de transformación profunda."
           },
           {
-            "avatar": "@/assets/images/pages/inicio/sections/5/value/items/2/avatar.jpeg",
+            "avatar": "@/assets/images/pages/inicio/sections/6/value/items/2/avatar.jpeg",
             "name": "Carlos Arrieta",
             "role": "Cliente corporativo",
             "quote": "No se quedan en el diagnóstico: alinean a las áreas, miden cada avance y acompañan hasta que el cambio queda instalado. Entendieron nuestro negocio y eso se notó en los resultados."
           }
         ],
-        "anchor": "inicio-testimonios",
-        "panel": ""
+        "anchor": "inicio-testimonios"
       }
     }
   ]
