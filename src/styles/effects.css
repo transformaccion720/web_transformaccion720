@@ -284,6 +284,7 @@
    El emoji 🚀 viene inclinado 45°: se gira para que apunte en la dirección de la barra. */
 .journey-rocket {
   position: absolute;
+  z-index: 2; /* la abeja siempre encima del brillo de la barra */
   top: 50%;
   right: -2.2rem;
   display: block;
@@ -338,6 +339,7 @@
 .journey-fill::after {
   content: '';
   position: absolute;
+  z-index: 0; /* el brillo pasa por debajo de la abeja */
   inset: 0;
   border-radius: inherit;
   background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
