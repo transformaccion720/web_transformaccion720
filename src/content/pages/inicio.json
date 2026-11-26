@@ -277,6 +277,12 @@
             "name": "Carlos Arrieta",
             "role": "Product Manager | Sector Banca & Seguro",
             "quote": "No se quedan en el diagnóstico: alinean a las áreas, miden cada avance y acompañan hasta que el cambio queda instalado. "
+          },
+          {
+            "avatar": "@/assets/images/pages/inicio/sections/6/value/items/3/avatar.jpeg",
+            "name": "Alejo Ramos",
+            "role": "Dueño de negocio | Sector Finanzas",
+            "quote": "El equipo brindó acompañamiento, ayudando a definir rutas de mejora y afrontar desafíos. Destacamos su constante atención y disposición para resolver dudas, incluso después de finalizar el servicio."
           }
         ],
         "anchor": "inicio-testimonios"
