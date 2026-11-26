@@ -125,15 +125,34 @@ test('existe el feed RSS del blog', () => {
 });
 
 test('cabeceras de seguridad en vercel.json', () => {
-  const headers = readJson('vercel.json').headers[0].headers.map((h) => h.key);
+  const rules = readJson('vercel.json').headers;
+  const keys = rules[0].headers.map((h) => h.key);
   for (const h of [
     'X-Content-Type-Options',
     'X-Frame-Options',
-    'Content-Security-Policy',
     'Referrer-Policy',
     'Strict-Transport-Security',
   ])
-    assert.ok(headers.includes(h), h);
+    assert.ok(keys.includes(h), h);
+  // Una sola CSP por ruta (sin reglas que se pisen) y cada una con las protecciones base
+  const csp = rules.filter((r) => r.headers.some((h) => h.key === 'Content-Security-Policy'));
+  const matches = (url) => csp.filter((r) => new RegExp(`^${r.source}$`).test(url)).length;
+  for (const url of ['/', '/servicios', '/api/contact', '/keystatic', '/keystatic/x', '/api/keystatic/tree'])
+    assert.equal(matches(url), 1, url);
+  for (const r of csp) {
+    const v = r.headers.find((h) => h.key === 'Content-Security-Policy').value;
+    for (const d of ["frame-ancestors 'self'", "object-src 'none'", "base-uri 'self'", "form-action 'self'"])
+      assert.ok(v.includes(d), `${r.source}: ${d}`);
+  }
+  const pub = csp.find((r) => r.source.includes('?!')).headers[0].value;
+  for (const d of [
+    'default-src',
+    'script-src',
+    'connect-src',
+    'https://www.tiktok.com',
+    'https://www.youtube-nocookie.com',
+  ])
+    assert.ok(pub.includes(d), d);
 });
 
 test('las preguntas de Conversemos se publican como FAQPage', () => {
@@ -186,4 +205,19 @@ test('rendimiento: no se publican imágenes originales gigantes', () => {
 
 test('al compartir, la portada usa la imagen para compartir de 1200×630', () => {
   assert.match(read('index.html'), /<meta property="og:image" content="[^"]+\.jpg"/);
+});
+
+test('el sitio publicado no usa dominios de ejemplo', () => {
+  for (const p of ['index.html', 'sitemap-index.xml', 'robots.txt'])
+    if (fs.existsSync(path.join(DIST, p))) assert.ok(!read(p).includes('example.com'), p);
+});
+
+test('libro de reclamaciones: los tipos de bien del formulario coinciden con la validación', () => {
+  const html = read('legal/libro-de-reclamaciones/index.html');
+  for (const g of ['Servicio', 'Producto Digital']) assert.ok(html.includes(`value="${g}"`), g);
+});
+
+test('enlaces de WhatsApp siempre con número limpio y mensaje', () => {
+  const html = read('index.html');
+  assert.ok(!/wa\.me\/\+/.test(html), 'número sin "+" ni espacios');
 });

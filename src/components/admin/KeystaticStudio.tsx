@@ -341,8 +341,8 @@ export default function KeystaticStudio() {
             {sidebarHidden ? <PanelLeftOpen className="size-4" /> : <PanelLeftClose className="size-4" />}
           </button>
           <div className="flex items-center gap-2">
-            <span className="flex size-7 items-center justify-center rounded-lg bg-teal-500 font-bold text-slate-950 text-xs shadow-sm">
-              G
+            <span className="flex size-7 items-center justify-center rounded-lg bg-amber-500 font-bold text-slate-950 text-[10px] shadow-sm">
+              TA
             </span>
             <span className="font-bold tracking-tight text-white text-sm">
               CMS <span className="text-teal-400 font-semibold">• Live Studio</span>

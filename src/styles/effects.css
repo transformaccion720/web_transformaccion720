@@ -35,8 +35,8 @@
   transform: translateY(8px);
   transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.nav-dropdown:hover .nav-dropdown-panel,
-.nav-dropdown:focus-within .nav-dropdown-panel {
+.nav-dropdown:not(.nav-closed):hover .nav-dropdown-panel,
+.nav-dropdown:not(.nav-closed):focus-within .nav-dropdown-panel {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -453,7 +453,9 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55);
+  /* Onda con transform + opacity (GPU): no repinta la página en cada cuadro */
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.55);
+  pointer-events: none;
   animation: ctaPulse 2.4s ease-out infinite;
 }
 .cta-glass {
@@ -504,11 +506,13 @@
 }
 @keyframes ctaPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55);
+    opacity: 1;
+    transform: scale(1);
   }
   70%,
   100% {
-    box-shadow: 0 0 0 16px rgba(245, 158, 11, 0);
+    opacity: 0;
+    transform: scale(1.12, 1.6);
   }
 }
 
@@ -654,19 +658,33 @@
   border-color: var(--color-brand-blue);
   background: var(--color-brand-blue);
 }
+.core-node {
+  position: relative;
+}
 .core-node.is-on {
   border-color: var(--color-brand-orange);
   background: var(--color-brand-orange);
   color: var(--color-brand-deep);
   transform: scale(1.15);
+}
+/* Onda del paso activo con transform + opacity (GPU) */
+.core-node.is-on::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5);
+  pointer-events: none;
   animation: corePulse 1.6s ease-out infinite;
 }
 @keyframes corePulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45);
+    opacity: 1;
+    transform: scale(1);
   }
   100% {
-    box-shadow: 0 0 0 12px rgba(245, 158, 11, 0);
+    opacity: 0;
+    transform: scale(1.6);
   }
 }
 .core-card.is-on {
@@ -676,4 +694,24 @@
 }
 .core-card.is-on .core-foot {
   color: var(--color-brand-orange);
+}
+
+/* Secciones fuera de pantalla: animaciones en pausa (ver scripts/offscreen.ts) */
+.is-offscreen,
+.is-offscreen *,
+.is-offscreen *::before,
+.is-offscreen *::after {
+  animation-play-state: paused !important;
+}
+
+/* Accesibilidad y batería: quien pide menos movimiento no recibe animaciones continuas */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

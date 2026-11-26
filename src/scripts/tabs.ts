@@ -79,3 +79,4 @@ if (groups.length) {
 
   window.addEventListener('hashchange', () => fromHash(true));
 }
+document.documentElement.classList.remove('tabs-pending');

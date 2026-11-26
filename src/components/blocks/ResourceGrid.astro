@@ -4,6 +4,7 @@
  * Hoy: los datos llegan a TA720 por correo (/api/contact, tipo "descarga") y el archivo se descarga al
  * momento. Fase final: captura de leads con almacén propio y enlace firmado (ver README).
  */
+import Captcha from '@/components/ui/Captcha.astro';
 import { Image } from 'astro:assets';
 import { safeJson } from '@/lib/format';
 import { tone } from '@/lib/tones';
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const { data, path } = Astro.props;
-const uid = `dl-${Math.random().toString(36).slice(2, 7)}`;
+const uid = `dl-${path.replace(/\W+/g, '-')}`;
 const m = data.modal;
 const field =
   'w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-blue focus:outline-none';
@@ -135,6 +136,7 @@ const config = { success: m.successToast };
           class="hidden"
           aria-hidden="true"
         />
+        <Captcha />
         {m.intro && <p class="text-xs text-slate-600 dark:text-slate-300">{m.intro}</p>}
         <label class="sr-only" for={`${uid}-name`}>
           {m.nameLabel}
@@ -188,6 +190,7 @@ const config = { success: m.successToast };
 <script>
   import { openModal, closeModal } from '@/scripts/modal';
   import { fill } from '@/lib/format';
+  import { resetCaptcha, waitCaptcha } from '@/lib/captcha';
   import { showToast } from '@/lib/toast';
   import { track } from '@/lib/track';
 
@@ -211,11 +214,13 @@ const config = { success: m.successToast };
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
       const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
       btn.disabled = true;
-      // El aviso a TA720 no bloquea la descarga: si el correo falla, la persona igual recibe su recurso
-      await fetch('/api/contact', {
+      await waitCaptcha(form);
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      // Datos inválidos, exceso de envíos o verificación fallida: se avisa y no se descarga.
+      // Si el problema es nuestro (correo caído / sin conexión), la persona igual recibe su recurso.
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -226,6 +231,12 @@ const config = { success: m.successToast };
         }),
       }).catch(() => null);
       btn.disabled = false;
+      resetCaptcha(form);
+      if (res && [400, 403, 429].includes(res.status)) {
+        const body = await res.json().catch(() => ({}));
+        showToast(body.error || 'Revisa tus datos e inténtalo de nuevo.');
+        return;
+      }
       track('recurso_descargado', { recurso: current.name });
       if (current.file) {
         const a = document.createElement('a');

@@ -3,10 +3,11 @@
  * Conversemos: canales ejecutivos (izquierda) + formulario (derecha). Envía a /api/contact (Resend).
  * Si se llega desde un botón con servicio (/conversemos?servicio=…), se preselecciona y se escribe el mensaje.
  */
+import Captcha from '@/components/ui/Captcha.astro';
 import { Lock } from 'lucide-react';
 import BrandIcon from '@/components/ui/BrandIcon.astro';
 import { getSite, type SectionOf } from '@/lib/content';
-import { safeJson } from '@/lib/format';
+import { safeJson, waLink } from '@/lib/format';
 
 interface Props {
   data: SectionOf<'contactPanel'>;
@@ -15,7 +16,7 @@ interface Props {
 
 const { data, path } = Astro.props;
 const site = await getSite();
-const uid = `c-${Math.random().toString(36).slice(2, 7)}`;
+const uid = `c-${path.replace(/\W+/g, '-')}`;
 const config = {
   prefill: data.prefill,
   success: data.successToast,
@@ -47,7 +48,7 @@ const field =
                 <div>
                   <div class="text-xs text-slate-600 dark:text-slate-400">{data.whatsappLabel}</div>
                   <a
-                    href={`https://wa.me/${site.whatsapp}`}
+                    href={waLink(site.whatsapp, site.whatsappMessage)}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="font-bold hover:text-brand-orange"
@@ -105,6 +106,7 @@ const field =
             class="hidden"
             aria-hidden="true"
           />
+          <Captcha />
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label for={`${uid}-name`} class={label}>
@@ -210,6 +212,7 @@ const field =
 
 <script>
   import { fill } from '@/lib/format';
+  import { resetCaptcha, waitCaptcha } from '@/lib/captcha';
   import { showToast } from '@/lib/toast';
   import { track } from '@/lib/track';
 
@@ -239,16 +242,22 @@ const field =
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
       button.disabled = true;
       label.textContent = cfg.sending;
+      await waitCaptcha(form);
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
       try {
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...data, kind: 'contacto' }),
         });
-        if (!res.ok) throw new Error(String(res.status));
+        if (!res.ok) {
+          // Errores que la persona puede corregir (datos, límite, verificación): se muestra el motivo
+          const body = await res.json().catch(() => ({}));
+          showToast([400, 403, 429].includes(res.status) && body.error ? body.error : cfg.error);
+          return;
+        }
         track('formulario_enviado', { interes: data.service ?? '' });
         form.reset();
         showToast(cfg.success);
@@ -257,6 +266,7 @@ const field =
       } finally {
         button.disabled = false;
         label.textContent = idle;
+        resetCaptcha(form);
       }
     });
   });

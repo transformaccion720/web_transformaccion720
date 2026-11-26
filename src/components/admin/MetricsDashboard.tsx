@@ -52,8 +52,8 @@ const C = {
   ink: '#0f172a',
   ink2: '#475569',
   muted: '#94a3b8',
-  series: 'var(--color-brand-700, #4338ca)', // color de la marca (global.css)
-  seriesSoft: 'color-mix(in srgb, var(--color-brand-700, #4338ca) 10%, transparent)',
+  series: 'var(--color-brand-700, #0b1f3a)', // color de la marca (global.css)
+  seriesSoft: 'color-mix(in srgb, var(--color-brand-700, #0b1f3a) 10%, transparent)',
   prev: '#94a3b8',
   good: '#15803d',
   bad: '#b91c1c',

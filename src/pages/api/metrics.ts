@@ -31,7 +31,11 @@ async function isCmsUser(request: Request) {
   if (!res?.ok) return false;
   const info = await res.json().catch(() => null);
   const ok = info?.project?.name === CLOUD_PROJECT.split('/').pop();
-  if (ok) verified.set(token, Date.now() + 10 * 60_000);
+  if (ok) {
+    // Caché corta y acotada (un acceso revocado deja de valer en máx. 5 minutos)
+    if (verified.size > 200) verified.clear();
+    verified.set(token, Date.now() + 5 * 60_000);
+  }
   return ok;
 }
 

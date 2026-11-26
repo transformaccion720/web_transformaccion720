@@ -333,6 +333,8 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
 </section>
 
 <script>
+  import { autoplay } from '@/lib/autoplay';
+
   // Carrusel elegante de fotos: fundido cruzado + zoom lento (Ken Burns), cada 4,5 s; los puntos permiten elegir
   document.querySelectorAll<HTMLElement>('[data-exp-carousel]').forEach((box) => {
     const slides = [...box.querySelectorAll<HTMLElement>('[data-exp-slide]')];
@@ -354,12 +356,11 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
         d.classList.toggle('opacity-60', k !== i);
       });
     };
-    let timer = setInterval(() => show(i + 1), 4500);
+    const auto = autoplay(box, () => show(i + 1), 4500);
     dots.forEach((d, k) =>
       d.addEventListener('click', () => {
-        clearInterval(timer);
         show(k);
-        timer = setInterval(() => show(i + 1), 4500);
+        auto.restart();
       })
     );
   });

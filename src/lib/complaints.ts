@@ -14,6 +14,7 @@ const optional = (max: number) =>
     .transform((v) => v ?? '');
 
 export const DOC_TYPES = ['DNI', 'Carné de extranjería', 'Pasaporte', 'RUC'] as const;
+export const GOOD_TYPES = ['Servicio', 'Producto Digital'] as const;
 
 export const complaintSchema = z
   .object({
@@ -27,7 +28,7 @@ export const complaintSchema = z
     isMinor: z.boolean().default(false),
     guardianName: optional(150),
     // 2. Identificación del bien contratado
-    goodType: z.enum(['Servicio', 'Producto Digital', 'Producto']),
+    goodType: z.enum(GOOD_TYPES),
     amount: optional(20).refine((v) => !v || /^\d+([.,]\d{1,2})?$/.test(v), 'Monto inválido'),
     orderRef: optional(60),
     goodDescription: str(500, 3),
@@ -71,6 +72,7 @@ export const limaDate = (d: Date) =>
     minute: '2-digit',
   });
 
+// Copia local de escHtml (format.ts): este módulo se prueba directo con node, sin alias
 const esc = (t: string) => t.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
 /** Hoja de reclamación en HTML (va al consumidor y a la empresa) */
@@ -82,12 +84,12 @@ export function complaintEmail(
   responseNote: string
 ) {
   const row = (k: string, v: string) =>
-    `<tr><td style="padding:6px 10px;border:1px solid #e6e0f3;background:#fcfbfd;width:38%"><b>${esc(k)}</b></td><td style="padding:6px 10px;border:1px solid #e6e0f3">${esc(v || '—').replace(/\n/g, '<br>')}</td></tr>`;
+    `<tr><td style="padding:6px 10px;border:1px solid #e2e8f0;background:#f8fafc;width:38%"><b>${esc(k)}</b></td><td style="padding:6px 10px;border:1px solid #e2e8f0">${esc(v || '—').replace(/\n/g, '<br>')}</td></tr>`;
   const section = (title: string, rows: string) =>
-    `<h3 style="margin:22px 0 8px;font-size:14px;color:#442f5f;text-transform:uppercase;letter-spacing:.05em">${esc(title)}</h3><table style="border-collapse:collapse;width:100%;font-size:14px">${rows}</table>`;
+    `<h3 style="margin:22px 0 8px;font-size:14px;color:#0b1f3a;text-transform:uppercase;letter-spacing:.05em">${esc(title)}</h3><table style="border-collapse:collapse;width:100%;font-size:14px">${rows}</table>`;
 
   return `<div style="font-family:Arial,sans-serif;color:#1f2937;max-width:680px">
-<h2 style="margin:0;color:#374151">Libro de Reclamaciones Virtual</h2>
+<h2 style="margin:0;color:#0b1f3a">Libro de Reclamaciones Virtual</h2>
 <p style="margin:4px 0 0"><b>Hoja de Reclamación N° ${esc(number)}</b> - Fecha: ${esc(limaDate(date))}</p>
 ${section(
   'Datos del proveedor',
@@ -117,7 +119,7 @@ ${section(
   row('Tipo', c.claimType) + row('Detalle', c.detail) + row('Pedido', c.request)
 )}
 ${section('4. Observaciones y acciones adoptadas por el proveedor', row('Respuesta', 'Pendiente (a completar por el proveedor).'))}
-<p style="font-size:12px;color:#5b5368;margin-top:18px">${esc(responseNote)}</p>
-<p style="font-size:12px;color:#5b5368">* Reclamo: disconformidad relacionada a los productos o servicios. * Queja: disconformidad no relacionada a los productos o servicios; o malestar o descontento respecto a la atención al público.</p>
+<p style="font-size:12px;color:#475569;margin-top:18px">${esc(responseNote)}</p>
+<p style="font-size:12px;color:#475569">* Reclamo: disconformidad relacionada a los productos o servicios. * Queja: disconformidad no relacionada a los productos o servicios; o malestar o descontento respecto a la atención al público.</p>
 </div>`;
 }

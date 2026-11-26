@@ -399,6 +399,8 @@ const ads = texts.adsEnabled ? texts.ads : [];
 </BaseLayout>
 
 <script>
+  import { autoplay } from '@/lib/autoplay';
+
   const cfg = JSON.parse(document.querySelector('[data-news-config]')!.textContent || '{}') as {
     one: string;
     many: string;
@@ -507,12 +509,11 @@ const ads = texts.adsEnabled ? texts.ads : [];
       });
     };
     if (slides.length > 1) {
-      let timer = setInterval(() => show(i + 1), 6000);
+      const auto = autoplay(ads, () => show(i + 1), 6000);
       dots.forEach((d, k) =>
         d.addEventListener('click', () => {
-          clearInterval(timer);
           show(k);
-          timer = setInterval(() => show(i + 1), 6000);
+          auto.restart();
         })
       );
     }

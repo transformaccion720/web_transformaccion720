@@ -76,20 +76,21 @@ import "@keystatic/core/ui";
 // https://astro.build/config
 export default defineConfig({
   // Dominio canónico (sitemap, robots.txt, canonical, Open Graph y Schema).
-  // Orden: PUBLIC_SITE_URL (dominio propio) > URL de producción que Vercel entrega sola > dominio provisional.
+  // Orden: PUBLIC_SITE_URL (dominio propio) > URL de producción que Vercel entrega sola > dominio oficial.
   site:
     process.env.PUBLIC_SITE_URL ||
     (process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : '') ||
-    'https://example.com',
+    'https://www.transformaccion720.com',
   output: 'static', // Páginas SSG estáticas por defecto
   // Vercel: las páginas son estáticas; solo /api/contact y el CMS (/keystatic) corren como funciones
   adapter: vercel(),
   devToolbar: { enabled: false },
-  // CSS chico en línea; la hoja principal va en un archivo con caché de 1 año (se reutiliza entre páginas)
-  // CSS de la web (~130 KB) en un archivo aparte con caché de 1 año: se descarga una vez y sirve para todas las páginas
+  // CSS de la web en un archivo aparte con caché de 1 año: se descarga una vez y sirve para todas las páginas
   build: { inlineStylesheets: 'auto' },
+  // Navegación instantánea: la página siguiente se precarga al pasar el cursor o tocar el enlace
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   // La portada vive en /: la vista previa del CMS abre /inicio
   redirects: { '/inicio': '/' },
   integrations: [

@@ -3,11 +3,12 @@
  * Libro de Reclamaciones Virtual (INDECOPI). Formulario con las 4 secciones de la Hoja de Reclamación,
  * datos del proveedor, número correlativo asignado al enviar y constancia imprimible.
  */
+import Captcha from '@/components/ui/Captcha.astro';
 import { CircleCheck, Printer } from 'lucide-react';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import LegalShell from '@/components/legal/LegalShell.astro';
 import { COMPLAINTS_SLUG, getComplaintsBook, getSite } from '@/lib/content';
-import { DOC_TYPES } from '@/lib/complaints';
+import { DOC_TYPES, GOOD_TYPES } from '@/lib/complaints';
 import { safeJson } from '@/lib/format';
 
 const [site, book] = await Promise.all([getSite(), getComplaintsBook()]);
@@ -79,6 +80,7 @@ const config = { success: book.successText, contact: site.email };
 
     <form class="space-y-8" data-complaint-form novalidate>
       <input type="text" name="honeypot" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+      <Captcha />
 
       <fieldset>
         <legend class={legend}>1. Identificación del consumidor reclamante</legend>
@@ -185,14 +187,12 @@ const config = { success: book.successText, contact: site.email };
           <div>
             <span class={label}>Tipo *</span>
             <div class="flex gap-4 pt-2 text-sm">
-              <label class="flex items-center gap-2">
-                <input type="radio" name="goodType" value="Servicio" checked class="accent-brand-600" />{' '}
-                Servicio
-              </label>
-              <label class="flex items-center gap-2">
-                <input type="radio" name="goodType" value="Producto Digital" class="accent-brand-600" />{' '}
-                Producto Digital
-              </label>
+              {GOOD_TYPES.map((g, i) => (
+                <label class="flex items-center gap-2">
+                  <input type="radio" name="goodType" value={g} checked={i === 0} class="accent-brand-600" />{' '}
+                  {g}
+                </label>
+              ))}
             </div>
           </div>
           <div>
@@ -341,6 +341,7 @@ const config = { success: book.successText, contact: site.email };
 
 <script>
   import { fill } from '@/lib/format';
+  import { resetCaptcha, waitCaptcha } from '@/lib/captcha';
 
   const form = document.querySelector<HTMLFormElement>('[data-complaint-form]');
   if (form) {
@@ -362,14 +363,16 @@ const config = { success: book.successText, contact: site.email };
       e.preventDefault();
       error.textContent = '';
       if (!form.reportValidity()) return;
-      const fd = new FormData(form);
-      const data: Record<string, unknown> = Object.fromEntries(fd);
-      data.isMinor = fd.has('isMinor');
-      data.acceptPrivacy = fd.has('acceptPrivacy');
-
       const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      if (btn.disabled) return; // evita doble envío (doble clic)
       btn.disabled = true;
       try {
+        await waitCaptcha(form);
+        const fd = new FormData(form);
+        const data: Record<string, unknown> = Object.fromEntries(fd);
+        data.captcha = fd.get('cf-turnstile-response') ?? '';
+        data.isMinor = fd.has('isMinor');
+        data.acceptPrivacy = fd.has('acceptPrivacy');
         const res = await fetch('/api/reclamaciones', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -381,6 +384,15 @@ const config = { success: book.successText, contact: site.email };
             body.error === 'FORM_DISABLED'
               ? `El Libro de Reclamaciones virtual no está disponible en este momento. Escríbenos a ${cfg.contact} y registraremos tu reclamo.`
               : (body.error ?? 'No pudimos registrar tu hoja. Inténtalo de nuevo.');
+          // El servidor indica qué campo revisar: se marca y se lleva el foco ahí
+          const bad = body.field
+            ? form.querySelector<HTMLElement>(`[name="${CSS.escape(String(body.field))}"]`)
+            : null;
+          if (bad) {
+            bad.setAttribute('aria-invalid', 'true');
+            bad.focus();
+            bad.addEventListener('input', () => bad.removeAttribute('aria-invalid'), { once: true });
+          }
           return;
         }
         const number = String(body.number);
@@ -390,6 +402,10 @@ const config = { success: book.successText, contact: site.email };
           numero: number,
           correo: String(data.email),
         });
+        // Hoja registrada pero la copia por correo no salió: se pide guardar/imprimir la constancia
+        if (body.copySent === false)
+          receipt.querySelector('[data-receipt-text]')!.textContent +=
+            ' No pudimos enviarte la copia por correo: imprime o guarda esta constancia.';
         form.classList.add('hidden');
         receipt.classList.remove('hidden');
         receipt.focus();
@@ -397,6 +413,7 @@ const config = { success: book.successText, contact: site.email };
         error.textContent = 'Sin conexión. Inténtalo de nuevo.';
       } finally {
         btn.disabled = false;
+        resetCaptcha(form);
       }
     });
 

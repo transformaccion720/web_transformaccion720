@@ -42,6 +42,7 @@ const { diagnosticText, whatsappText } = site.header;
                   ]}
                   aria-current={isActive(link.href) ? 'page' : undefined}
                   aria-haspopup="true"
+                  aria-expanded="false"
                 >
                   <span data-cms={`siteSettings.nav.${i}.label`}>{link.label}</span>
                   <ChevronDown size={14} className="opacity-70" aria-hidden="true" />
@@ -153,7 +154,7 @@ const { diagnosticText, whatsappText } = site.header;
       )}
       {site.whatsapp && whatsappText && (
         <a
-          href={`https://wa.me/${site.whatsapp}`}
+          href={wa}
           target="_blank"
           rel="noopener noreferrer"
           class="flex-1 rounded-xl bg-emerald-500 py-2.5 text-center text-xs font-bold text-white"
@@ -166,6 +167,31 @@ const { diagnosticText, whatsappText } = site.header;
 </header>
 
 <script>
+  // Desplegables: aria-expanded al abrir (hover/foco) y Escape para cerrar devolviendo el foco
+  document.querySelectorAll<HTMLElement>('.nav-dropdown').forEach((dd) => {
+    const trigger = dd.querySelector<HTMLAnchorElement>('[aria-haspopup]')!;
+    const set = (open: boolean) => {
+      trigger.setAttribute('aria-expanded', String(open));
+      dd.classList.toggle('nav-closed', !open);
+    };
+    dd.addEventListener('mouseenter', () => set(true));
+    dd.addEventListener('mouseleave', () => set(false));
+    let escaped = false;
+    dd.addEventListener('focusin', () => {
+      if (escaped) escaped = false;
+      else set(true);
+    });
+    dd.addEventListener('focusout', (e) => {
+      if (!dd.contains(e.relatedTarget as Node)) set(false);
+    });
+    dd.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      set(false);
+      escaped = true;
+      trigger.focus();
+    });
+  });
+
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
   const toggle = (open?: boolean) => {

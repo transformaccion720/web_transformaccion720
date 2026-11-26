@@ -1,0 +1,12 @@
+---
+/**
+ * Verificación anti-bot (Cloudflare Turnstile), invisible salvo que haga falta.
+ * Solo aparece si PUBLIC_TURNSTILE_SITE_KEY está configurada; el servidor la exige con TURNSTILE_SECRET_KEY.
+ * El widget agrega el campo "cf-turnstile-response" al formulario.
+ */
+const key = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+
+{key && (
+  <div class="cf-turnstile" data-sitekey={key} data-appearance="interaction-only" data-size="flexible" />
+)}

@@ -4,6 +4,7 @@
  * Se abre con cualquier [data-open-diagnostic="horas|costos"]. Textos y fórmulas: CMS → Diagnóstico.
  * Fórmulas en src/lib/diagnostic.ts (con pruebas). El correo sale por /api/contact (tipo "diagnostico").
  */
+import Captcha from '@/components/ui/Captcha.astro';
 import { getDiagnostic } from '@/lib/content';
 import { fmtMoney, fmtNumber, hoursLost, costSavings } from '@/lib/diagnostic';
 import { safeJson } from '@/lib/format';
@@ -189,6 +190,7 @@ const label = 'mb-1 block text-xs font-bold';
           class="hidden"
           aria-hidden="true"
         />
+        <Captcha />
         <p class="text-xs font-medium text-slate-600 dark:text-slate-300" data-cms="diagnostic.emailIntro">
           {d.emailIntro}
         </p>
@@ -224,6 +226,7 @@ const label = 'mb-1 block text-xs font-bold';
   import { openModal, closeModal } from '@/scripts/modal';
   import { costSavings, fmtMoney, fmtNumber, hoursLost } from '@/lib/diagnostic';
   import { fill } from '@/lib/format';
+  import { resetCaptcha, waitCaptcha } from '@/lib/captcha';
   import { showToast } from '@/lib/toast';
   import { track } from '@/lib/track';
 
@@ -293,6 +296,7 @@ const label = 'mb-1 block text-xs font-bold';
         ? `Horas perdidas: ${$('res-hours').textContent} - Impacto: ${$('res-cost').textContent} (colaboradores ${val('diag-team')}, ${val('diag-hours')} h/semana, ${cfg.currency}${val('diag-rate')}/h)`
         : `Ahorro potencial: ${$('res-savings').textContent} - Horas recuperables/mes: ${$('res-monthly').textContent} (facturación ${$<HTMLSelectElement>('diag-rev').selectedOptions[0]?.text}, reprocesos ${$<HTMLSelectElement>('diag-fric').selectedOptions[0]?.text})`;
     btn.disabled = true;
+    const captcha = await waitCaptcha(form);
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -304,9 +308,14 @@ const label = 'mb-1 block text-xs font-bold';
           service: tab === 'horas' ? 'Diagnóstico - Horas perdidas' : 'Diagnóstico - Ahorro en costos',
           message: results,
           honeypot: (form.elements.namedItem('honeypot') as HTMLInputElement).value,
+          captcha,
         }),
       });
-      if (!res.ok) throw new Error(String(res.status));
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        showToast([400, 403, 429].includes(res.status) && body.error ? body.error : cfg.error);
+        return;
+      }
       track('diagnostico_enviado', { calculadora: tab });
       closeModal(modal);
       form.reset();
@@ -315,6 +324,7 @@ const label = 'mb-1 block text-xs font-bold';
       showToast(cfg.error);
     } finally {
       btn.disabled = false;
+      resetCaptcha(form);
     }
   });
 </script>

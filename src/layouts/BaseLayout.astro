@@ -12,12 +12,10 @@ import '@/styles/global.css';
 import { THEME_COLOR } from '@/lib/format';
 // Fuentes locales (sin Google Fonts): texto Plus Jakarta Sans, títulos Montserrat (como el mockup)
 import '@fontsource-variable/plus-jakarta-sans/wght.css';
-import '@fontsource/montserrat/latin-600.css';
-import '@fontsource/montserrat/latin-700.css';
-import '@fontsource/montserrat/latin-800.css';
-import '@fontsource/montserrat/latin-900.css';
+// Montserrat variable: 1 solo archivo (precargado) para todos los grosores de los títulos
+import '@fontsource-variable/montserrat/wght.css';
 import sansUrl from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
-import displayUrl from '@fontsource/montserrat/files/montserrat-latin-900-normal.woff2?url';
+import displayUrl from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
 
 export interface Props {
   title?: string;
@@ -37,6 +35,13 @@ const { title, description, image, type, noindex, schema } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content={THEME_COLOR} />
+    <!-- Enlace directo a una pestaña (/servicios#formacion): se ocultan los paneles hasta elegir la correcta (sin parpadeo) -->
+    <script is:inline>
+      if (location.hash.length > 1) {
+        document.documentElement.classList.add('tabs-pending');
+        setTimeout(() => document.documentElement.classList.remove('tabs-pending'), 1500);
+      }
+    </script>
     <!-- Tema claro/oscuro antes de pintar (evita el parpadeo). Igual que el mockup: elección guardada u horario. -->
     <script is:inline>
       (() => {
@@ -95,6 +100,9 @@ const { title, description, image, type, noindex, schema } = Astro.props;
       import '@/scripts/tabs';
       import '@/scripts/filters';
       import '@/scripts/modal';
+      import '@/scripts/offscreen';
+      import { initCaptcha } from '@/lib/captcha';
+      initCaptcha();
     </script>
 
     <!-- Live preview del CMS: solo actúa dentro del iframe del Studio (mismo origen) -->

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getPosts, getSite } from '@/lib/content';
 
-const esc = (t: string) => t.replace(/[<>&'"]/g, (c) => `&#${c.charCodeAt(0)};`);
+import { escHtml as esc } from '@/lib/format';
 
 export const GET: APIRoute = async ({ site: siteUrl }) => {
   const site = await getSite();

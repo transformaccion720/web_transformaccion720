@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { data, path } = Astro.props;
-const uid = `port-${Math.random().toString(36).slice(2, 7)}`;
+const uid = `port-${path.replace(/\W+/g, '-')}`;
 const projects = await Promise.all(
   data.projects.map(async (p) => ({
     ...p,

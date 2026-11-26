@@ -4,6 +4,7 @@ import { BookOpen, Mail, MapPin } from 'lucide-react';
 import Brand from './Brand.astro';
 import BrandIcon from '@/components/ui/BrandIcon.astro';
 import { COMPLAINTS_SLUG, getComplaintsBook, getLegalPages, getSite } from '@/lib/content';
+import { waLink } from '@/lib/format';
 
 const [site, legalPages, book] = await Promise.all([getSite(), getLegalPages(), getComplaintsBook()]);
 const year = new Date().getFullYear();
@@ -103,7 +104,7 @@ const circle =
         </h2>
         {site.whatsapp && (
           <a
-            href={`https://wa.me/${site.whatsapp}`}
+            href={waLink(site.whatsapp, site.whatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
             class="group flex items-center gap-3.5"
@@ -176,7 +177,7 @@ const circle =
             <a
               href={site.credit.url || '#'}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="font-bold text-brand-navy transition hover:text-brand-orange dark:text-white"
             >
               {site.credit.linkText}

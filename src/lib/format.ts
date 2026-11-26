@@ -72,3 +72,6 @@ export function sender(name: string, email: string, fallback: string) {
 
 /** Color de la barra del navegador en celulares (azul noche del menú TA720) */
 export const THEME_COLOR = '#071528';
+
+/** Escapa texto para incrustarlo en HTML (correos, RSS). */
+export const escHtml = (t: string) => t.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);

@@ -76,7 +76,14 @@ export function installBranchLock(doc: Document = document, loc: Location = wind
   hideRepoLinks(doc);
   const run = () => hideBranchControls(doc);
   run();
-  const observer = new MutationObserver(run);
+  // Agrupa las mutaciones de React en una sola pasada por cuadro (no en cada cambio del DOM)
+  let frame = 0;
+  const observer = new MutationObserver(() => {
+    if (!frame) frame = requestAnimationFrame(() => ((frame = 0), run()));
+  });
   observer.observe(doc.body, { childList: true, subtree: true });
-  return () => observer.disconnect();
+  return () => {
+    observer.disconnect();
+    cancelAnimationFrame(frame);
+  };
 }

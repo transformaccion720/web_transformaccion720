@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['dist/', '.astro/', '.vercel/', 'node_modules/', 'Mockup/'] },
+  { ignores: ['dist/', '.astro/', '.vercel/', 'node_modules/', 'mockup/'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
