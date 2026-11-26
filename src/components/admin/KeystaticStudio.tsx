@@ -339,12 +339,8 @@ export default function KeystaticStudio() {
           width: var(--studio-editor-w, 100vw) !important;
           min-width: 320px;
         }
-        div:has(> [data-open] > [role='dialog']):not(:has(> [data-placement])) {
-          padding: 12px;
-        }
         div:has(> [data-open] > [role='dialog']):not(:has(> [data-placement])) > [data-open] {
-          max-width: 100% !important;
-          max-height: calc(100% - 24px) !important;
+          max-width: calc(100% - 24px) !important;
         }
       `}</style>
       {/* Barra Superior del Keystatic Live Studio */}
