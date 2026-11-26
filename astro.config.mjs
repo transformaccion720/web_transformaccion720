@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 import { pruneMissingContentAssets } from './tools/prune-content-assets.mjs';
+import { keystaticCancelButton, keystaticCancelEsbuild } from './tools/keystatic-cancel.mjs';
 import { mkdirSync, writeFileSync, promises as fsp } from 'node:fs';
 
 // Windows: al guardar desde el CMS, Astro reescribe .astro/*.mjs con un rename atómico que falla con
@@ -116,7 +117,8 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [tailwindcss(), pruneMissingContentAssets()],
+    // keystaticCancelButton: botón "Cancelar" en las ventanas de edición del CMS (tools/keystatic-cancel.mjs)
+    plugins: [tailwindcss(), pruneMissingContentAssets(), keystaticCancelButton()],
     // Caché propia para `astro dev`: un build o test en paralelo no la reescribe (evita CMS en negro)
     cacheDir: process.argv.includes('dev') ? 'node_modules/.vite-dev' : undefined,
     // Pre-empaquetar al arrancar: evita el "504 Outdated Optimize Dep" que deja el CMS en blanco
@@ -131,6 +133,7 @@ export default defineConfig({
         '@keystatic/core/ui',
         'lucide-react',
       ],
+      esbuildOptions: { plugins: [keystaticCancelEsbuild] },
     },
   },
 });
