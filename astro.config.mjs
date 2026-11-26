@@ -73,16 +73,31 @@ import "@keystatic/core/ui";
   };
 }
 
+/**
+ * Dominio válido aunque la variable se escriba sin https:// o con espacios/barra final
+ * (ej. "transformaccion720.com"). Un valor inválido se ignora y se usa el siguiente.
+ */
+function siteUrl(...candidates) {
+  for (const raw of candidates) {
+    const v = (raw || '').trim().replace(/\/+$/, '');
+    if (!v) continue;
+    try {
+      return new URL(/^https?:\/\//i.test(v) ? v : `https://${v}`).origin;
+    } catch {
+      console.warn(`[config] Dominio inválido ignorado: "${v}"`);
+    }
+  }
+}
+
 // https://astro.build/config
 export default defineConfig({
   // Dominio canónico (sitemap, robots.txt, canonical, Open Graph y Schema).
   // Orden: PUBLIC_SITE_URL (dominio propio) > URL de producción que Vercel entrega sola > dominio oficial.
-  site:
-    process.env.PUBLIC_SITE_URL ||
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : '') ||
-    'https://www.transformaccion720.com',
+  site: siteUrl(
+    process.env.PUBLIC_SITE_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    'https://www.transformaccion720.com'
+  ),
   output: 'static', // Páginas SSG estáticas por defecto
   // Vercel: las páginas son estáticas; solo /api/contact y el CMS (/keystatic) corren como funciones
   adapter: vercel(),
