@@ -1,5 +1,8 @@
 ---
-/** Equipo especialista: tarjetas 3D con foto, cargo en color y descripción */
+/**
+ * Equipo especialista (debajo de los fundadores, con menos protagonismo): tarjetas compactas con foto mediana,
+ * nombre, especialidad en color y descripción breve. Al pasar el cursor la tarjeta se eleva y se ilumina en su color.
+ */
 import Image from '@/components/ui/Img.astro';
 import { initials } from '@/lib/format';
 import { tone } from '@/lib/tones';
@@ -14,62 +17,76 @@ const { data, path } = Astro.props;
 ---
 
 {data.enabled && data.members.length > 0 && (
-  <section id={data.anchor || undefined} class="bg-white pt-14 pb-16 dark:bg-slate-950">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="mb-6">
-        {data.kicker && (
-          <span class="kicker" data-cms={`${path}.kicker`}>
-            {data.kicker}
-          </span>
-        )}
-        <h3
-          class="mt-1 font-display text-2xl font-extrabold text-brand-navy dark:text-white"
-          data-cms={`${path}.title`}
-        >
-          {data.title}
-        </h3>
+  <section id={data.anchor || undefined} class="bg-slate-50/70 pt-6 pb-16 lg:pb-20 dark:bg-slate-950">
+    <div class="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
+      <div class="mb-5 flex items-end justify-between gap-4">
+        <div>
+          {data.kicker && (
+            <span class="kicker" data-cms={`${path}.kicker`}>
+              {data.kicker}
+            </span>
+          )}
+          <h3
+            class="mt-1 font-display text-xl font-extrabold text-brand-navy sm:text-2xl dark:text-white"
+            data-cms={`${path}.title`}
+          >
+            {data.title}
+          </h3>
+        </div>
       </div>
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {data.members.map((m, i) => (
-          <article class="card-3d rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-            {m.photo ? (
-              <Image
-                src={m.photo}
-                alt={m.name}
-                width={128}
-                height={128}
-                class="mb-4 size-16 rounded-2xl object-cover"
-              />
-            ) : (
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {data.members.map((m, i) => {
+          const t = tone(m.tone);
+          return (
+            <article class="group relative flex gap-4 overflow-hidden rounded-3xl border border-slate-200/70 bg-white p-5 shadow-[0_1px_2px_rgba(11,31,58,0.04)] transition duration-500 hover:-translate-y-1 hover:border-transparent hover:shadow-[0_20px_40px_-18px_rgba(11,31,58,0.25)] dark:border-slate-800 dark:bg-slate-900">
               <span
                 class:list={[
-                  'mb-4 flex size-16 items-center justify-center rounded-2xl font-display text-lg font-black',
-                  tone(m.tone).glass,
+                  'pointer-events-none absolute -top-10 -right-10 size-28 rounded-full opacity-0 blur-2xl transition duration-500 group-hover:opacity-30',
+                  t.solid,
                 ]}
-              >
-                {initials(m.name)}
-              </span>
-            )}
-            <h4
-              class="font-display text-base font-bold text-brand-navy dark:text-white"
-              data-cms={`${path}.members.${i}.name`}
-            >
-              {m.name}
-            </h4>
-            <div
-              class:list={['mt-0.5 text-xs font-semibold', tone(m.tone).text]}
-              data-cms={`${path}.members.${i}.role`}
-            >
-              {m.role}
-            </div>
-            <p
-              class="mt-2.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
-              data-cms={`${path}.members.${i}.bio`}
-            >
-              {m.bio}
-            </p>
-          </article>
-        ))}
+                aria-hidden="true"
+              ></span>
+              {m.photo ? (
+                <Image
+                  src={m.photo}
+                  alt={m.name}
+                  width={160}
+                  height={160}
+                  class="relative size-20 shrink-0 rounded-2xl object-cover object-top ring-1 ring-slate-200 transition duration-500 group-hover:scale-105 dark:ring-slate-700"
+                />
+              ) : (
+                <span
+                  class:list={[
+                    'relative flex size-20 shrink-0 items-center justify-center rounded-2xl font-display text-lg font-black',
+                    t.glass,
+                  ]}
+                >
+                  {initials(m.name)}
+                </span>
+              )}
+              <div class="relative min-w-0">
+                <h4
+                  class="font-display text-[15px] leading-tight font-bold text-brand-navy dark:text-white"
+                  data-cms={`${path}.members.${i}.name`}
+                >
+                  {m.name}
+                </h4>
+                <div
+                  class:list={['mt-1 text-[11px] leading-snug font-bold', t.text]}
+                  data-cms={`${path}.members.${i}.role`}
+                >
+                  {m.role}
+                </div>
+                <p
+                  class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                  data-cms={`${path}.members.${i}.bio`}
+                >
+                  {m.bio}
+                </p>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>

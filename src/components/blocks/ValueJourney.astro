@@ -1,6 +1,8 @@
 ---
-/** 1.2 Propuesta de valor: barra de progreso con cohete 🚀 que avanza al pasar por cada paso */
+/** 1.2 Propuesta de valor: barra de progreso con la abeja-cohete que avanza (con llama) al pasar por cada paso */
 import Icon from '@/components/ui/Icon.astro';
+// Abeja-cohete animada de la marca (SVG en línea: aparece al instante y trae su llama, chispas y empuje)
+import beeSvg from '@/assets/brand/abeja-cohete-animada.svg?raw';
 import { tone } from '@/lib/tones';
 import type { SectionOf } from '@/lib/content';
 
@@ -49,7 +51,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           data-journey-fill
         >
           <span class="journey-rocket select-none" data-rocket>
-            <span class="rocket-body">🚀</span>
+            <span class="rocket-body" set:html={beeSvg} />
           </span>
         </div>
       </div>

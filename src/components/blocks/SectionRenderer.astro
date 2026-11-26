@@ -109,9 +109,21 @@ const visibleAtStart = (panel: string) =>
 ---
 
 {sections.map((s, i) => {
-  const Block = BLOCKS[s.discriminant] as (props: { data: unknown; path: string; first: boolean }) => unknown;
+  // El equipo especialista que va justo después de los fundadores se muestra dentro de ese mismo bloque
+  if (s.discriminant === 'teamGrid' && sections[i - 1]?.discriminant === 'founders') return null;
+  const next = sections[i + 1];
+  const team =
+    s.discriminant === 'founders' && next?.discriminant === 'teamGrid'
+      ? { data: next.value, path: `pages.sections.${i + 1}.value` }
+      : undefined;
+  const Block = BLOCKS[s.discriminant] as (props: {
+    data: unknown;
+    path: string;
+    first: boolean;
+    team?: typeof team;
+  }) => unknown;
   const panel = panelOf(s);
-  const node = <Block data={s.value} path={`pages.sections.${i}.value`} first={i === 0} />;
+  const node = <Block data={s.value} path={`pages.sections.${i}.value`} first={i === 0} team={team} />;
   return panel ? (
     <div data-panel={panel} hidden={!visibleAtStart(panel)} role="tabpanel">
       {node}

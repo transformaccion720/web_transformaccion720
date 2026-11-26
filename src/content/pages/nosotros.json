@@ -48,6 +48,47 @@
             "tone": "teal"
           }
         ],
+        "model": {
+          "label": "MODELO",
+          "value": "720°",
+          "core": "Núcleo 360°",
+          "outerTop": "Entorno global & local",
+          "outerBottom": "Impacto sostenible y social",
+          "pillars": [
+            {
+              "icon": "personas",
+              "name": "Personas",
+              "tone": "teal",
+              "kicker": "Pilar Personas - Cultura y liderazgo",
+              "quote": "Sin personas, la tecnología es solo un gasto.",
+              "desc": "Alineamos líderes y equipos para que el cambio se adopte y se sostenga."
+            },
+            {
+              "icon": "workflow",
+              "name": "Procesos",
+              "tone": "blue",
+              "kicker": "Pilar Procesos - Excelencia operacional",
+              "quote": "Sin procesos, la estrategia es una alucinación.",
+              "desc": "Ordenamos flujos clave para convertir objetivos estratégicos en ejecución medible."
+            },
+            {
+              "icon": "datos",
+              "name": "Datos",
+              "tone": "orange",
+              "kicker": "Pilar Datos - Decisiones con evidencia",
+              "quote": "Sin datos, la decisión es pura suerte.",
+              "desc": "Indicadores y tableros que muestran qué funciona y dónde invertir."
+            },
+            {
+              "icon": "cpu",
+              "name": "Tecnología",
+              "tone": "indigo",
+              "kicker": "Pilar Tecnología - Automatización e IA",
+              "quote": "La tecnología escala lo que ya funciona.",
+              "desc": "Herramientas digitales e IA conectadas a tus procesos y a tu gente."
+            }
+          ]
+        },
         "founders": [
           {
             "photo": "@/assets/images/pages/nosotros/sections/1/value/founders/0/photo.jpg",
@@ -87,7 +128,7 @@
       "value": {
         "enabled": true,
         "kicker": "Equipo Especialista",
-        "title": "Consultores y especialistas que se suman a cada proyecto",
+        "title": "Equipo TransformAcción",
         "members": [
           {
             "photo": "@/assets/images/pages/nosotros/sections/2/value/members/0/photo.jpeg",

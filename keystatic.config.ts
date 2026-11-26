@@ -431,6 +431,30 @@ const ta720Blocks = {
       title: text('Título'),
       body: longText('Texto', BOLD_HINT),
       stats: metricsField('Cifras (3)'),
+      model: fields.object(
+        {
+          label: text('Rótulo del centro', 'Ej: MODELO'),
+          value: text('Valor del centro', 'Ej: 720°'),
+          core: text('Anillo interno', 'Ej: Núcleo 360°'),
+          outerTop: text('Anillo externo (arriba)', 'Ej: Entorno global & local'),
+          outerBottom: text('Anillo externo (abajo)', 'Ej: Impacto sostenible y social'),
+          pillars: fields.array(
+            fields.object({
+              icon: iconField('Ícono', 'datos'),
+              name: text('Nombre del pilar'),
+              tone: toneField('Color'),
+              kicker: text('Antetítulo de la tarjeta', 'Ej: Pilar Procesos - Excelencia operacional'),
+              quote: text('Frase'),
+              desc: longText('Explicación breve'),
+            }),
+            {
+              label: 'Pilares (4, en el orden arriba, derecha, abajo, izquierda)',
+              itemLabel: (p) => p.fields.name.value || 'Pilar',
+            }
+          ),
+        },
+        { label: 'Modelo 720° (diagrama interactivo)' }
+      ),
       founders: fields.array(
         fields.object({
           photo: pageImage('Foto', 'Cuadrada, mínimo 400 px.'),
@@ -467,6 +491,7 @@ const ta720Blocks = {
           role: text('Cargo'),
           tone: toneField('Color del cargo'),
           bio: longText('Descripción'),
+          tags: strings('Palabras clave (máx. 2)', 'Palabra clave'),
         }),
         { label: 'Integrantes', itemLabel: (p) => p.fields.name.value || 'Integrante' }
       ),

@@ -195,6 +195,17 @@ const sections = ({ image }: SchemaContext) => {
           title: text,
           body: text,
           stats: metrics,
+          model: z
+            .object({
+              label: text,
+              value: text,
+              core: text,
+              outerTop: text,
+              outerBottom: text,
+              pillars: list(z.object({ icon, name: text, tone, kicker: text, quote: text, desc: text })),
+            })
+            .nullish()
+            .transform((v) => v ?? { label: '', value: '', core: '', outerTop: '', outerBottom: '', pillars: [] }),
           founders: list(
             z.object({
               photo: img,
@@ -213,7 +224,7 @@ const sections = ({ image }: SchemaContext) => {
           enabled: bool(),
           kicker: text,
           title: text,
-          members: list(z.object({ photo: img, name: text, role: text, tone, bio: text })),
+          members: list(z.object({ photo: img, name: text, role: text, tone, bio: text, tags: strings })),
           ...placement,
         }),
         block('methodology', {

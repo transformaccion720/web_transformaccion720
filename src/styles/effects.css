@@ -285,32 +285,45 @@
 .journey-rocket {
   position: absolute;
   top: 50%;
-  right: -1.35rem;
+  right: -2.2rem;
   display: block;
-  width: 2.2rem;
-  height: 2.2rem;
-  margin-top: -1.1rem;
-  font-size: 1.85rem;
-  line-height: 2.2rem;
-  text-align: center;
+  width: 4rem;
+  height: 4rem;
+  margin-top: -2rem;
   filter: drop-shadow(0 6px 8px rgba(11, 31, 58, 0.3));
   animation: rocketFloat 1.6s ease-in-out infinite;
 }
 .journey-rocket .rocket-body {
-  display: inline-block;
-  transform: rotate(45deg);
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* el SVG trae la abeja en diagonal (34°): se gira para que la punta mire hacia donde avanza */
+  transform: translate(-5%, 9%) rotate(56deg);
+  transform-origin: 55% 41%;
+}
+.journey-rocket .rocket-body svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* la llama ya viene en el SVG */
+.journey-rocket::before {
+  display: none;
 }
 .journey-rocket::before {
   content: '';
   position: absolute;
-  right: 72%;
-  top: 50%;
+  /* llama centrada en la cola de la abeja (como en el Modelo 720°) */
+  right: 90%;
+  top: 55%;
   width: 1.8rem;
-  height: 0.55rem;
-  margin-top: -0.28rem;
-  border-radius: 9999px;
-  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.9) 55%, #f97316);
-  box-shadow: 0 0 12px rgba(249, 115, 22, 0.7);
+  height: 0.6rem;
+  margin-top: -0.3rem;
+  border-radius: 9999px 40% 40% 9999px;
+  background: linear-gradient(270deg, #fff 0%, #fff7cc 12%, #fde047 32%, #fb923c 65%, transparent);
+  box-shadow: 0 0 14px rgba(251, 146, 60, 0.75);
   filter: blur(1px);
   transform-origin: right center;
   animation: rocketFlame 0.14s ease-in-out infinite alternate;

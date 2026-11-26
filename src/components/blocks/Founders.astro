@@ -1,60 +1,104 @@
 ---
 /**
- * 2.1 Quiénes somos, en horizontal: franja de presentación (texto + cifras) y debajo los dos perfiles
- * como tarjetas anchas (foto a la izquierda, datos a la derecha). La foto no cambia de opacidad al pasar el cursor.
+ * 2.1 Quiénes somos (estilo Apple, alineado a la marca):
+ * - Izquierda: propósito, texto, tarjeta del pilar activo y debajo el Modelo 720° (núcleo 360° con 4 pilares,
+ *   anillo Entorno/Impacto). El cohete grande recorre el anillo y, al pasar por cada pilar, lo activa y cambia
+ *   la tarjeta (todo sincronizado con la misma animación). Dos cohetes pequeños giran al revés en el núcleo.
+ * - Derecha: los fundadores y, debajo, el equipo (bloque `teamGrid` que sigue a este en el CMS).
  */
 import Image from '@/components/ui/Img.astro';
 import BrandIcon from '@/components/ui/BrandIcon.astro';
+import Icon from '@/components/ui/Icon.astro';
 import Rich from '@/components/ui/Rich.astro';
+import { initials } from '@/lib/format';
 import { tone } from '@/lib/tones';
 import type { SectionOf } from '@/lib/content';
+// Abeja-cohete en línea (≈7 KB): aparece al instante, sin esperar otra descarga
+import beeRocket from '@/assets/brand/abeja-cohete-112.webp?inline';
 
 interface Props {
   data: SectionOf<'founders'>;
   path: string;
+  team?: { data: SectionOf<'teamGrid'>; path: string };
 }
 
-const { data, path } = Astro.props;
+const { data, path, team } = Astro.props;
+const model = data.model;
+const pillars = model.pillars.slice(0, 4);
+const showTeam = team && team.data.enabled && team.data.members.length > 0;
 const statColor = (t: string) => (t === 'navy' ? 'text-brand-navy dark:text-white' : tone(t).text);
+// Tarjeta "Apple": blanco puro, borde casi invisible, brillo interno arriba, sombra amplia y suave y un filo de marca
+const card =
+  'relative flex flex-col overflow-hidden rounded-[2rem] bg-white ring-1 ring-slate-900/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(11,31,58,0.04),0_24px_60px_-28px_rgba(11,31,58,0.22)] before:pointer-events-none before:absolute before:inset-x-10 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-brand-orange/50 before:to-transparent dark:bg-slate-900 dark:ring-white/[0.06] dark:shadow-[0_24px_60px_-28px_rgba(0,0,0,0.7)]';
+// Posición de cada pilar sobre el anillo: arriba, derecha, abajo, izquierda (el cohete los recorre en ese orden)
+const SPOTS = [
+  'left-1/2 top-[17.5%]',
+  'left-[82.5%] top-1/2',
+  'left-1/2 top-[82.5%]',
+  'left-[17.5%] top-1/2',
+];
+// Tonos suaves (como el diagrama Ikigai) para el pilar activo
+const PASTEL: Record<string, string> = {
+  orange: 'bg-amber-100 ring-2 ring-amber-300',
+  blue: 'bg-sky-100 ring-2 ring-sky-300',
+  teal: 'bg-emerald-100 ring-2 ring-emerald-300',
+  cyan: 'bg-cyan-100 ring-2 ring-cyan-300',
+  emerald: 'bg-emerald-100 ring-2 ring-emerald-300',
+  indigo: 'bg-indigo-100 ring-2 ring-indigo-300',
+  navy: 'bg-slate-100 ring-2 ring-slate-300',
+};
+const uid = path.replace(/\W+/g, '-');
 ---
 
-<section id={data.anchor || undefined} class="bg-white pt-14 pb-16 lg:pb-20 dark:bg-slate-950">
-  <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-8 rounded-3xl border border-slate-200/80 bg-brand-cream p-7 lg:grid-cols-12 lg:gap-10 lg:p-9 dark:border-slate-800 dark:bg-slate-900">
-      <div class="lg:col-span-7">
-        {data.kicker && (
-          <span class="kicker" data-cms={`${path}.kicker`}>
-            {data.kicker}
-          </span>
-        )}
-        <h2
-          class="mt-2 font-display text-2xl leading-tight font-black text-brand-navy sm:text-3xl dark:text-white"
-          data-cms={`${path}.title`}
+<section
+  id={data.anchor || undefined}
+  class="relative overflow-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#fbf8f2_100%)] pt-14 pb-16 lg:pt-16 lg:pb-20 dark:bg-none dark:bg-slate-950"
+>
+  <span
+    class="pointer-events-none absolute -top-40 left-1/4 size-[34rem] rounded-full bg-sky-200/30 blur-3xl dark:bg-blue-500/10"
+    aria-hidden="true"
+  ></span>
+  <span
+    class="pointer-events-none absolute right-0 bottom-0 size-[30rem] rounded-full bg-amber-100/50 blur-3xl dark:bg-teal-500/5"
+    aria-hidden="true"
+  ></span>
+
+  <div class="relative mx-auto grid max-w-[88rem] grid-cols-1 items-start gap-5 px-4 sm:px-6 lg:px-8 xl:grid-cols-[minmax(0,1.12fr)_minmax(0,2fr)]">
+    <!-- Propósito + Modelo 720° + cifras -->
+    <div class:list={[card, 'p-7 lg:p-8']} data-model720>
+      {data.kicker && (
+        <span class="kicker" data-cms={`${path}.kicker`}>
+          {data.kicker}
+        </span>
+      )}
+      <h2
+        class="mt-2 font-display text-2xl leading-tight font-black text-brand-navy dark:text-white"
+        data-cms={`${path}.title`}
+      >
+        {data.title}
+      </h2>
+      {data.body && (
+        <div
+          class="mt-4 space-y-3 text-[13px] leading-relaxed text-slate-600 dark:text-slate-300"
+          data-cms={`${path}.body`}
+          data-cms-rich
         >
-          {data.title}
-        </h2>
-        {data.body && (
-          <div
-            class="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
-            data-cms={`${path}.body`}
-            data-cms-rich
-          >
-            <Rich text={data.body} paragraphs />
-          </div>
-        )}
-      </div>
+          <Rich text={data.body} paragraphs />
+        </div>
+      )}
+
       {data.stats.length > 0 && (
-        <div class="grid grid-cols-3 gap-3 lg:col-span-5">
+        <div class="mt-6 grid grid-cols-3 divide-x divide-slate-200/80 border-t border-slate-200/80 pt-5 dark:divide-slate-700 dark:border-slate-700">
           {data.stats.map((s, i) => (
-            <div class="rounded-2xl border border-slate-200/70 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
+            <div class="px-2 text-center first:pl-0 last:pr-0">
               <div
-                class:list={['font-display text-2xl font-black', statColor(s.tone)]}
+                class:list={['font-display text-2xl font-black sm:text-3xl', statColor(s.tone)]}
                 data-cms={`${path}.stats.${i}.value`}
               >
                 {s.value}
               </div>
               <div
-                class="mt-0.5 text-[11px] leading-tight text-slate-500 dark:text-slate-400"
+                class="mt-1 text-[11px] leading-tight text-slate-500 dark:text-slate-400"
                 data-cms={`${path}.stats.${i}.label`}
               >
                 {s.label}
@@ -63,50 +107,325 @@ const statColor = (t: string) => (t === 'navy' ? 'text-brand-navy dark:text-whit
           ))}
         </div>
       )}
-    </div>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      {data.founders.map((f, i) => {
-        const t = tone(f.tone);
-        return (
-          <article class="flex flex-col gap-5 rounded-3xl border border-slate-200/80 bg-slate-50 p-6 sm:flex-row sm:p-7 dark:border-slate-800 dark:bg-slate-900">
-            <div class="relative shrink-0 sm:w-44 sm:self-stretch">
-              <span
-                class:list={['absolute -inset-1.5 rounded-[1.4rem] opacity-50 blur-md', t.solid]}
-                aria-hidden="true"
-              ></span>
-              {f.photo && (
-                <Image
-                  src={f.photo}
-                  alt={f.name}
-                  width={360}
-                  height={440}
-                  loading="eager"
-                  class="relative h-72 w-full rounded-2xl object-cover object-top shadow-lg ring-2 ring-white sm:h-full sm:min-h-64 dark:ring-slate-900"
-                />
-              )}
-              <span
+      {pillars.length > 0 && (
+        <>
+          <!-- Tarjeta del pilar activo -->
+          <div class="relative mt-6 grid rounded-2xl bg-slate-50/80 p-4 text-center ring-1 ring-slate-900/[0.05] dark:bg-slate-800/60 dark:ring-white/[0.06]">
+            {pillars.map((p, i) => (
+              <div
+                data-card={i}
                 class:list={[
-                  'absolute -right-2 -bottom-2 flex size-7 items-center justify-center rounded-lg text-[11px] font-black shadow-md ring-2 ring-white dark:ring-slate-900',
-                  t.solid,
+                  'col-start-1 row-start-1 transition duration-500',
+                  i ? 'invisible translate-y-1 opacity-0' : '',
                 ]}
-                aria-hidden="true"
               >
-                ★
+                <div
+                  class:list={['text-[10px] font-extrabold tracking-[0.16em] uppercase', tone(p.tone).text]}
+                  data-cms={`${path}.model.pillars.${i}.kicker`}
+                >
+                  {p.kicker}
+                </div>
+                <p
+                  class="mt-1.5 font-display text-[15px] leading-snug font-extrabold text-brand-navy dark:text-white"
+                  data-cms={`${path}.model.pillars.${i}.quote`}
+                >
+                  “{p.quote}”
+                </p>
+                <p
+                  class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400"
+                  data-cms={`${path}.model.pillars.${i}.desc`}
+                >
+                  {p.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div class="relative mx-auto mt-7 mb-4 aspect-square w-full max-w-[21.5rem]">
+            <!-- Sombra de apoyo: el diagrama "flota" sobre la tarjeta -->
+            <span
+              class="pointer-events-none absolute inset-x-[14%] -bottom-4 h-8 rounded-[50%] bg-brand-navy/25 blur-xl dark:bg-black/60"
+              aria-hidden="true"
+            ></span>
+            <svg viewBox="0 0 400 400" class="absolute inset-0 size-full overflow-visible" aria-hidden="true">
+              <defs>
+                <linearGradient id={`gold-${uid}`} x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fcd34d" />
+                  <stop offset="0.5" stop-color="#f59e0b" />
+                  <stop offset="1" stop-color="#fde68a" />
+                </linearGradient>
+                <radialGradient id={`core-${uid}`} cx="0.5" cy="0.4" r="0.62">
+                  <stop offset="0" stop-color="#1d4f8c" />
+                  <stop offset="0.6" stop-color="#0f2f5c" />
+                  <stop offset="1" stop-color="#0b1f3a" />
+                </radialGradient>
+                <linearGradient id={`trail-${uid}`} x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#fbbf24" stop-opacity="0" />
+                  <stop offset="1" stop-color="#fde68a" stop-opacity="0.95" />
+                </linearGradient>
+                <linearGradient id={`trail2-${uid}`} x1="1" y1="0" x2="0" y2="0">
+                  <stop offset="0" stop-color="#7dd3fc" stop-opacity="0" />
+                  <stop offset="1" stop-color="#e0f2fe" stop-opacity="0.9" />
+                </linearGradient>
+                <!-- Cohete (nariz hacia +x): cuerpo metálico, ventana con brillo, aletas azules y llama -->
+                <linearGradient id={`hull-${uid}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffffff" />
+                  <stop offset="0.45" stop-color="#e2e8f0" />
+                  <stop offset="1" stop-color="#94a3b8" />
+                </linearGradient>
+                <linearGradient id={`fin-${uid}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3b82f6" />
+                  <stop offset="1" stop-color="#1e3a8a" />
+                </linearGradient>
+                <radialGradient id={`glass-${uid}`} cx="0.35" cy="0.35" r="0.7">
+                  <stop offset="0" stop-color="#e0f2fe" />
+                  <stop offset="0.4" stop-color="#38bdf8" />
+                  <stop offset="1" stop-color="#0c4a6e" />
+                </radialGradient>
+                <radialGradient id={`fire-${uid}`} cx="1" cy="0.5" r="1">
+                  <stop offset="0" stop-color="#fff7ed" />
+                  <stop offset="0.35" stop-color="#fbbf24" />
+                  <stop offset="1" stop-color="#f97316" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id={`fire-${uid}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffffff" />
+                  <stop offset="0.15" stop-color="#fff7cc" />
+                  <stop offset="0.4" stop-color="#fde047" />
+                  <stop offset="0.7" stop-color="#fb923c" />
+                  <stop offset="1" stop-color="#ef4444" stop-opacity="0" />
+                </linearGradient>
+                <radialGradient id={`fireglow-${uid}`} cx="0.5" cy="0.3" r="0.6">
+                  <stop offset="0" stop-color="#fde047" stop-opacity="0.85" />
+                  <stop offset="0.5" stop-color="#fb923c" stop-opacity="0.4" />
+                  <stop offset="1" stop-color="#fb923c" stop-opacity="0" />
+                </radialGradient>
+                <g id={`rocket-${uid}`}>
+                  <path
+                    d="M -11 0 C -6 -6 6 -6 13 0 C 6 6 -6 6 -11 0 Z"
+                    fill="#e2e8f0"
+                    stroke="#0b1f3a"
+                    stroke-width="1.2"
+                  />
+                  <circle cx="4" cy="0" r="2.4" fill="#38bdf8" />
+                  <path d="M -9 -3 L -14 -8 L -6 -4 Z M -9 3 L -14 8 L -6 4 Z" fill="#2563eb" />
+                  <path d="M -12 0 L -19 -2.5 L -17 0 L -19 2.5 Z" fill="#f59e0b" class="m720-flame" />
+                </g>
+                <path id={`top-${uid}`} d="M 22 200 A 178 178 0 0 1 378 200" />
+                <path id={`bot-${uid}`} d="M 14 200 A 186 186 0 0 0 386 200" />
+              </defs>
+
+              <!-- Anillo externo: Entorno (arriba) e Impacto (abajo) -->
+              <circle
+                cx="200"
+                cy="200"
+                r="168"
+                fill="none"
+                stroke={`url(#gold-${uid})`}
+                stroke-width="2"
+                opacity="0.9"
+              />
+              <circle
+                cx="200"
+                cy="200"
+                r="210"
+                fill="none"
+                stroke={`url(#gold-${uid})`}
+                stroke-width="1"
+                opacity="0.45"
+              />
+              <text class="fill-brand-navy font-display text-[11.5px] font-extrabold tracking-[0.2em] uppercase dark:fill-white">
+                <textPath
+                  href={`#top-${uid}`}
+                  startOffset="50%"
+                  text-anchor="middle"
+                  data-cms={`${path}.model.outerTop`}
+                >
+                  {model.outerTop}
+                </textPath>
+              </text>
+              <text class="fill-brand-navy font-display text-[11.5px] font-extrabold tracking-[0.2em] uppercase dark:fill-white">
+                <textPath
+                  href={`#bot-${uid}`}
+                  startOffset="50%"
+                  text-anchor="middle"
+                  dominant-baseline="hanging"
+                  data-cms={`${path}.model.outerBottom`}
+                >
+                  {model.outerBottom}
+                </textPath>
+              </text>
+
+              <!-- Núcleo 360° -->
+              <circle cx="200" cy="200" r="150" fill={`url(#core-${uid})`} />
+              <circle
+                cx="200"
+                cy="200"
+                r="130"
+                fill="none"
+                stroke="#38bdf8"
+                stroke-width="2.5"
+                opacity="0.85"
+                class="m720-glow"
+              />
+              <circle
+                cx="200"
+                cy="200"
+                r="96"
+                fill="none"
+                stroke="#7dd3fc"
+                stroke-width="1.2"
+                stroke-dasharray="3 9"
+                opacity="0.5"
+              />
+
+              <!-- Dos cohetes pequeños en el núcleo, girando al revés (antihorario) -->
+              <g class="m720-inner">
+                <path
+                  d="M 200 104 A 96 96 0 0 1 268 132"
+                  fill="none"
+                  stroke={`url(#trail2-${uid})`}
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <use href={`#rocket-${uid}`} transform="translate(200 104) scale(-0.85 0.85)" />
+                <path
+                  d="M 200 296 A 96 96 0 0 1 132 268"
+                  fill="none"
+                  stroke={`url(#trail2-${uid})`}
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <use href={`#rocket-${uid}`} transform="translate(200 296) scale(0.85 0.85)" />
+              </g>
+
+              <!-- Cohete principal: recorre el anillo y activa cada pilar al pasar -->
+              <g class="m720-orbit" data-rocket>
+                <path
+                  d="M 51 112 A 182 182 0 0 1 200 18"
+                  fill="none"
+                  stroke={`url(#trail-${uid})`}
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  class="m720-glow-gold"
+                />
+                <!-- La abeja apunta en la dirección del recorrido; la llama sale del centro de su cola -->
+                <g transform="translate(200 18) rotate(55) translate(-28 -31.5)">
+                  <g transform="translate(13 53) rotate(35)">
+                    <ellipse
+                      cx="0"
+                      cy="12"
+                      rx="8"
+                      ry="17"
+                      fill={`url(#fireglow-${uid})`}
+                      class="m720-fireglow"
+                    />
+                    <path
+                      d="M 0 -2 C 4.5 4 4.5 16 0 27 C -4.5 16 -4.5 4 0 -2 Z"
+                      fill={`url(#fire-${uid})`}
+                      class="m720-fire"
+                    />
+                  </g>
+                  <image href={beeRocket} width="52" height="58.5" />
+                </g>
+              </g>
+            </svg>
+
+            <!-- Centro -->
+            <div class="absolute top-1/2 left-1/2 flex size-[30%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-[#0b1220] text-center shadow-[0_0_0_6px_rgba(255,255,255,0.9),0_18px_40px_-10px_rgba(11,31,58,0.6)] dark:shadow-[0_0_0_6px_rgba(15,23,42,0.9),0_18px_40px_-10px_rgba(0,0,0,0.8)]">
+              <span
+                class="text-[9px] font-extrabold tracking-[0.2em] text-teal-300 uppercase"
+                data-cms={`${path}.model.label`}
+              >
+                {model.label}
               </span>
+              <span
+                class="font-display text-3xl leading-none font-black text-white"
+                data-cms={`${path}.model.value`}
+              >
+                {model.value}
+              </span>
+              {model.core && (
+                <span
+                  class="mt-1 text-[7.5px] font-extrabold tracking-[0.16em] text-sky-300 uppercase"
+                  data-cms={`${path}.model.core`}
+                >
+                  {model.core}
+                </span>
+              )}
             </div>
 
-            <div class="flex min-w-0 flex-1 flex-col justify-between">
-              <div>
+            <!-- Pilares -->
+            {pillars.map((p, i) => (
+              <button
+                type="button"
+                data-node={i}
+                data-active={i === 0 ? 'true' : 'false'}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class:list={[
+                  'group absolute flex size-[23%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-0.5 rounded-full border border-slate-200 bg-white text-brand-navy shadow-[0_10px_24px_-10px_rgba(11,31,58,0.45)] transition duration-500 hover:scale-105 data-[active=true]:scale-110 data-[active=true]:border-transparent dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:data-[active=true]:text-brand-navy',
+                  SPOTS[i],
+                ]}
+              >
                 <span
-                  class:list={['text-[10.5px] font-extrabold tracking-wider uppercase', t.text]}
-                  data-cms={`${path}.founders.${i}.role`}
+                  class:list={[
+                    'absolute inset-0 rounded-full opacity-0 transition duration-500 group-data-[active=true]:opacity-100',
+                    PASTEL[p.tone] ?? PASTEL.navy,
+                  ]}
+                  aria-hidden="true"
+                ></span>
+                <Icon name={p.icon} size={20} class="relative" />
+                <span
+                  class="relative text-[10.5px] leading-none font-bold transition"
+                  data-cms={`${path}.model.pillars.${i}.name`}
                 >
-                  {f.role}
+                  {p.name}
                 </span>
-                <div class="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+
+    <!-- Fundadores + equipo -->
+    <div class="flex flex-col gap-5">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+        {data.founders.map((f, i) => {
+          const t = tone(f.tone);
+          return (
+            <article
+              class:list={[
+                card,
+                'group transition duration-500 hover:-translate-y-1 hover:shadow-[0_32px_64px_-28px_rgba(11,31,58,0.35)]',
+              ]}
+            >
+              <div class="flex items-center gap-4 p-6 pb-0 lg:px-7 lg:pt-7">
+                <div class="relative shrink-0">
+                  <span
+                    class:list={['absolute -inset-1 rounded-[1.3rem] opacity-40 blur-md', t.solid]}
+                    aria-hidden="true"
+                  ></span>
+                  {f.photo && (
+                    <Image
+                      src={f.photo}
+                      alt={f.name}
+                      width={224}
+                      height={256}
+                      loading="eager"
+                      class="relative h-36 w-[7.5rem] rounded-2xl object-cover object-top shadow-md ring-2 ring-white transition duration-500 group-hover:scale-[1.03] dark:ring-slate-900"
+                    />
+                  )}
+                </div>
+                <div class="min-w-0">
+                  <span
+                    class:list={['text-[10.5px] font-extrabold tracking-wider uppercase', t.text]}
+                    data-cms={`${path}.founders.${i}.role`}
+                  >
+                    {f.role}
+                  </span>
                   <h3
-                    class="font-display text-xl leading-tight font-extrabold text-brand-navy dark:text-white"
+                    class="mt-0.5 font-display text-xl leading-tight font-extrabold text-brand-navy dark:text-white"
                     data-cms={`${path}.founders.${i}.name`}
                   >
                     {f.name}
@@ -116,45 +435,260 @@ const statColor = (t: string) => (t === 'navy' ? 'text-brand-navy dark:text-whit
                       href={f.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 rounded-full bg-[#0A66C2]/10 px-3 py-1 text-[11px] font-bold text-[#0A66C2] transition hover:bg-[#0A66C2] hover:text-white"
+                      class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#0A66C2]/10 px-3 py-1 text-[11px] font-bold text-[#0A66C2] transition hover:bg-[#0A66C2] hover:text-white"
                     >
                       <BrandIcon name="linkedin" size={14} mono />
                       <span>LinkedIn</span>
                     </a>
                   )}
                 </div>
+              </div>
+
+              <div class="flex flex-1 flex-col p-6 pt-4 lg:px-7 lg:pb-7">
                 {f.bio && (
                   <p
-                    class="mt-3 text-[13px] leading-relaxed text-slate-600 dark:text-slate-300"
+                    class="text-[12.5px] leading-relaxed text-slate-600 dark:text-slate-300"
                     data-cms={`${path}.founders.${i}.bio`}
                   >
                     {f.bio}
                   </p>
                 )}
                 {f.quote && (
-                  <div
-                    class="mt-3 rounded-xl border border-slate-200/70 bg-white p-3 text-xs text-slate-600 italic dark:border-slate-700/70 dark:bg-slate-800/70 dark:text-slate-300"
+                  <p
+                    class:list={[
+                      'mt-3 border-l-2 pl-3 text-xs text-slate-600 italic dark:text-slate-300',
+                      t.border,
+                    ]}
                     data-cms={`${path}.founders.${i}.quote`}
                   >
                     “{f.quote}”
+                  </p>
+                )}
+                {f.chips.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5 pt-4">
+                    {f.chips.map((c, j) => (
+                      <span
+                        class="rounded-full bg-slate-100/80 px-2.5 py-1 text-[10.5px] font-semibold text-slate-700 ring-1 ring-slate-900/[0.05] dark:bg-slate-800 dark:text-slate-200"
+                        data-cms={`${path}.founders.${i}.chips.${j}`}
+                      >
+                        {c}
+                      </span>
+                    ))}
                   </div>
                 )}
               </div>
-              {f.chips.length > 0 && (
-                <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-200/70 pt-4 xl:grid-cols-3 dark:border-slate-800">
-                  {f.chips.map((c, j) => (
-                    <span class="flex items-center justify-center rounded-xl border border-slate-200/80 bg-white px-2 py-1.5 text-center text-[11px] leading-tight font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                      data-cms={`${path}.founders.${i}.chips.${j}`}
+            </article>
+          );
+        })}
+      </div>
+
+      {showTeam && (
+        <div class:list={[card, 'p-6 lg:p-7']} id={team.data.anchor || undefined}>
+          {team.data.kicker && (
+            <span class="kicker" data-cms={`${team.path}.kicker`}>
+              {team.data.kicker}
+            </span>
+          )}
+          <h3
+            class="mt-1 font-display text-lg font-extrabold text-brand-navy sm:text-xl dark:text-white"
+            data-cms={`${team.path}.title`}
+          >
+            {team.data.title}
+          </h3>
+          <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(19rem,1fr))]">
+            {team.data.members.map((m, i) => {
+              const t = tone(m.tone);
+              return (
+                <article class="group relative flex items-start gap-4 overflow-hidden rounded-2xl bg-slate-50/80 p-4 ring-1 ring-slate-900/[0.05] transition duration-500 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_18px_36px_-18px_rgba(11,31,58,0.28)] dark:bg-slate-800/50 dark:ring-white/[0.06] dark:hover:bg-slate-800">
+                  <span
+                    class:list={[
+                      'pointer-events-none absolute -top-10 -right-10 size-28 rounded-full opacity-0 blur-2xl transition duration-500 group-hover:opacity-25',
+                      t.solid,
+                    ]}
+                    aria-hidden="true"
+                  ></span>
+                  {m.photo ? (
+                    <Image
+                      src={m.photo}
+                      alt={m.name}
+                      width={192}
+                      height={224}
+                      class="relative h-28 w-24 shrink-0 rounded-xl object-cover object-top shadow-sm ring-2 ring-white transition duration-500 group-hover:scale-[1.03] dark:ring-slate-900"
+                    />
+                  ) : (
+                    <span
+                      class:list={[
+                        'relative flex h-28 w-24 shrink-0 items-center justify-center rounded-xl font-display text-lg font-black',
+                        t.glass,
+                      ]}
                     >
-                      {c}
+                      {initials(m.name)}
                     </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </article>
-        );
-      })}
+                  )}
+                  <div class="relative flex min-w-0 flex-1 flex-col self-stretch">
+                    <h4
+                      class="font-display text-[15px] leading-tight font-bold text-brand-navy dark:text-white"
+                      data-cms={`${team.path}.members.${i}.name`}
+                    >
+                      {m.name}
+                    </h4>
+                    <div
+                      class:list={['mt-0.5 text-[11px] leading-snug font-bold', t.text]}
+                      data-cms={`${team.path}.members.${i}.role`}
+                    >
+                      {m.role}
+                    </div>
+                    <p
+                      class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                      data-cms={`${team.path}.members.${i}.bio`}
+                    >
+                      {m.bio}
+                    </p>
+                    {m.tags.length > 0 && (
+                      <div class="mt-auto flex flex-wrap gap-1 pt-2">
+                        {m.tags.slice(0, 2).map((tag, j) => (
+                          <span
+                            class="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-600 ring-1 ring-slate-900/[0.06] dark:bg-slate-900 dark:text-slate-300"
+                            data-cms={`${team.path}.members.${i}.tags.${j}`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   </div>
 </section>
+
+<style>
+  .m720-orbit,
+  .m720-inner {
+    transform-origin: 200px 200px;
+  }
+  /* El cohete da una vuelta cada 16 s: 4 s por pilar (el script usa la misma duración) */
+  .m720-orbit {
+    animation: m720-rot 16s linear infinite;
+  }
+  .m720-inner {
+    animation: m720-rot 11s linear infinite reverse;
+  }
+  .m720-flame {
+    transform-origin: -12px 0;
+    animation: m720-flame 0.18s ease-in-out infinite alternate;
+  }
+  .m720-glow {
+    filter: drop-shadow(0 0 6px rgb(56 189 248 / 0.8));
+  }
+  .m720-fire {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
+    animation: m720-fire 0.08s ease-in-out infinite alternate;
+  }
+  .m720-fireglow {
+    transform-box: fill-box;
+    transform-origin: 50% 20%;
+    animation: m720-fireglow 0.25s ease-in-out infinite alternate;
+  }
+  @keyframes m720-fire {
+    from {
+      transform: scale(1.05, 0.85);
+    }
+    to {
+      transform: scale(0.92, 1.15);
+    }
+  }
+  @keyframes m720-fireglow {
+    from {
+      opacity: 0.7;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+  .m720-glow-gold {
+    filter: drop-shadow(0 0 4px rgb(251 191 36 / 0.8));
+  }
+  @keyframes m720-rot {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes m720-flame {
+    to {
+      transform: scaleX(1.35);
+      opacity: 0.75;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .m720-orbit,
+    .m720-inner,
+    .m720-flame,
+    .m720-fire,
+    .m720-fireglow {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { autoplay } from '@/lib/autoplay';
+
+  const LAP = 16000; // misma duración que .m720-orbit
+  const STEP = LAP / 4;
+
+  // El pilar activo lo marca el cohete: se lee el tiempo de su animación (sin temporizadores aparte que se desfasen)
+  document.querySelectorAll<HTMLElement>('[data-model720]').forEach((root) => {
+    const nodes = [...root.querySelectorAll<HTMLElement>('[data-node]')];
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-card]')];
+    const rocket = root.querySelector<SVGGElement>('[data-rocket]');
+    if (!nodes.length) return;
+    let current = 0;
+    const set = (n: number) => {
+      if (n === current) return;
+      current = n;
+      nodes.forEach((el, k) => {
+        el.dataset.active = String(k === n);
+        el.setAttribute('aria-pressed', String(k === n));
+      });
+      cards.forEach((el, k) => {
+        el.classList.toggle('invisible', k !== n);
+        el.classList.toggle('opacity-0', k !== n);
+        el.classList.toggle('translate-y-1', k !== n);
+      });
+    };
+
+    const anim = rocket?.getAnimations()[0];
+    if (anim) {
+      // Pilar según la posición del cohete (arriba, derecha, abajo, izquierda)
+      autoplay(
+        root,
+        () => set(Math.floor(((Number(anim.currentTime) || 0) % LAP) / STEP) % nodes.length),
+        150
+      );
+      nodes.forEach((el, k) =>
+        el.addEventListener('click', () => {
+          anim.currentTime = k * STEP; // el cohete salta al pilar elegido
+          set(k);
+        })
+      );
+    } else {
+      // Sin animación (reducir movimiento): avance simple
+      const auto = autoplay(root, () => set((current + 1) % nodes.length), 4000);
+      nodes.forEach((el, k) =>
+        el.addEventListener('click', () => {
+          set(k);
+          auto.restart();
+        })
+      );
+    }
+  });
+</script>

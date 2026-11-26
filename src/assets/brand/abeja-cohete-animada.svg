@@ -1,0 +1,194 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes taThrust {
+      0%, 100% { transform: translate(0px, 0px); }
+      45% { transform: translate(2.6px, -3.8px); }
+      75% { transform: translate(1px, -1.5px); }
+    }
+    @keyframes taVibe {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(0.3px, -0.3px); }
+      50% { transform: translate(-0.25px, 0.25px); }
+      75% { transform: translate(0.25px, 0.3px); }
+    }
+    @keyframes taFlame {
+      0%, 100% { transform: scaleX(1) scaleY(1); }
+      33% { transform: scaleX(0.95) scaleY(1.09); }
+      66% { transform: scaleX(1.04) scaleY(0.94); }
+    }
+    @keyframes taCore {
+      0%, 100% { transform: scaleY(1); opacity: 0.95; }
+      50% { transform: scaleY(1.14); opacity: 1; }
+    }
+    @keyframes taGlow {
+      0%, 100% { opacity: 0.78; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+    @keyframes taSpark {
+      0% { transform: translate(0px, 0px) scale(0.4); opacity: 0; }
+      20% { opacity: 1; transform: translate(0px, 3px) scale(1); }
+      100% { transform: translate(var(--sx, 0px), 13px) scale(0.15); opacity: 0; }
+    }
+    @keyframes taCinemaGlint {
+      0%, 100% { transform: translateY(0px) scale(0) rotate(0deg); opacity: 0; }
+      30% { transform: translateY(4px) scale(1.05) rotate(12deg); opacity: 0.95; }
+      65% { transform: translateY(10px) scale(0.75) rotate(22deg); opacity: 0.55; }
+      90% { transform: translateY(14px) scale(0) rotate(30deg); opacity: 0; }
+    }
+    /* Repliegue aerodinámico hacia la cola alineado al despegue + zumbido rápido de alta velocidad */
+    @keyframes taWingLSweep {
+      0%, 100% { transform: rotate(0deg) translateY(0px); }
+      45% { transform: rotate(-10deg) translateY(1.6px); }
+      75% { transform: rotate(-3.5deg) translateY(0.5px); }
+    }
+    @keyframes taWingRSweep {
+      0%, 100% { transform: rotate(0deg) translateY(0px); }
+      45% { transform: rotate(10deg) translateY(1.6px); }
+      75% { transform: rotate(3.5deg) translateY(0.5px); }
+    }
+    @keyframes taWingLBuzz {
+      0%, 100% { transform: rotate(0deg) scaleY(1); }
+      50% { transform: rotate(-5.5deg) scaleY(0.95); }
+    }
+    @keyframes taWingRBuzz {
+      0%, 100% { transform: rotate(0deg) scaleY(1); }
+      50% { transform: rotate(5.5deg) scaleY(0.95); }
+    }
+
+    .ta-thrust { animation: taThrust 2s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+    .ta-vibe { animation: taVibe 0.12s linear infinite; }
+    .ta-flame { animation: taFlame 0.18s ease-in-out infinite; transform-origin: 0px 30px; }
+    .ta-core { animation: taCore 0.14s ease-in-out infinite; transform-origin: 0px 30px; }
+    .ta-glow { animation: taGlow 0.45s ease-in-out infinite; transform-origin: 0px 46px; }
+    .ta-s1 { --sx: -2.5px; animation: taSpark 0.68s ease-out infinite; transform-origin: -8px 54px; }
+    .ta-s2 { --sx: 2.5px; animation: taSpark 0.74s ease-out infinite 0.24s; transform-origin: 8px 53px; }
+    .ta-s3 { --sx: -1px; animation: taSpark 0.62s ease-out infinite 0.42s; transform-origin: -3px 63px; }
+    .ta-s4 { --sx: 1.5px; animation: taSpark 0.70s ease-out infinite 0.12s; transform-origin: 4px 62px; }
+    .ta-g1 { animation: taCinemaGlint 1.8s ease-in-out infinite 0.1s; transform-origin: -23px -20px; }
+    .ta-g2 { animation: taCinemaGlint 2.0s ease-in-out infinite 0.85s; transform-origin: 23px -16px; }
+    .ta-g3 { animation: taCinemaGlint 1.7s ease-in-out infinite 0.45s; transform-origin: -24px 26px; }
+    .ta-g4 { animation: taCinemaGlint 1.9s ease-in-out infinite 1.25s; transform-origin: 24px 28px; }
+    .ta-wl-sweep { animation: taWingLSweep 2s cubic-bezier(0.22, 1, 0.36, 1) infinite; transform-origin: -11px -4px; }
+    .ta-wr-sweep { animation: taWingRSweep 2s cubic-bezier(0.22, 1, 0.36, 1) infinite; transform-origin: 11px -4px; }
+    .ta-wl { animation: taWingLBuzz 0.14s ease-in-out infinite; transform-origin: -11px -4px; }
+    .ta-wr { animation: taWingRBuzz 0.14s ease-in-out infinite; transform-origin: 11px -4px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ta-thrust, .ta-vibe, .ta-flame, .ta-core, .ta-glow, .ta-s1, .ta-s2, .ta-s3, .ta-s4, .ta-g1, .ta-g2, .ta-g3, .ta-g4, .ta-wl-sweep, .ta-wr-sweep, .ta-wl, .ta-wr {
+        animation: none;
+      }
+      .ta-g1, .ta-g2, .ta-g3, .ta-g4 { opacity: 0; }
+    }
+  </style>
+  <defs>
+    <linearGradient id="ta-ac-body" x1="-16" y1="-25" x2="14" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="42%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    <radialGradient id="ta-ac-glow" cx="50%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#FDE047" stop-opacity="0.45" />
+      <stop offset="45%" stop-color="#F97316" stop-opacity="0.24" />
+      <stop offset="100%" stop-color="#EA580C" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="ta-ac-flameOut" x1="0" y1="30" x2="0" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F97316" />
+      <stop offset="45%" stop-color="#EA580C" />
+      <stop offset="85%" stop-color="#DC2626" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#EA580C" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="ta-ac-flameMid" x1="0" y1="30" x2="0" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="40%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0.85" />
+    </linearGradient>
+    <linearGradient id="ta-ac-flameCore" x1="0" y1="30" x2="0" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="55%" stop-color="#FEF9C3" />
+      <stop offset="100%" stop-color="#FDE047" stop-opacity="0.7" />
+    </linearGradient>
+    <radialGradient id="ta-ac-glass" cx="38%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="52%" stop-color="#E0F2FE" />
+      <stop offset="100%" stop-color="#BAE6FD" />
+    </radialGradient>
+    <linearGradient id="ta-ac-wingL" x1="-10" y1="-4" x2="-34" y2="18" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.96" />
+      <stop offset="55%" stop-color="#DCEBFA" stop-opacity="0.94" />
+      <stop offset="100%" stop-color="#B9D5F2" stop-opacity="0.90" />
+    </linearGradient>
+    <linearGradient id="ta-ac-wingR" x1="10" y1="-4" x2="34" y2="18" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.96" />
+      <stop offset="55%" stop-color="#DCEBFA" stop-opacity="0.94" />
+      <stop offset="100%" stop-color="#B9D5F2" stop-opacity="0.90" />
+    </linearGradient>
+    <clipPath id="ta-ac-clip">
+      <path d="M 0,-36 C 12,-27 17,-10 15,8 C 13.5,20 9.5,28 5.5,33 L -5.5,33 C -9.5,28 -13.5,20 -15,8 C -17,-10 -12,-27 0,-36 Z" />
+    </clipPath>
+  </defs>
+
+  <g class="ta-thrust">
+    <g class="ta-vibe">
+      <g transform="translate(66 49) rotate(34)">
+        <ellipse class="ta-glow" cx="0" cy="48" rx="19" ry="25" fill="url(#ta-ac-glow)" />
+        <g class="ta-flame">
+          <path d="M -7 32 C -11 39 -12 48 -8 56 C -9 50 -7.5 47 -5.5 52 C -4 59 -2 67 0 73 C 2 67 4 59 5.5 52 C 7.5 47 9 50 8 56 C 12 48 11 39 7 32 Z" fill="url(#ta-ac-flameOut)" />
+          <path d="M -5 32 C -7.5 39 -7 48 -3.5 55 C -1.8 59 -0.8 61 0 63 C 0.8 61 1.8 59 3.5 55 C 7 48 7.5 39 5 32 Z" fill="url(#ta-ac-flameMid)" />
+        </g>
+        <g class="ta-core">
+          <path d="M -3 32 C -4.2 37 -3.5 43 -1.2 47.5 C -0.4 49 0.4 49 1.2 47.5 C 3.5 43 4.2 37 3 32 Z" fill="url(#ta-ac-flameCore)" />
+        </g>
+        <circle class="ta-s1" cx="-8" cy="54" r="1.4" fill="#F59E0B" />
+        <circle class="ta-s2" cx="8" cy="53" r="1.2" fill="#EA580C" />
+        <circle class="ta-s3" cx="-3" cy="63" r="1.15" fill="#FBBF24" />
+        <circle class="ta-s4" cx="4" cy="62" r="1.1" fill="#F97316" />
+
+        <!-- Destellos de cine alrededor de la estela de vuelo -->
+        <path class="ta-g1" d="M -23 -23.4 L -22.2 -20.8 L -19.6 -20 L -22.2 -19.2 L -23 -16.6 L -23.8 -19.2 L -26.4 -20 L -23.8 -20.8 Z" fill="#F59E0B" />
+        <path class="ta-g2" d="M 23 -18.8 L 23.7 -16.7 L 25.8 -16 L 23.7 -15.3 L 23 -13.2 L 22.3 -15.3 L 20.2 -16 L 22.3 -16.7 Z" fill="#0EA5E9" />
+        <path class="ta-g3" d="M -24 23.2 L -23.3 25.3 L -21.2 26 L -23.3 26.7 L -24 28.8 L -24.7 26.7 L -26.8 26 L -24.7 25.3 Z" fill="#F97316" />
+        <path class="ta-g4" d="M 24 25 L 24.8 27.2 L 27 28 L 24.8 28.8 L 24 31 L 23.2 28.8 L 21 28 L 23.2 27.2 Z" fill="#F59E0B" />
+
+        <g class="ta-wl-sweep">
+          <g class="ta-wl">
+            <path d="M -11 -4 C -21 -2 -30 6 -33.5 15.5 C -28 20.5 -17.5 17.5 -11 8 Z" fill="url(#ta-ac-wingL)" stroke="#1F2933" stroke-width="2.3" stroke-linejoin="round" />
+            <path d="M -31.5 14.5 C -26 18.5 -18 16.5 -12.5 8 C -16 17 -26.5 19.5 -31.5 14.5 Z" fill="#93C5FD" fill-opacity="0.45" />
+            <path d="M -13 4 C -19 7 -25 10.5 -29.5 14.5" stroke="#93C5FD" stroke-width="1.2" stroke-linecap="round" />
+            <path d="M -17 6 C -21 6 -24.5 7.5 -27 9.5" stroke="#93C5FD" stroke-width="1.1" stroke-linecap="round" />
+            <path d="M -15.5 8.5 C -18.5 11.5 -21.5 14 -24 15.5" stroke="#93C5FD" stroke-width="1.1" stroke-linecap="round" />
+          </g>
+        </g>
+
+        <g class="ta-wr-sweep">
+          <g class="ta-wr">
+            <path d="M 11 -4 C 21 -2 30 6 33.5 15.5 C 28 20.5 17.5 17.5 11 8 Z" fill="url(#ta-ac-wingR)" stroke="#1F2933" stroke-width="2.3" stroke-linejoin="round" />
+            <path d="M 31.5 14.5 C 26 18.5 18 16.5 12.5 8 C 16 17 26.5 19.5 31.5 14.5 Z" fill="#93C5FD" fill-opacity="0.45" />
+            <path d="M 13 4 C 19 7 25 10.5 29.5 14.5" stroke="#93C5FD" stroke-width="1.2" stroke-linecap="round" />
+            <path d="M 17 6 C 21 6 24.5 7.5 27 9.5" stroke="#93C5FD" stroke-width="1.1" stroke-linecap="round" />
+            <path d="M 15.5 8.5 C 18.5 11.5 21.5 14 24 15.5" stroke="#93C5FD" stroke-width="1.1" stroke-linecap="round" />
+          </g>
+        </g>
+
+        <path d="M -2.5 -34 C -5.5 -39 -8.5 -43 -10.5 -46" stroke="#1F2933" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="-11" cy="-46.5" r="2.7" fill="#1F2933" />
+        <path d="M 2.5 -34 C 5.5 -37 8 -39.5 10.5 -41" stroke="#1F2933" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="11" cy="-41.5" r="2.7" fill="#1F2933" />
+
+        <g clip-path="url(#ta-ac-clip)">
+          <rect x="-20" y="-40" width="40" height="80" fill="url(#ta-ac-body)" />
+          <path d="M -18 -39 H 18 V -25 Q 0 -22.5 -18 -25 Z" fill="#27323D" />
+          <path d="M -18 -10 Q 0 -7.5 18 -10 V 0 Q 0 2.5 -18 0 Z" fill="#27323D" />
+          <path d="M -18 10 Q 0 12.5 18 10 V 19.5 Q 0 22 -18 19.5 Z" fill="#27323D" />
+          <path d="M -18 27 Q 0 29 18 27 V 36 H -18 Z" fill="#27323D" />
+          <path d="M 2.5,-36 C 14,-25 18,-8 16,10 C 14,24 9,30 4,34 L 1,-36 Z" fill="#0F172A" fill-opacity="0.16" />
+          <path d="M -9 -22 C -12 -10 -12 8 -7 23" stroke="#FEF9C3" stroke-opacity="0.45" stroke-width="2.4" stroke-linecap="round" />
+        </g>
+
+        <path d="M -6.5 32.5 Q 0 34 6.5 32.5" stroke="#18222F" stroke-width="2" stroke-linecap="round" />
+        <circle cx="0" cy="-17" r="6.5" fill="#1F2933" />
+        <circle cx="0" cy="-17" r="4.1" fill="url(#ta-ac-glass)" />
+        <circle cx="-1.3" cy="-18.4" r="1.35" fill="#FFFFFF" />
+      </g>
+    </g>
+  </g>
+</svg>
