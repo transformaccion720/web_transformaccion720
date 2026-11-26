@@ -159,6 +159,25 @@ const { title, description, image, type, noindex, schema } = Astro.props;
             if (data.image) {
               el.removeAttribute('srcset');
               el.src = data.value;
+            } else if (el.hasAttribute('data-cms-rich')) {
+              // Texto con **negritas** y párrafos (igual que Rich.astro)
+              el.replaceChildren(
+                ...String(data.value)
+                  .split(/\n{2,}/)
+                  .filter((t) => t.trim())
+                  .map((para) => {
+                    const p = document.createElement('p');
+                    for (const part of para.split(/(\*\*[^*]+\*\*)/g).filter(Boolean)) {
+                      const bold = part.length > 4 && part.startsWith('**') && part.endsWith('**');
+                      if (bold) {
+                        const b = document.createElement('strong');
+                        b.textContent = part.slice(2, -2);
+                        p.append(b);
+                      } else p.append(part);
+                    }
+                    return p;
+                  })
+              );
             } else {
               el.textContent = data.value;
             }

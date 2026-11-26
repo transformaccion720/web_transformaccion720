@@ -34,7 +34,11 @@ const statColor = (t: string) => (t === 'navy' ? 'text-brand-navy dark:text-whit
           {data.title}
         </h2>
         {data.body && (
-          <div class="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <div
+            class="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
+            data-cms={`${path}.body`}
+            data-cms-rich
+          >
             <Rich text={data.body} paragraphs />
           </div>
         )}
@@ -138,8 +142,10 @@ const statColor = (t: string) => (t === 'navy' ? 'text-brand-navy dark:text-whit
               </div>
               {f.chips.length > 0 && (
                 <div class="mt-4 grid grid-cols-2 gap-2 border-t border-slate-200/70 pt-4 xl:grid-cols-3 dark:border-slate-800">
-                  {f.chips.map((c) => (
-                    <span class="flex items-center justify-center rounded-xl border border-slate-200/80 bg-white px-2 py-1.5 text-center text-[11px] leading-tight font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                  {f.chips.map((c, j) => (
+                    <span class="flex items-center justify-center rounded-xl border border-slate-200/80 bg-white px-2 py-1.5 text-center text-[11px] leading-tight font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                      data-cms={`${path}.founders.${i}.chips.${j}`}
+                    >
                       {c}
                     </span>
                   ))}

@@ -195,6 +195,12 @@ export default function KeystaticStudio() {
     iframeRef.current?.contentWindow?.location.reload();
   }, []);
 
+  // Las ventanas de edición de Keystatic se abren dentro del panel del editor (no tapan la vista previa)
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--studio-editor-w', viewMode === 'split' ? `${splitRatio}%` : '100%');
+  }, [viewMode, splitRatio]);
+
   // En producción nadie trabaja con ramas: se ocultan sus controles y se fuerza `main`
   useEffect(() => (IS_CLOUD ? installBranchLock() : undefined), []);
 
@@ -327,6 +333,20 @@ export default function KeystaticStudio() {
 
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden bg-slate-950 font-sans text-slate-100">
+      <style>{`
+        div:has(+ div > [data-open] > [role='dialog']),
+        div:has(> [data-open] > [role='dialog']):not(:has(> [data-placement])) {
+          width: var(--studio-editor-w, 100vw) !important;
+          min-width: 320px;
+        }
+        div:has(> [data-open] > [role='dialog']):not(:has(> [data-placement])) {
+          padding: 12px;
+        }
+        div:has(> [data-open] > [role='dialog']):not(:has(> [data-placement])) > [data-open] {
+          max-width: 100% !important;
+          max-height: calc(100% - 24px) !important;
+        }
+      `}</style>
       {/* Barra Superior del Keystatic Live Studio */}
       <header className="flex h-13 shrink-0 items-center justify-between border-b border-slate-800 bg-slate-900/95 px-4 backdrop-blur-md z-40">
         {/* Marca & Modo */}

@@ -186,7 +186,11 @@ const cardKicker = 'text-xs font-extrabold tracking-wider uppercase';
           >
             {data.about.title}
           </h3>
-          <div class="mt-3 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <div
+            class="mt-3 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
+            data-cms={`${path}.about.text`}
+            data-cms-rich
+          >
             <Rich text={data.about.text} paragraphs />
           </div>
           {data.about.facts.length > 0 && (
