@@ -302,7 +302,7 @@
       "discriminant": "caseStudies",
       "value": {
         "kicker": "Impacto Auditado",
-        "title": "Casos de Éxito por Industria",
+        "title": "Casos de éxito por Industria",
         "allLabel": "Todos",
         "filters": [
           {
@@ -315,7 +315,7 @@
           },
           {
             "key": "industria",
-            "label": "Industria & Servicios"
+            "label": "Agroindustria & Servicios"
           }
         ],
         "videoText": "▶ Ver Video",
