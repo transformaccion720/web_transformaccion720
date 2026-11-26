@@ -1,6 +1,6 @@
 {
   "title": "Servicios",
-  "seoTitle": "Servicios: Consultoría, Soluciones Digitales y Formación • TransformAcción720",
+  "seoTitle": "Servicios: Consultoría, Soluciones Digitales y Formación - TransformAcción720",
   "seoDescription": "Transformación organizacional y procesos, soluciones digitales e IA aplicada (webs, sistemas, BI) y entrenamiento de líderes y equipos en Perú y LATAM.",
   "sections": [
     {
@@ -22,8 +22,7 @@
             "label": "3. Entrenamiento y Formación",
             "key": "formacion"
           }
-        ],
-        "anchor": ""
+        ]
       }
     },
     {
@@ -147,9 +146,7 @@
               "Mentoría"
             ]
           }
-        ],
-        "anchor": "",
-        "panel": ""
+        ]
       }
     },
     {
@@ -166,6 +163,13 @@
           "Estrategia de gestión del cambio y evolución cultural",
           "Estrategia de comunicación corporativa"
         ],
+        "checkTips": [
+          "Medimos dónde está hoy tu empresa en procesos, datos, personas y tecnología.",
+          "Priorizamos iniciativas por impacto y esfuerzo, con responsables y plazos claros.",
+          "Eliminamos pasos que no agregan valor y estandarizamos cómo se trabaja.",
+          "Acompañamos a líderes y equipos para que el cambio se adopte y se sostenga.",
+          "Alineamos mensajes internos y externos para que todos remen hacia el mismo lado."
+        ],
         "primary": {
           "text": "Solicitar Propuesta",
           "action": "contact",
@@ -177,7 +181,7 @@
           "action": "video",
           "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
         },
-        "image": "@/assets/images/pages/servicios/sections/1/value/media/image.jpg",
+        "image": "@/assets/images/pages/servicios/sections/2/value/image.jpeg",
         "imageAlt": "Consultoría",
         "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
         "videoTitle": "Servicio: Transformación y Consultoría",
@@ -204,8 +208,18 @@
           ]
         },
         "experience": {
-          "image": "@/assets/images/pages/servicios/sections/1/value/experience/image.jpg",
+          "image": "@/assets/images/pages/servicios/sections/2/value/experience/image.jpeg",
           "imageAlt": "Experiencia en Consultoría",
+          "slides": [
+            {
+              "image": "@/assets/images/pages/servicios/sections/2/value/experience/slides/0/image.jpeg",
+              "alt": "Sesión directiva de estrategia"
+            },
+            {
+              "image": "@/assets/images/pages/servicios/sections/2/value/experience/slides/1/image.jpeg",
+              "alt": "Equipo trabajando en rediseño de procesos"
+            }
+          ],
           "badge": "Impacto Comprobado",
           "badgeTone": "orange",
           "caption": "Sesiones directivas de rediseño operativo y OKRs en Perú y LATAM",
@@ -230,33 +244,17 @@
               "note": "Mediante servicios ágiles y escalables",
               "tone": "blue"
             }
-          ],
-          "slides": [
-            {
-              "image": "@/assets/images/pages/servicios/sections/1/value/experience/slides/0/image.jpg",
-              "alt": "Sesión directiva de estrategia"
-            },
-            {
-              "image": "@/assets/images/pages/servicios/sections/1/value/experience/slides/1/image.jpg",
-              "alt": "Equipo trabajando en rediseño de procesos"
-            }
           ]
         },
-        "anchor": "",
-        "panel": "transformacion",
-        "checkTips": [
-          "Medimos dónde está hoy tu empresa en procesos, datos, personas y tecnología.",
-          "Priorizamos iniciativas por impacto y esfuerzo, con responsables y plazos claros.",
-          "Eliminamos pasos que no agregan valor y estandarizamos cómo se trabaja.",
-          "Acompañamos a líderes y equipos para que el cambio se adopte y se sostenga.",
-          "Alineamos mensajes internos y externos para que todos remen hacia el mismo lado."
-        ]
+        "panel": "transformacion"
       }
     },
     {
       "discriminant": "ctaBand",
       "value": {
         "style": "navy",
+        "kicker": "Consultoría ejecutiva",
+        "icon": "trendingUp",
         "title": "¿Listo para ordenar y escalar tu operación?",
         "text": "Probemos el motor de tu organización: agenda una sesión exploratoria de 30 minutos y define tus 3 palancas de mayor retorno.",
         "buttons": [
@@ -271,10 +269,7 @@
             "value": "https://wa.me/51963477301"
           }
         ],
-        "anchor": "",
-        "panel": "transformacion",
-        "kicker": "Consultoría ejecutiva",
-        "icon": "trendingUp"
+        "panel": "transformacion"
       }
     },
     {
@@ -290,7 +285,6 @@
             "key": "portafolio"
           }
         ],
-        "anchor": "",
         "panel": "soluciones-digitales"
       }
     },
@@ -306,6 +300,11 @@
           "Desarrollo de soluciones digitales (Web / SaaS)",
           "Gestión de datos y tableros de control (BI & Analytics)"
         ],
+        "checkTips": [
+          "Flujos y asistentes con IA que liberan horas de trabajo repetitivo cada semana.",
+          "Webs, plataformas y sistemas a medida, listos para crecer con tu negocio.",
+          "Tableros que muestran en tiempo real los indicadores que importan para decidir."
+        ],
         "primary": {
           "text": "Ver Portafolio & Planes Web ➡️",
           "action": "link",
@@ -317,7 +316,7 @@
           "action": "video",
           "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
         },
-        "image": "@/assets/images/pages/servicios/sections/4/value/media/image.jpg",
+        "image": "@/assets/images/pages/servicios/sections/5/value/image.jpg",
         "imageAlt": "Soluciones Digitales",
         "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
         "videoTitle": "Servicio: Soluciones Digitales",
@@ -339,23 +338,11 @@
           ]
         },
         "experience": {
-          "image": null,
-          "imageAlt": "",
-          "badge": "",
+          "slides": [],
           "badgeTone": "orange",
-          "caption": "",
-          "kicker": "",
-          "title": "",
-          "metrics": [],
-          "slides": []
+          "metrics": []
         },
-        "anchor": "",
-        "panel": "soluciones-digitales alcance",
-        "checkTips": [
-          "Flujos y asistentes con IA que liberan horas de trabajo repetitivo cada semana.",
-          "Webs, plataformas y sistemas a medida, listos para crecer con tu negocio.",
-          "Tableros que muestran en tiempo real los indicadores que importan para decidir."
-        ]
+        "panel": "soluciones-digitales alcance"
       }
     },
     {
@@ -376,7 +363,6 @@
               "Hosting, SSL y capacitación de uso"
             ],
             "featured": false,
-            "ribbon": "",
             "button": {
               "text": "Cotizar Web",
               "action": "contact",
@@ -414,7 +400,6 @@
               "Integración con ERP / hojas de cálculo"
             ],
             "featured": false,
-            "ribbon": "",
             "button": {
               "text": "Cotizar Solución",
               "action": "contact",
@@ -422,7 +407,6 @@
             }
           }
         ],
-        "anchor": "",
         "panel": "soluciones-digitales portafolio"
       }
     },
@@ -461,7 +445,7 @@
             "category": "web",
             "categoryLabel": "Web Corporativa",
             "tone": "blue",
-            "image": "@/assets/images/pages/servicios/sections/6/value/projects/0/image.jpg",
+            "image": "@/assets/images/pages/servicios/sections/7/value/projects/0/image.jpg",
             "imageAlt": "Web Corporativa",
             "title": "Grupo Inmobiliario Andino",
             "summary": "Portal interactivo + cotizador online (+62% leads).",
@@ -480,7 +464,7 @@
             "category": "sistema",
             "categoryLabel": "Sistemas & Apps",
             "tone": "orange",
-            "image": "@/assets/images/pages/servicios/sections/6/value/projects/1/image.jpg",
+            "image": "@/assets/images/pages/servicios/sections/7/value/projects/1/image.jpg",
             "imageAlt": "Sistema Operativo",
             "title": "LogiTrack Operaciones",
             "summary": "Sistema web de despacho y trazabilidad en tiempo real.",
@@ -499,7 +483,7 @@
             "category": "bi",
             "categoryLabel": "BI & Automatización",
             "tone": "teal",
-            "image": "@/assets/images/pages/servicios/sections/6/value/projects/2/image.jpg",
+            "image": "@/assets/images/pages/servicios/sections/7/value/projects/2/image.jpg",
             "imageAlt": "BI Ejecutivo",
             "title": "Suite Gerencial Financiera",
             "summary": "Control de flujo de caja y alertas automáticas con IA.",
@@ -518,7 +502,7 @@
             "category": "ecommerce",
             "categoryLabel": "E-commerce",
             "tone": "emerald",
-            "image": "@/assets/images/pages/servicios/sections/6/value/projects/3/image.jpg",
+            "image": "@/assets/images/pages/servicios/sections/7/value/projects/3/image.jpg",
             "imageAlt": "Ecommerce",
             "title": "Tienda B2B Distribuidora",
             "summary": "Catálogo mayorista con pedidos recurrentes y Culqi/Niubiz.",
@@ -534,7 +518,6 @@
             ]
           }
         ],
-        "anchor": "",
         "panel": "soluciones-digitales portafolio"
       }
     },
@@ -542,6 +525,8 @@
       "discriminant": "ctaBand",
       "value": {
         "style": "navy",
+        "kicker": "Webs, sistemas, BI e IA",
+        "icon": "code",
         "title": "¿Necesitas una web de alto impacto o un sistema a medida?",
         "text": "Te mostramos una propuesta técnica y un estimado en menos de 48 horas.",
         "buttons": [
@@ -556,10 +541,7 @@
             "value": "https://wa.me/51963477301"
           }
         ],
-        "anchor": "",
-        "panel": "soluciones-digitales",
-        "kicker": "Webs, sistemas, BI e IA",
-        "icon": "code"
+        "panel": "soluciones-digitales"
       }
     },
     {
@@ -575,6 +557,12 @@
           "Liderazgo Transformacional",
           "Ecosistemas colaborativos y equipos conectados"
         ],
+        "checkTips": [
+          "Herramientas prácticas para decidir y actuar en escenarios de cambio.",
+          "Hábitos y rituales que consolidan una cultura de mejora continua.",
+          "Líderes que movilizan equipos con propósito y resultados.",
+          "Equipos que colaboran entre áreas con objetivos compartidos."
+        ],
         "primary": {
           "text": "Diseñar Programa In-House",
           "action": "contact",
@@ -586,7 +574,7 @@
           "action": "video",
           "value": "https://www.youtube.com/watch?v=ysz5S6PUM-U"
         },
-        "image": "@/assets/images/pages/servicios/sections/8/value/media/image.jpg",
+        "image": "@/assets/images/pages/servicios/sections/9/value/image.jpg",
         "imageAlt": "Entrenamiento y Formación",
         "videoUrl": "https://www.youtube.com/watch?v=ysz5S6PUM-U",
         "videoTitle": "Servicio: Entrenamiento y Formación",
@@ -601,7 +589,6 @@
           ]
         },
         "includes": {
-          "kicker": "",
           "tone": "teal",
           "title": "¿Qué incluye?",
           "items": [
@@ -612,8 +599,18 @@
           ]
         },
         "experience": {
-          "image": "@/assets/images/pages/servicios/sections/8/value/experience/image.jpg",
+          "image": "@/assets/images/pages/servicios/sections/9/value/experience/image.jpg",
           "imageAlt": "Talleres y Formación Empresarial",
+          "slides": [
+            {
+              "image": "@/assets/images/pages/servicios/sections/9/value/experience/slides/0/image.jpg",
+              "alt": "Taller vivencial de liderazgo"
+            },
+            {
+              "image": "@/assets/images/pages/servicios/sections/9/value/experience/slides/1/image.jpg",
+              "alt": "Facilitación de programa in-house"
+            }
+          ],
           "badge": "Escuelas In-House",
           "badgeTone": "teal",
           "caption": "Talleres vivenciales de liderazgo, agilidad e IA aplicada a retos reales",
@@ -638,26 +635,9 @@
               "note": "Evaluado a los 45 días",
               "tone": "blue"
             }
-          ],
-          "slides": [
-            {
-              "image": "@/assets/images/pages/servicios/sections/8/value/experience/slides/0/image.jpg",
-              "alt": "Taller vivencial de liderazgo"
-            },
-            {
-              "image": "@/assets/images/pages/servicios/sections/8/value/experience/slides/1/image.jpg",
-              "alt": "Facilitación de programa in-house"
-            }
           ]
         },
-        "anchor": "",
-        "panel": "formacion",
-        "checkTips": [
-          "Herramientas prácticas para decidir y actuar en escenarios de cambio.",
-          "Hábitos y rituales que consolidan una cultura de mejora continua.",
-          "Líderes que movilizan equipos con propósito y resultados.",
-          "Equipos que colaboran entre áreas con objetivos compartidos."
-        ]
+        "panel": "formacion"
       }
     },
     {
@@ -693,7 +673,6 @@
             "deliverable": "Tablero de adopción de capacidades (KPIs)."
           }
         ],
-        "anchor": "",
         "panel": "formacion"
       }
     },
@@ -701,6 +680,8 @@
       "discriminant": "ctaBand",
       "value": {
         "style": "navy",
+        "kicker": "Programas in-house",
+        "icon": "graduation",
         "title": "Potencia hoy las capacidades de tus líderes y equipos",
         "text": "Diseñamos un programa a la medida de las brechas de tu equipo.",
         "buttons": [
@@ -715,10 +696,7 @@
             "value": "https://wa.me/51963477301"
           }
         ],
-        "anchor": "",
-        "panel": "formacion",
-        "kicker": "Programas in-house",
-        "icon": "graduation"
+        "panel": "formacion"
       }
     }
   ]
