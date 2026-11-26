@@ -52,7 +52,7 @@
           {
             "photo": "@/assets/images/pages/nosotros/sections/1/value/founders/0/photo.jpg",
             "role": "CEO - Founder720",
-            "tone": "indigo",
+            "tone": "orange",
             "name": "Gabino Tocto",
             "linkedin": "https://www.linkedin.com/in/gabino-alexander-tocto-segura/",
             "bio": "Ing. de Sistemas especializado en Transformación Empresarial, IA, Business Agility, Innovación, Liderazgo y Dirección. Máster en Innovación & Sostenibilidad (EADA España) y MBA en Gestión Estratégica de Negocios (PUCP). Más de 12 años orquestando ecosistemas empresariales en banca, retail, agro, salud y consultoría.",
@@ -148,29 +148,29 @@
       "discriminant": "methodology",
       "value": {
         "kicker": "Nuestra filosofía",
-        "title": "Toda transformación necesita una razón de ser. Nosotros encontramos su Ikigai.",
-        "text": "Alrededor del 70% de las transformaciones empresariales fracasan porque las áreas funcionan de manera aislada, olvidando que las empresas son organismos vivos. Activamos el Ikigai de tu negocio y lo ejecutamos con CORE720, bajo nuestra filosofía F1: precisión y ejecución de alto rendimiento.",
+        "title": "Toda transformación necesita una razón de ser; nosotros encontramos su Ikigai.",
+        "text": "Alrededor del 70% de las transformaciones empresariales fracasan porque las áreas funcionan de manera aislada, olvidando que son organismos vivos. Activamos el Ikigai de tu negocio y lo ejecutamos con CORE720, bajo nuestra filosofía F1: precisión y ejecución de alto rendimiento.",
         "highlights": [
           {
-            "symbol": "⊞",
+            "symbol": "📌",
             "title": "Más orden",
             "desc": "Estructura clara para que todo funcione mejor.",
             "tone": "cyan"
           },
           {
-            "symbol": "◎",
+            "symbol": "🎯",
             "title": "Mejor gestión",
             "desc": "Decisiones basadas en datos y foco real.",
             "tone": "orange"
           },
           {
-            "symbol": "⇄",
+            "symbol": "🤝",
             "title": "Equipos alineados",
             "desc": "Personas motivadas que multiplican resultados.",
             "tone": "blue"
           },
           {
-            "symbol": "↗",
+            "symbol": "📈",
             "title": "Crecimiento sano",
             "desc": "Un negocio sólido hoy y preparado para escalar.",
             "tone": "emerald"
