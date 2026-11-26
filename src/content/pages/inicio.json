@@ -83,7 +83,7 @@
       "discriminant": "serviceCards",
       "value": {
         "kicker": "Servicios",
-        "title": "Servicios pensados para negocios *que quieren dar el siguiente paso.*",
+        "title": "Servicios para negocios *que quieren dar el siguiente paso.*",
         "linkText": "Ver todos los servicios ➡️",
         "linkHref": "/servicios",
         "cards": [
